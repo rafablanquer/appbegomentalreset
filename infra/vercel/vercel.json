@@ -1,0 +1,26 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "apps/web/package.json",
+            "use": "@vercel/next",
+            "config": {
+                "rootDirectory": "apps/web"
+            }
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "apps/web/$1"
+        }
+    ],
+    "env": {
+        "DATABASE_URL": "@database-url",
+        "NEXTAUTH_SECRET": "@nextauth-secret",
+        "NEXTAUTH_URL": "@nextauth-url"
+    },
+    "installCommand": "pnpm install",
+    "buildCommand": "pnpm build --filter=web",
+    "outputDirectory": "apps/web"
+}
