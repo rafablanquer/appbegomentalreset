@@ -1,53 +1,56 @@
 {
-    "compilerOptions": {
-        "target": "es2017",
-        "lib": [
-            "dom",
-            "dom.iterable",
-            "es6"
-        ],
-        "allowJs": true,
-        "skipLibCheck": true,
-        "strict": true,
-        "forceConsistentCasingInFileNames": true,
-        "noEmit": true,
-        "esModuleInterop": true,
-        "module": "esnext",
-        "moduleResolution": "node",
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "jsx": "preserve",
-        "incremental": true,
-        "plugins": [
-            {
-                "name": "next"
-            }
-        ],
-        "baseUrl": ".",
-        "paths": {
-            "@repo/ui": [
-                "./packages/ui/src"
-            ],
-            "@repo/db": [
-                "./packages/db/src"
-            ],
-            "@repo/config": [
-                "./packages/config/src"
-            ],
-            "@repo/utils": [
-                "./packages/utils/src"
-            ]
-        }
-    },
-    "include": [
-        "next-env.d.ts",
-        "**/*.ts",
-        "**/*.tsx",
-        ".next/types/**/*.ts"
+  "compilerOptions": {
+    "strict": true,
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "target": "ES2022",
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ES2022"
     ],
-    "exclude": [
-        "node_modules",
-        "dist",
-        ".next"
-    ]
+    "allowJs": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "incremental": true,
+    "jsx": "preserve",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "isolatedModules": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@payload-config": [
+        "./src/payload.config.ts"
+      ],
+      "react": [
+        "./node_modules/@types/react"
+      ],
+      "@/*": [
+        "./src/*"
+      ],
+      "@/blog/*": ["./src/domains/blog/*"],
+      "@/content/*": ["./src/domains/content/*"],
+      "@/media/*": ["./src/domains/media/*"],
+      "@/auth/*": ["./src/domains/auth/*"],
+      "@/shared/*": ["./src/shared/*"]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "redirects.js",
+    "next-env.d.ts",
+    "next.config.js",
+    "next-sitemap.config.cjs"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
 }
