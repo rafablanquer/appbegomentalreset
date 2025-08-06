@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
 import { Card } from "@/components/ui/card"
 import Image from "next/image"
-
+import PlayListPlayer from "./PlayListPlayer"
+import { AudioTrack } from "../../types/types"
 
 const PlayListPanel = ({ showPlaylist, togglePlaylist, audioTracks, currentTrack }: { showPlaylist: boolean, togglePlaylist: () => void, audioTracks: AudioTrack[], currentTrack: number }) => {
     return (
