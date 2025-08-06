@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @layer base {
+
   h1,
   h2,
   h3,
@@ -88,6 +89,7 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground min-h-[100vh] flex flex-col;
   }
@@ -100,4 +102,83 @@ html {
 html[data-theme='dark'],
 html[data-theme='light'] {
   opacity: initial;
+}
+
+/* Menu Styles */
+.floating-menu-backdrop {
+  backdrop-filter: blur(8px);
+}
+
+/* Header Menu Button */
+.header-menu-button {
+  transition: all 0.2s ease-in-out;
+}
+
+.header-menu-button:hover {
+  background: hsl(var(--muted));
+  transform: scale(1.05);
+}
+
+.floating-menu-sidebar {
+  backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.dark .floating-menu-sidebar {
+  background: rgba(0, 0, 0, 0.95);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .floating-menu-sidebar {
+    width: 90vw;
+    max-width: 320px;
+  }
+}
+
+/* Smooth scrollbar for sidebar */
+.floating-menu-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.floating-menu-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.floating-menu-sidebar::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground));
+  border-radius: 2px;
+}
+
+/* Animation utilities */
+.slide-in-right {
+  animation: slideInRight 0.3s ease-out;
+}
+
+.slide-out-right {
+  animation: slideOutRight 0.3s ease-in;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
 }

@@ -7,7 +7,7 @@ const ContactPage = () => {
             {/* Imagen de header */}
             <div className="w-full">
                 <img
-                    src="/assets/home/branding-Begona-BMR-1-1.png"
+                    src="/assets/contact/hero-contact.png"
                     alt="BMR Contact"
                     className="w-full h-64 object-cover"
                 />
@@ -16,7 +16,13 @@ const ContactPage = () => {
             {/* Sección de contacto */}
             <div className="w-full px-8 py-8">
                 <div className="text-center mb-8">
-                    <h1 className="text-2xl font-bold text-black mb-2">
+                    <h1 className="text-4xl md:text-5xl font-extrabold text-black mb-4 tracking-wide"
+                        style={{
+                            fontFamily: 'Inter, Helvetica, Arial, Lucida, sans-serif',
+                            lineHeight: '1.2',
+                            letterSpacing: '0.02em',
+                            textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+                        }}>
                         CONTACTAR CON BMR
                     </h1>
                     <p className="text-base text-black">
