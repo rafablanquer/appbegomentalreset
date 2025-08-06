@@ -12,10 +12,8 @@ import { getClientSideURL } from '@/utilities/getURL'
 interface ContactFormData {
     name: string
     email: string
-    phone?: string
-    subject: string
     message: string
-    privacy: boolean
+    captcha: string
 }
 
 const ContactForm: React.FC = () => {
@@ -39,8 +37,6 @@ const ContactForm: React.FC = () => {
             const formData = [
                 { field: 'name', value: data.name },
                 { field: 'email', value: data.email },
-                { field: 'phone', value: data.phone || '' },
-                { field: 'subject', value: data.subject },
                 { field: 'message', value: data.message },
             ]
 
@@ -71,177 +67,129 @@ const ContactForm: React.FC = () => {
 
     if (isSubmitted) {
         return (
-            <Card className="p-8 lg:p-12 text-center">
-                <CheckCircle className="w-16 h-16 text-green-600 mx-auto mb-6" />
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+            <div className="text-center py-8">
+                <CheckCircle className="w-16 h-16 text-green-600 mx-auto mb-4" />
+                <h3 className="text-xl font-bold text-black mb-4">
                     ¡Mensaje enviado con éxito!
                 </h3>
-                <p className="text-gray-600 mb-6">
-                    Gracias por contactarnos. Nos pondremos en contacto contigo en las próximas 24 horas.
+                <p className="text-black mb-6">
+                    Gracias por contactarnos. Nos pondremos en contacto contigo pronto.
                 </p>
-                <Button
+                <button
                     onClick={() => setIsSubmitted(false)}
-                    variant="outline"
-                    className="text-green-600 border-green-600 hover:bg-green-50"
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full"
                 >
                     Enviar otro mensaje
-                </Button>
-            </Card>
+                </button>
+            </div>
         )
     }
 
     return (
-        <Card className="p-8 lg:p-12">
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                            Nombre completo *
-                        </label>
-                        <Input
-                            id="name"
-                            type="text"
-                            placeholder="Tu nombre completo"
-                            {...register('name', {
-                                required: 'El nombre es obligatorio',
-                                minLength: { value: 2, message: 'El nombre debe tener al menos 2 caracteres' }
-                            })}
-                            className={`w-full ${errors.name ? 'border-red-500' : ''}`}
-                        />
-                        {errors.name && (
-                            <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
-                        )}
-                    </div>
-
-                    <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                            Email *
-                        </label>
-                        <Input
-                            id="email"
-                            type="email"
-                            placeholder="tu@email.com"
-                            {...register('email', {
-                                required: 'El email es obligatorio',
-                                pattern: {
-                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                    message: 'Email inválido'
-                                }
-                            })}
-                            className={`w-full ${errors.email ? 'border-red-500' : ''}`}
-                        />
-                        {errors.email && (
-                            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
-                        )}
-                    </div>
+        <div className="w-full">
+            <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-6">
+                {/* Nombre */}
+                <div className="w-full">
+                    <input
+                        id="name"
+                        type="text"
+                        placeholder="Nombre"
+                        {...register('name', {
+                            required: 'El nombre es obligatorio',
+                            minLength: { value: 2, message: 'El nombre debe tener al menos 2 caracteres' }
+                        })}
+                        className="w-full p-4 text-base border border-gray-300 rounded-lg bg-gray-200 placeholder-gray-600 text-black"
+                    />
+                    {errors.name && (
+                        <div className="bg-red-500 text-white p-2 rounded-md mt-2 text-sm flex items-center">
+                            <span className="mr-2">⚠️</span>
+                            {errors.name.message}
+                        </div>
+                    )}
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                            Teléfono
-                        </label>
-                        <Input
-                            id="phone"
-                            type="tel"
-                            placeholder="+34 600 000 000"
-                            {...register('phone')}
-                            className="w-full"
-                        />
-                    </div>
-
-                    <div>
-                        <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
-                            Asunto *
-                        </label>
-                        <select
-                            id="subject"
-                            {...register('subject', { required: 'El asunto es obligatorio' })}
-                            className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent ${errors.subject ? 'border-red-500' : ''
-                                }`}
-                        >
-                            <option value="">Selecciona un asunto</option>
-                            <option value="consulta-general">Consulta general</option>
-                            <option value="primera-cita">Primera cita</option>
-                            <option value="seguimiento">Seguimiento</option>
-                            <option value="informacion-precios">Información sobre precios</option>
-                            <option value="otro">Otro</option>
-                        </select>
-                        {errors.subject && (
-                            <p className="text-red-500 text-sm mt-1">{errors.subject.message}</p>
-                        )}
-                    </div>
+                {/* Email */}
+                <div className="w-full">
+                    <input
+                        id="email"
+                        type="email"
+                        placeholder="Dirección de correo electrónico"
+                        {...register('email', {
+                            required: 'El email es obligatorio',
+                            pattern: {
+                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                message: 'Email inválido'
+                            }
+                        })}
+                        className="w-full p-4 text-base border border-gray-300 rounded-lg bg-gray-200 placeholder-gray-600 text-black"
+                    />
+                    {errors.email && (
+                        <div className="bg-red-500 text-white p-2 rounded-md mt-2 text-sm flex items-center">
+                            <span className="mr-2">⚠️</span>
+                            {errors.email.message}
+                        </div>
+                    )}
                 </div>
 
-                <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                        Mensaje *
-                    </label>
-                    <Textarea
+                {/* Mensaje */}
+                <div className="w-full">
+                    <textarea
                         id="message"
-                        placeholder="Cuéntanos cómo podemos ayudarte..."
-                        rows={6}
+                        placeholder="Mensaje"
+                        rows={8}
                         {...register('message', {
                             required: 'El mensaje es obligatorio',
                             minLength: { value: 10, message: 'El mensaje debe tener al menos 10 caracteres' }
                         })}
-                        className={`w-full resize-none ${errors.message ? 'border-red-500' : ''}`}
+                        className="w-full p-4 text-base border border-gray-300 rounded-lg bg-gray-200 placeholder-gray-600 text-black resize-none"
                     />
                     {errors.message && (
-                        <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>
+                        <div className="bg-red-500 text-white p-2 rounded-md mt-2 text-sm flex items-center">
+                            <span className="mr-2">⚠️</span>
+                            {errors.message.message}
+                        </div>
                     )}
                 </div>
 
-                <div className="flex items-start space-x-2">
+                {/* Captcha */}
+                <div className="flex items-center justify-start space-x-4">
+                    <span className="text-lg text-black font-medium">7 + 5 =</span>
                     <input
-                        type="checkbox"
-                        id="privacy"
-                        {...register('privacy', { required: 'Debes aceptar la política de privacidad' })}
-                        className={`mt-1 h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded ${errors.privacy ? 'border-red-500' : ''
-                            }`}
+                        type="number"
+                        placeholder=""
+                        className="w-24 p-3 text-base border border-gray-300 rounded-lg bg-gray-200 text-black text-center"
+                        {...register('captcha', {
+                            required: 'Responde la suma',
+                            validate: value => value === '12' || 'Respuesta incorrecta'
+                        })}
                     />
-                    <div>
-                        <label htmlFor="privacy" className="text-sm text-gray-600">
-                            He leído y acepto la{' '}
-                            <a href="/politica-privacidad" className="text-green-600 hover:text-green-700 underline">
-                                política de privacidad
-                            </a>{' '}
-                            y el tratamiento de mis datos personales *
-                        </label>
-                        {errors.privacy && (
-                            <p className="text-red-500 text-sm mt-1">{errors.privacy.message}</p>
-                        )}
-                    </div>
                 </div>
-
-                {error && (
-                    <div className="bg-red-50 border border-red-200 rounded-md p-4">
-                        <p className="text-red-600 text-sm">{error}</p>
+                {errors.captcha && (
+                    <div className="bg-red-500 text-white p-2 rounded-md text-sm flex items-center">
+                        <span className="mr-2">⚠️</span>
+                        {errors.captcha.message}
                     </div>
                 )}
 
-                <div className="text-center">
-                    <Button
+                {error && (
+                    <div className="bg-red-500 text-white p-2 rounded-md text-sm flex items-center">
+                        <span className="mr-2">⚠️</span>
+                        {error}
+                    </div>
+                )}
+
+                <div className="flex justify-end w-full">
+                    <button
                         type="submit"
-                        size="lg"
                         disabled={isLoading}
-                        className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 disabled:opacity-50"
+                        style={{ backgroundColor: '#4f6fb5' }}
+                        className="hover:opacity-90 text-white px-8 py-3 rounded-full disabled:opacity-50 font-medium text-base"
                     >
-                        {isLoading ? (
-                            <>
-                                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
-                                Enviando...
-                            </>
-                        ) : (
-                            <>
-                                <Send className="w-5 h-5 mr-2" />
-                                Enviar mensaje
-                            </>
-                        )}
-                    </Button>
+                        {isLoading ? 'Enviando...' : 'Enviar'}
+                    </button>
                 </div>
             </form>
-        </Card>
+        </div>
     )
 }
 

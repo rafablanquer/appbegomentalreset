@@ -20,18 +20,18 @@ export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
 
   return (
     <nav className="flex gap-3 items-center">
-      <div className="fixed inset-0 z-0">
+      {/* <div className="fixed inset-0 z-0">
         <Image src="/hero-bg.png" alt="Sunrise landscape" fill className="object-cover" priority />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-      </div>
+      </div> */}
 
       {navItems.map(({ link }, i) => {
         return <CMSLink key={i} {...link} appearance="link" />
       })}
-      <Link href="/search">
+      {/* <Link href="/search">
         <span className="sr-only">Search</span>
         <SearchIcon className="w-5 text-primary" />
-      </Link>
+      </Link> */}
     </nav>
   )
 }
