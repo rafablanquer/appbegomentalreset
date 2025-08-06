@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react"
 
 
-export default function usePlayer() {
+export default function usePlayer(audioTracks: any[] = []) {
     const [currentTrack, setCurrentTrack] = useState(0)
     const [isPlaying, setIsPlaying] = useState(false)
     const [currentTime, setCurrentTime] = useState(0)

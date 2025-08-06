@@ -440,7 +440,7 @@ export default function RetoBMR() {
         <div className="flex items-center gap-4">
           <ProgressRing value={completedCount} total={totalCount} />
           <div className="flex-1">
-            <h2 className="text-sm text-gray-600 mb-1">"Desarrolla tu mejor versión en 3 semanas"</h2>
+            <h2 className="text-sm text-gray-600 mb-1">&quot;Desarrolla tu mejor versión en 3 semanas&quot;</h2>
             <p className="text-xs text-gray-500 mb-3">Racha: 3 días consecutivos 🔥</p>
             {nextSession && (
               <Button

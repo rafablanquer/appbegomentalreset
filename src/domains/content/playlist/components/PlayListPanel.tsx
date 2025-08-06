@@ -29,7 +29,7 @@ const PlayListPanel = ({ showPlaylist, togglePlaylist, audioTracks, currentTrack
             </div>
 
 
-            <PlayListPlayer />
+            <PlayListPlayer isPlaying={false} audioTracks={audioTracks} currentTrack={currentTrack} togglePlay={() => { }} handlePrevious={() => { }} handleNext={() => { }} handleSeek={() => { }} formatTime={() => { }} audioRef={undefined} />
             <div className="flex justify-center">
                 <Button
                     onClick={togglePlaylist}

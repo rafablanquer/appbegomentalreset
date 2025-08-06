@@ -83,7 +83,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
 						}
 					}
 
-					let fixes = parseInt(localStorage.getItem('pwa_cache_fixes') || '0');
+					const fixes = parseInt(localStorage.getItem('pwa_cache_fixes') || '0');
 					localStorage.setItem('pwa_cache_fixes', (fixes + 1).toString());
 				} else {
 					console.log('✅ Cache PWA funcionando correctamente');
