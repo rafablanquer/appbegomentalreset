@@ -1,12 +1,69 @@
 'use client'
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const HomeAppPage = () => {
+  const [isScrollingDown, setIsScrollingDown] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // Scrolling down
+        setIsScrollingDown(true);
+      } else if (currentScrollY < lastScrollY) {
+        // Scrolling up
+        setIsScrollingDown(false);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
+
+  useEffect(() => {
+    // Apply styles to navbar - try multiple selectors for the header
+    const selectors = ['header', 'nav', '[role="banner"]', '.header', '.navbar'];
+    let navbar: HTMLElement | null = null;
+
+    for (const selector of selectors) {
+      navbar = document.querySelector(selector) as HTMLElement;
+      if (navbar) break;
+    }
+
+    if (navbar) {
+      navbar.style.transform = isScrollingDown ? 'translateY(-100%)' : 'translateY(0)';
+      navbar.style.transition = 'transform 0.3s ease-in-out';
+      navbar.style.position = 'fixed';
+      navbar.style.top = '0';
+      navbar.style.left = '0';
+      navbar.style.right = '0';
+      navbar.style.zIndex = '1000';
+    }
+
+    // Cleanup function
+    return () => {
+      if (navbar) {
+        navbar.style.transform = '';
+        navbar.style.transition = '';
+        navbar.style.position = '';
+        navbar.style.top = '';
+        navbar.style.left = '';
+        navbar.style.right = '';
+        navbar.style.zIndex = '';
+      }
+    };
+  }, [isScrollingDown]);
+
   return (
     <>
-      <div className="app-page">
+      <div className={`app-page ${isScrollingDown ? 'hero-sticky' : ''}`}>
         {/* Hero Section with Main Message */}
-        <section className="hero-section">
+        <section className={`hero-section ${isScrollingDown ? 'sticky-mode' : ''}`}>
           <div className="hero-content">
             <div className="hero-text">
               <h1>Reprograma tu mente, rediseña tu vida</h1>
@@ -95,6 +152,10 @@ const HomeAppPage = () => {
             font-family: 'Arial', sans-serif;
           }
 
+          .app-page.hero-sticky {
+            padding-top: 160px; /* Compensate for fixed hero height */
+          }
+
           /* Hero Section */
           .hero-section {
             background: linear-gradient(135deg, #c8d5b9 0%, #b8c5a6 100%);
@@ -102,6 +163,19 @@ const HomeAppPage = () => {
             border-radius: 0 0 30px 30px;
             margin-bottom: 20px;
             text-align: center;
+            transition: all 0.3s ease-in-out;
+            position: relative;
+            z-index: 900;
+          }
+
+          .hero-section.sticky-mode {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 900;
+            border-radius: 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
           }
 
           .hero-content {
