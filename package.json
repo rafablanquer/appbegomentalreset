@@ -7,7 +7,8 @@
   "scripts": {
     "build": "cross-env NODE_OPTIONS=--no-deprecation next build",
     "postbuild": "next-sitemap --config next-sitemap.config.cjs",
-    "ci": "payload migrate --force-migrate && pnpm build",
+    "ci2": "payload migrate --force-migrate && pnpm build",
+    "ci": "pnpm build",
     "deploy": "payload migrate --force-migrate && cross-env NODE_OPTIONS=--no-deprecation next build",
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
     "dev:prod": "cross-env NODE_OPTIONS=--no-deprecation rm -rf .next && pnpm build && pnpm start",
