@@ -6,7 +6,9 @@ export default (payload: Payload) => ({
     method: "post",
     handler: async (req: any, res: any) => {
         const sub = req.body; // { endpoint, keys:{p256dh,auth} }
-        await payload.create({ collection: "push_subscriptions", data: { sub } });
+        // TODO: Crear collection push_subscriptions
+        // await payload.create({ collection: "push_subscriptions", data: { sub } });
+        console.log('Push subscription:', sub);
         res.sendStatus(201);
     },
 });

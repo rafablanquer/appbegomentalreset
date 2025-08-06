@@ -461,8 +461,8 @@ export default function RetoBMR() {
             <button
               key={week}
               className={`px-4 py-2 rounded-full border text-sm font-medium transition-all ${week === selectedWeek
-                  ? "bg-purple-600 text-white border-purple-600"
-                  : "bg-white text-gray-600 border-gray-200 hover:border-purple-300"
+                ? "bg-purple-600 text-white border-purple-600"
+                : "bg-white text-gray-600 border-gray-200 hover:border-purple-300"
                 }`}
               onClick={() => setSelectedWeek(week)}
             >
