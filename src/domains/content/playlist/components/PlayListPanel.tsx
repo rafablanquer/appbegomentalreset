@@ -10,6 +10,8 @@ import PlayListPlayer from "./PlayListPlayer"
 import { AudioTrack } from "../../types/types"
 
 const PlayListPanel = ({ showPlaylist, togglePlaylist, audioTracks, currentTrack }: { showPlaylist: boolean, togglePlaylist: () => void, audioTracks: AudioTrack[], currentTrack: number }) => {
+    const audioRef = useRef<HTMLAudioElement>(null)
+    
     return (
         <div>
             <h1>PlayListPanel</h1>
@@ -29,7 +31,21 @@ const PlayListPanel = ({ showPlaylist, togglePlaylist, audioTracks, currentTrack
             </div>
 
 
-            <PlayListPlayer isPlaying={false} audioTracks={audioTracks} currentTrack={currentTrack} togglePlay={() => { }} handlePrevious={() => { }} handleNext={() => { }} handleSeek={() => { }} formatTime={() => { }} audioRef={undefined} />
+            <PlayListPlayer 
+                isPlaying={false} 
+                audioTracks={audioTracks} 
+                currentTrack={currentTrack} 
+                togglePlay={() => { }} 
+                handlePrevious={() => { }} 
+                handleNext={() => { }} 
+                handleSeek={() => { }} 
+                formatTime={() => "0:00"} 
+                currentTime={0}
+                duration={0}
+                showPlaylist={showPlaylist}
+                togglePlaylist={togglePlaylist}
+                audioRef={audioRef as React.RefObject<HTMLAudioElement>} 
+            />
             <div className="flex justify-center">
                 <Button
                     onClick={togglePlaylist}

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
 import { Card } from "@/components/ui/card"
 import Image from "next/image"
+import { AudioTrack } from "../../types/types"
 
 const PlayListExpandedList = ({ audioTracks, currentTrack, selectTrack, togglePlaylist }: { audioTracks: AudioTrack[], currentTrack: number, selectTrack: (index: number) => void, togglePlaylist: () => void }) => {
     return (
