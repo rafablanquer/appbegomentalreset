@@ -44,12 +44,15 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, isAuthenticate
     setIsSidebarOpen(false)
   }
 
+  const pageNewUnauthVersion = usePathname() === "/contact"
+  const useUnAuthVersion = isAuthenticated ? pageNewUnauthVersion : true
 
 
-  return isAuthenticated ? (
+
+  return useUnAuthVersion ? (
     <>
       <header className="container relative z-20 bg-white-500"  >
-        <div className="py-8 flex justify-between items-center">
+        <div className="py-4 flex justify-between items-center">
           <Link href="/">
             <Logo loading="eager" priority="high" />
           </Link>

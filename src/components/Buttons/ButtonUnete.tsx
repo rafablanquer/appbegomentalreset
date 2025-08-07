@@ -1,6 +1,6 @@
 import { cn } from "@/utilities/ui"
 
-const ButtonUnete = ({ onClick, style }: { onClick: () => void, style: React.CSSProperties }) => {
+const ButtonUnete = ({ onClick, style }: { onClick: () => void, style?: React.CSSProperties }) => {
     return (
         <button
             onClick={onClick}
