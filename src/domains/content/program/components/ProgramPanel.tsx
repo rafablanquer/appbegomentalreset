@@ -1,10 +1,11 @@
 'use client'
 import Image from "next/image"
 
-const CollectionPanel = ({ title, description, heroPath, programs }: { title: string, description: string, keywords: string[], programs: any, heroPath: string, collection: any }) => {
+const ProgramPanel = ({ title, description, heroPath, activities }: { title: string, description: string, keywords: string[], activities: any, heroPath: string, }) => {
     return (
         <>
             <div className="app-page">
+                {/* Hero Section */}
                 <section className="hero-section">
                     <Image
                         src={heroPath}
@@ -28,7 +29,7 @@ const CollectionPanel = ({ title, description, heroPath, programs }: { title: st
                 {/* Programs Grid Section */}
                 <section className="programs-section">
                     <div className="programs-grid">
-                        {programs.map((program: any) => (
+                        {activities.map((program: any) => (
                             <div key={program.id} className="program-card">
                                 <div className="program-content">
                                     <h2 className="program-title">{program.title}</h2>
@@ -209,4 +210,4 @@ const CollectionPanel = ({ title, description, heroPath, programs }: { title: st
     )
 }
 
-export default CollectionPanel
+export default ProgramPanel
