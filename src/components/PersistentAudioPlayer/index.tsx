@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import { Play, Pause, ChevronLeft, ChevronRight, Minimize2, Maximize2 } from "lucide-react"
+import { Play, Pause, SkipBack, SkipForward, Minimize2, Maximize2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
 import { useAudioPlayer } from '@/providers/AudioPlayer'
@@ -34,14 +34,14 @@ export default function PersistentAudioPlayer() {
             <audio ref={audioRef} src={currentSession.audioUrl} preload="metadata" />
 
             {/* Reproductor persistente */}
-            <div className={`fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-t border-gray-200 z-40 transition-all duration-300 ease-in-out shadow-lg ${isMinimized ? 'h-20' : 'h-56'
+            <div className={`fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-t border-gray-200 z-40 transition-all duration-300 ease-in-out shadow-lg ${isMinimized ? 'h-24' : 'h-56'
                 }`}>
 
                 {isMinimized ? (
                     // Versión minimizada
-                    <div className="px-4 py-3 h-full">
-                        <div className="flex items-center gap-3 h-full">
-                            {/* Información de la sesión */}
+                    <div className="px-4 py-6 h-full ">
+                        <div className="flex items-center gap-3 h-full pb-4">
+
                             <div className="flex-1 min-w-0">
                                 <p className="text-sm font-medium text-gray-800 truncate">
                                     {currentSession.shortTitle || currentSession.title}
@@ -57,8 +57,7 @@ export default function PersistentAudioPlayer() {
                                 </div>
                             </div>
 
-                            {/* Controles básicos */}
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 ">
                                 <Button
                                     variant="ghost"
                                     size="sm"
@@ -72,15 +71,14 @@ export default function PersistentAudioPlayer() {
                                     variant="ghost"
                                     size="sm"
                                     onClick={toggleMinimized}
-                                    className="text-gray-500 hover:bg-gray-100 hover:text-gray-700 w-10 h-10 rounded-full flex items-center justify-center transition-all"
+                                    className="text-gray-600 hover:bg-gray-100 hover:text-purple-600 w-10 h-10 rounded-full flex items-center justify-center transition-all"
                                 >
                                     <Maximize2 className="w-4 h-4" />
                                 </Button>
                             </div>
                         </div>
 
-                        {/* Barra de progreso minimalista */}
-                        <div className="absolute bottom-0 left-0 right-0 px-4 pb-1">
+                        <div className="    px-4 pb-2">
                             <Slider
                                 value={[currentTime]}
                                 max={duration || 100}
@@ -99,7 +97,7 @@ export default function PersistentAudioPlayer() {
                                 variant="ghost"
                                 size="sm"
                                 onClick={toggleMinimized}
-                                className="text-gray-500 hover:bg-gray-100 hover:text-gray-700 w-8 h-8 rounded-full flex items-center justify-center transition-all"
+                                className="text-gray-600 hover:bg-gray-100 hover:text-gray-700 w-8 h-8 rounded-full flex items-center justify-center transition-all border border-gray-200 hover:border-gray-300"
                             >
                                 <Minimize2 className="w-3 h-3" />
                             </Button>
@@ -135,25 +133,22 @@ export default function PersistentAudioPlayer() {
                             <Button
                                 variant="ghost"
                                 size="lg"
-                                className="text-gray-400 hover:bg-gray-100 hover:text-gray-600 w-14 h-14 rounded-full flex items-center justify-center transition-all disabled:opacity-30"
+                                className="text-gray-600 hover:bg-gray-100 hover:text-purple-600 w-14 h-14 rounded-full flex items-center justify-center transition-all disabled:opacity-30 border border-gray-200 hover:border-purple-300 text-xl font-bold"
                             >
-                                <ChevronLeft className="w-6 h-6" />
+                                ⏮
                             </Button>
 
-                            <Button
-                                onClick={togglePlay}
-                                size="lg"
-                                className="bg-purple-600 hover:bg-purple-700 text-white rounded-full w-16 h-16 shadow-lg hover:shadow-xl transition-all transform hover:scale-105 active:scale-95"
-                            >
-                                {isPlaying ? <Pause className="w-7 h-7" /> : <Play className="w-7 h-7 ml-1" />}
-                            </Button>
+
+                            {isPlaying ? <Pause className="w-10 h-10" onClick={togglePlay}
+                            /> : <Play className="w-10 h-10 ml-1" onClick={togglePlay} />}
+
 
                             <Button
                                 variant="ghost"
                                 size="lg"
-                                className="text-gray-400 hover:bg-gray-100 hover:text-gray-600 w-14 h-14 rounded-full flex items-center justify-center transition-all disabled:opacity-30"
+                                className="text-gray-600 hover:bg-gray-100 hover:text-purple-600 w-14 h-14 rounded-full flex items-center justify-center transition-all disabled:opacity-30 border border-gray-200 hover:border-purple-300 text-xl font-bold"
                             >
-                                <ChevronRight className="w-6 h-6" />
+                                ⏭
                             </Button>
                         </div>
                     </div>

@@ -57,11 +57,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             />
 
             <Header />
-            <main className="pt-20 min-h-screen pb-24">
+            <main className="pt-20 min-h-screen">
               {children}
             </main>
-            {/* <Footer /> */}
             <PersistentAudioPlayer />
+            {/* <Footer /> */}
+
             <CookieBanner />
           </FirstVisitWrapper>
         </Providers>

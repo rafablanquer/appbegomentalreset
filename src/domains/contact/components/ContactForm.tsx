@@ -143,7 +143,7 @@ const ContactForm: React.FC = () => {
                     )}
                 </div>
 
-                {/* Mensaje */}
+
                 <div className="w-full">
                     <textarea
                         id="message"
@@ -163,9 +163,7 @@ const ContactForm: React.FC = () => {
                     )}
                 </div>
 
-                {/* Captcha */}
                 <div className="flex items-center justify-start space-x-4">
-                    <span className="text-lg text-black font-medium">7 + 5 =</span>
                     <input
                         type="number"
                         placeholder=""

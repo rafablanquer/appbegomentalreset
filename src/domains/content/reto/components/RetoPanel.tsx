@@ -223,8 +223,6 @@ export default function RetoPanel({ sessions, pathInstructions, title, descripti
             style={{
                 backgroundColor: "rgb(255, 250, 239)",
             }}>
-
-
             <div className="relative z-10 min-h-screen flex flex-col">
                 <Image
                     src="/content/reto21dias/hero.png"
@@ -240,7 +238,6 @@ export default function RetoPanel({ sessions, pathInstructions, title, descripti
                         <p className="text-black-700 text-sm mb-4">{description}</p>
                     </div>
 
-                    {/* Sección de progreso y navegación integrada */}
                     <div className="px-0">
                         <section className="w-full bg-white/60 backdrop-blur-sm rounded-xl mb-6 shadow-sm overflow-hidden">
                             <div className="px-4 py-4">
@@ -287,7 +284,7 @@ export default function RetoPanel({ sessions, pathInstructions, title, descripti
                     </div>
                 </div>
 
-                <div className="w-full px-4 space-y-4 mb-6">
+                <div className="w-full px-4 space-y-4 mb-6" >
                     {currentWeekSessions.map((session, index) => (
                         <Card
                             key={session.id}
@@ -300,8 +297,9 @@ export default function RetoPanel({ sessions, pathInstructions, title, descripti
                             onClick={() => session.unlocked && selectSession(index)}
                         >
                             <div className="flex items-start gap-4">
-                                {/* Status Icon */}
+
                                 <div className="flex-shrink-0 mt-1">
+
                                     {!session.unlocked ? (
                                         <Lock className="w-6 h-6 text-gray-400" />
                                     ) : session.completed ? (
@@ -312,7 +310,7 @@ export default function RetoPanel({ sessions, pathInstructions, title, descripti
                                 </div>
 
                                 {/* Session Info */}
-                                <div className="flex-1 min-w-0">
+                                <div className="flex-1 min-w-0 mb-2">
                                     <div className="flex items-center justify-between mb-2">
                                         <div className="flex items-center gap-3">
                                             <Badge variant="outline" className="text-xs font-medium px-2 py-1">
