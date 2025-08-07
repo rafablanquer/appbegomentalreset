@@ -1,6 +1,8 @@
 import { Metadata } from 'next'
 import ContactPage from '@/domains/contact/components/ContactPage'
 import LandingMembresiasPage from '@/domains/landing/components/LandingMembresiasPage'
+import CollectionPanel from '@/domains/content/collection/components/CollectionPanel'
+import Image from 'next/image'
 
 export const metadata: Metadata = {
     title: 'Contacto - BMR - Begoña Mental Reset',
@@ -23,5 +25,39 @@ export const metadata: Metadata = {
 }
 
 export default function RespiracionesConscientesPage() {
-    return <LandingMembresiasPage />
+
+    const title = "Respiraciones Conscientes"
+    const description = "Equilibra tu sistema nervioso y encuentra un momento de calma en tu día. Estos audios te guiarán en una sencilla pero poderosa práctica de respiración consciente. Dedica unos minutos a conectar con el presente, reducir el estrés y renovar tu energía. Solo necesitas escuchar y respirar."
+    const keywords = ["Respiraciones Conscientes", "Begoña Mental Reset", "BMR", "Respiraciones", "Conscientes"]
+    const openGraph = {
+        title: title,
+        description: description,
+    }
+    const programs = [
+        {
+            id: 1,
+            title: "Relajación corporal ",
+            path: "relajacion-tension-corporal"
+        }, {
+            id: 2,
+            title: "Relajación profunda",
+            path: "relajacion-profunda-2"
+        }, {
+            id: 3,
+            title: "Agitación/crisis emocional",
+            path: "agitacion-crisis-emocional"
+        }, {
+            id: 4,
+            title: "Calma la ansiedad",
+            path: "calma-ansiedad"
+        }
+    ]
+
+    const collection = {
+        title: title,
+        programs: programs,
+    }
+
+    const heroPath = "/content/collectionRespiracionesConscientes/hero.png"
+    return <CollectionPanel title={title} description={description} keywords={keywords} programs={programs} heroPath={heroPath} />
 }
