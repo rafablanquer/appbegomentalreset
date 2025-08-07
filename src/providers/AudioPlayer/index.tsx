@@ -32,7 +32,7 @@ interface AudioPlayerContextType {
     goToNextSession?: () => void
 
     // Referencia al audio
-    audioRef: React.RefObject<HTMLAudioElement>
+    audioRef: React.RefObject<HTMLAudioElement | null>
 }
 
 const AudioPlayerContext = createContext<AudioPlayerContextType | undefined>(undefined)

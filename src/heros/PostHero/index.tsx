@@ -4,68 +4,72 @@ import React from 'react'
 import type { Post } from '@/payload-types'
 
 import { Media } from '@/components/Media'
-import { formatAuthors } from '@/utilities/formatAuthors'
 
 export const PostHero: React.FC<{
   post: Post
 }> = ({ post }) => {
-  const { categories, heroImage, populatedAuthors, publishedAt, title } = post
-
-  const hasAuthors =
-    populatedAuthors && populatedAuthors.length > 0 && formatAuthors(populatedAuthors) !== ''
+  const { categories, heroImage, publishedAt, title } = post
 
   return (
-    <div className="relative -mt-[10.4rem] flex items-end">
-      <div className="container z-10 relative lg:grid lg:grid-cols-[1fr_48rem_1fr] text-white pb-8">
-        <div className="col-start-1 col-span-1 md:col-start-2 md:col-span-2">
-          <div className="uppercase text-sm mb-6">
-            {categories?.map((category, index) => {
-              if (typeof category === 'object' && category !== null) {
-                const { title: categoryTitle } = category
+    <div className="relative min-h-[70vh] flex items-center justify-center">
+      {/* Imagen de fondo hero */}
+      {heroImage && typeof heroImage !== 'string' && (
+        <>
+          <Media fill priority imgClassName="object-cover" resource={heroImage} />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/60" />
+        </>
+      )}
 
-                const titleToUse = categoryTitle || 'Untitled category'
+      {/* Contenido centrado con caja elegante */}
+      <div className="relative z-10 w-full">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8 md:p-12 border border-white/20">
 
-                const isLast = index === categories.length - 1
+              {/* Categorías */}
+              {categories && categories.length > 0 && (
+                <div className="mb-6">
+                  <div className="flex flex-wrap gap-2 justify-center">
+                    {categories.map((category, index) => {
+                      if (typeof category === 'object' && category !== null) {
+                        const { title: categoryTitle } = category
+                        const titleToUse = categoryTitle || 'Sin categoría'
 
-                return (
-                  <React.Fragment key={index}>
-                    {titleToUse}
-                    {!isLast && <React.Fragment>, &nbsp;</React.Fragment>}
-                  </React.Fragment>
-                )
-              }
-              return null
-            })}
-          </div>
+                        return (
+                          <span
+                            key={index}
+                            className="inline-block bg-gradient-to-r from-blue-500 to-purple-600 text-white text-sm px-4 py-2 rounded-full uppercase tracking-wide font-medium shadow-lg"
+                          >
+                            {titleToUse}
+                          </span>
+                        )
+                      }
+                      return null
+                    })}
+                  </div>
+                </div>
+              )}
 
-          <div className="">
-            <h1 className="mb-6 text-3xl md:text-5xl lg:text-6xl">{title}</h1>
-          </div>
+              {/* Título */}
+              <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+                {title}
+              </h1>
 
-          <div className="flex flex-col md:flex-row gap-4 md:gap-16">
-            {hasAuthors && (
-              <div className="flex flex-col gap-4">
-                {/* <div className="flex flex-col gap-1">
-                  <p className="text-sm">Author</p>
+              {/* Fecha sin label */}
+              {publishedAt && (
+                <div className="flex justify-center">
+                  <time
+                    dateTime={publishedAt}
+                    className="text-gray-600 font-medium text-lg bg-gray-100 px-4 py-2 rounded-full"
+                  >
+                    {formatDateTime(publishedAt)}
+                  </time>
+                </div>
+              )}
 
-                  <p>{formatAuthors(populatedAuthors)}</p>
-                </div> */}
-              </div>
-            )}
-            {publishedAt && (
-              <div className="flex flex-col gap-1">
-                {/* <p className="text-sm">Date Published</p> */}
-                <time dateTime={publishedAt}>{formatDateTime(publishedAt)}</time>
-              </div>
-            )}
+            </div>
           </div>
         </div>
-      </div>
-      <div className="min-h-[80vh] select-none">
-        {heroImage && typeof heroImage !== 'string' && (
-          <Media fill priority imgClassName="-z-10 object-cover" resource={heroImage} />
-        )}
-        <div className="absolute pointer-events-none left-0 bottom-0 w-full h-1/2 bg-gradient-to-t from-black to-transparent" />
       </div>
     </div>
   )
