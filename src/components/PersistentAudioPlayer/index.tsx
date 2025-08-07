@@ -1,12 +1,21 @@
 "use client"
 
 import React from 'react'
+import { usePathname } from 'next/navigation'
 import { Play, Pause, SkipBack, SkipForward, Minimize2, Maximize2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
 import { useAudioPlayer } from '@/providers/AudioPlayer'
 
 export default function PersistentAudioPlayer() {
+    const pathname = usePathname()
+
+    // Array de rutas donde se debe mostrar el reproductor
+    const allowedPaths = ['/reto-21-dias']
+
+    // Verificar si la ruta actual está permitida
+    const isAllowedPath = allowedPaths.some(path => pathname.includes(path))
+
     const {
         currentSession,
         isPlaying,
@@ -19,8 +28,8 @@ export default function PersistentAudioPlayer() {
         audioRef,
     } = useAudioPlayer()
 
-    // No renderizar si no hay sesión actual
-    if (!currentSession) return null
+    // No renderizar si no hay sesión actual o si no está en una ruta permitida
+    if (!currentSession || !isAllowedPath) return null
 
     const formatTime = (time: number) => {
         const minutes = Math.floor(time / 60)

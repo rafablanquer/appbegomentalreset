@@ -222,6 +222,7 @@ export default function RetoPanel({ sessions, pathInstructions, title, descripti
         <div className="min-h-screen bg-gradient-to-br from-black-100 via-blue-50 to-indigo-100 relative"
             style={{
                 backgroundColor: "rgb(255, 250, 239)",
+                marginBottom: 80
             }}>
             <div className="relative z-10 min-h-screen flex flex-col">
                 <Image

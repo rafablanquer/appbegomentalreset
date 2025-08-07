@@ -24,7 +24,7 @@ STRIPE_WEBHOOK_SECRET=whsec_your_stripe_webhook_secret_here
 
 1. En el Stripe Dashboard, ve a **Developers > Webhooks**
 2. Haz clic en **Add endpoint**
-3. Añade la URL: `https://tu-dominio.com/api/stripe/webhook` (o `http://localhost:3000/api/stripe/webhook` para desarrollo)
+3. Añade la URL: `https://appbegomentalreset.vercel.app/api/stripe/webhook` (o `http://localhost:3000/api/stripe/webhook` para desarrollo)
 4. Selecciona los siguientes eventos:
    - `checkout.session.completed`
    - `customer.subscription.created`
