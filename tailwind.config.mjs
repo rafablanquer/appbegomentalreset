@@ -56,6 +56,18 @@ const config = {
         sm: 'calc(var(--radius) - 4px)',
       },
       colors: {
+        sage: {
+          50: "#f6f7f4",
+          100: "#e9ebe3",
+          200: "#d4d8c8",
+          300: "#b8c0a4",
+          400: "#9ca682",
+          500: "#828c65",
+          600: "#66704f",
+          700: "#515941",
+          800: "#424937",
+          900: "#383e30",
+        },
         accent: {
           DEFAULT: 'hsl(var(--accent))',
           foreground: 'hsl(var(--accent-foreground))',

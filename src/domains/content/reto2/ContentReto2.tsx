@@ -20,18 +20,9 @@ import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import Link from "next/link"
+import { Session } from "../reto/components/RetoPanel"
 
-interface Session {
-  id: number
-  day: number
-  title: string
-  shortTitle: string
-  description: string
-  duration: string
-  audioUrl: string
-  completed: boolean
-  unlocked: boolean
-}
+
 
 const sessions: Record<number, Session[]> = {
   1: [
@@ -152,87 +143,7 @@ const sessions: Record<number, Session[]> = {
   ],
 }
 
-function ProgressRing({ value, total }: { value: number; total: number }) {
-  const percentage = (value / total) * 100
-  const circumference = 2 * Math.PI * 20
-  const strokeDasharray = circumference
-  const strokeDashoffset = circumference - (percentage / 100) * circumference
 
-  return (
-    <div className="relative w-16 h-16">
-      <svg className="w-16 h-16 transform -rotate-90" viewBox="0 0 44 44">
-        <circle cx="22" cy="22" r="20" stroke="currentColor" strokeWidth="3" fill="none" className="text-gray-200" />
-        <circle
-          cx="22"
-          cy="22"
-          r="20"
-          stroke="currentColor"
-          strokeWidth="3"
-          fill="none"
-          strokeDasharray={strokeDasharray}
-          strokeDashoffset={strokeDashoffset}
-          className="text-purple-600 transition-all duration-300"
-          strokeLinecap="round"
-        />
-      </svg>
-      <div className="absolute inset-0 flex items-center justify-center">
-        <span className="text-xs font-bold text-purple-600">
-          {value}/{total}
-        </span>
-      </div>
-    </div>
-  )
-}
-
-function SessionChip({ session, onSelect }: { session: Session; onSelect: () => void }) {
-  const getStatusIcon = () => {
-    if (session.completed) return <Check className="w-4 h-4 text-green-600" />
-    if (!session.unlocked) return <Lock className="w-4 h-4 text-gray-400" />
-    return <Clock className="w-4 h-4 text-purple-600" />
-  }
-
-  const getStatusColor = () => {
-    if (session.completed) return "border-green-200 bg-green-50"
-    if (!session.unlocked) return "border-gray-200 bg-gray-50"
-    return "border-purple-200 bg-white hover:bg-purple-50"
-  }
-
-  return (
-    <button
-      onClick={session.unlocked ? onSelect : undefined}
-      className={`snap-start shrink-0 w-64 h-24 rounded-2xl border p-3 text-left transition-all ${getStatusColor()} ${!session.unlocked ? "cursor-not-allowed" : "hover:shadow-md"
-        }`}
-      disabled={!session.unlocked}
-    >
-      <div className="flex items-start justify-between mb-1">
-        <div className="text-sm font-medium line-clamp-1 text-gray-800">{session.shortTitle}</div>
-        {getStatusIcon()}
-      </div>
-      <div className="text-xs text-gray-500">{session.duration}</div>
-      <div className="text-xs text-purple-600 font-medium">Día {session.day}</div>
-    </button>
-  )
-}
-
-function WeekCarousel({
-  week,
-  sessions: weekSessions,
-  onSessionSelect,
-}: {
-  week: number
-  sessions: Session[]
-  onSessionSelect: (session: Session) => void
-}) {
-  return (
-    <div className="h-full overflow-x-auto overflow-y-hidden">
-      <div className="flex gap-3 px-4 py-4 h-full">
-        {weekSessions.map((session) => (
-          <SessionChip key={session.id} session={session} onSelect={() => onSessionSelect(session)} />
-        ))}
-      </div>
-    </div>
-  )
-}
 
 function MiniPlayer({
   currentSession,
