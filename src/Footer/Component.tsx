@@ -7,6 +7,7 @@ import type { Footer } from '@/payload-types'
 import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
 import { CMSLink } from '@/components/Link'
 import { Logo } from '@/components/Logo/Logo'
+import { CookieSettingsButton } from '@/components/CookieSettings'
 
 export async function Footer() {
   const footerData: Footer = await getCachedGlobal('footer', 1)()
@@ -26,6 +27,19 @@ export async function Footer() {
             {navItems.map(({ link }, i) => {
               return <CMSLink className="text-white" key={i} {...link} />
             })}
+            {/* Enlaces legales adicionales */}
+            <div className="flex flex-col md:flex-row gap-4 border-t md:border-t-0 md:border-l border-gray-600 pt-4 md:pt-0 md:pl-4">
+              <Link href="/privacidad" className="text-white hover:text-gray-300 text-sm">
+                Privacidad
+              </Link>
+              <Link href="/terminos" className="text-white hover:text-gray-300 text-sm">
+                Términos
+              </Link>
+              <Link href="/cookies" className="text-white hover:text-gray-300 text-sm">
+                Cookies
+              </Link>
+              <CookieSettingsButton />
+            </div>
           </nav>
         </div>
       </div>

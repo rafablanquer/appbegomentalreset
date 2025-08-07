@@ -4,7 +4,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-    apiVersion: '2024-12-18.acacia',
+    apiVersion: '2025-07-30.basil',
 })
 
 export async function POST(req: NextRequest) {
@@ -25,6 +25,7 @@ export async function POST(req: NextRequest) {
             monthly: {
                 price: 1497, // 14.97€ en centavos
                 interval: 'month' as const,
+                intervalCount: 1,
                 name: 'Membresía Mensual BMR',
             },
             quarterly: {
@@ -36,6 +37,7 @@ export async function POST(req: NextRequest) {
             annual: {
                 price: 12797, // 127.97€ en centavos
                 interval: 'year' as const,
+                intervalCount: 1,
                 name: 'Membresía Anual BMR',
             },
         }
@@ -91,7 +93,7 @@ export async function POST(req: NextRequest) {
                         unit_amount: membershipConfig.price,
                         recurring: {
                             interval: membershipConfig.interval,
-                            interval_count: membershipConfig.intervalCount || 1,
+                            interval_count: membershipConfig.intervalCount,
                         },
                     },
                     quantity: 1,

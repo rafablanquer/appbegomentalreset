@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Card } from '@/components/ui/card'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Label } from '@/components/ui/label'
 import { getClientSideURL } from '@/utilities/getURL'
 
 interface ContactFormData {
@@ -14,6 +16,7 @@ interface ContactFormData {
     email: string
     message: string
     captcha: string
+    acceptPrivacy: boolean
 }
 
 const ContactForm: React.FC = () => {
@@ -26,13 +29,22 @@ const ContactForm: React.FC = () => {
         handleSubmit,
         formState: { errors },
         reset,
-    } = useForm<ContactFormData>()
+        setValue,
+    } = useForm<ContactFormData>({
+        defaultValues: {
+            acceptPrivacy: false,
+        },
+    })
 
     const onSubmit = async (data: ContactFormData) => {
         setIsLoading(true)
         setError(null)
 
         try {
+            // Verificar consentimiento de privacidad
+            if (!data.acceptPrivacy) {
+                throw new Error('Debes aceptar la política de privacidad para continuar')
+            }
             // Preparar los datos para el formulario de Payload
             const formData = [
                 { field: 'name', value: data.name },
@@ -168,6 +180,30 @@ const ContactForm: React.FC = () => {
                     <div className="bg-red-500 text-white p-2 rounded-md text-sm flex items-center">
                         <span className="mr-2">⚠️</span>
                         {errors.captcha.message}
+                    </div>
+                )}
+
+                {/* Consentimiento de Privacidad */}
+                <div className="flex items-start space-x-3">
+                    <Checkbox
+                        id="acceptPrivacy"
+                        {...register('acceptPrivacy', {
+                            required: 'Debes aceptar la política de privacidad',
+                        })}
+                        onCheckedChange={(checked) => setValue('acceptPrivacy', checked === true)}
+                    />
+                    <Label htmlFor="acceptPrivacy" className="text-sm leading-relaxed text-black">
+                        Acepto la{' '}
+                        <a href="/privacidad" target="_blank" className="text-blue-600 hover:underline font-medium">
+                            política de privacidad
+                        </a>{' '}
+                        y el tratamiento de mis datos personales para responder a mi consulta.
+                    </Label>
+                </div>
+                {errors.acceptPrivacy && (
+                    <div className="bg-red-500 text-white p-2 rounded-md text-sm flex items-center">
+                        <span className="mr-2">⚠️</span>
+                        {errors.acceptPrivacy.message}
                     </div>
                 )}
 
