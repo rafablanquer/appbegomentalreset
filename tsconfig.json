@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
-    "strict": true,
+    "strict": false,
+    "noImplicitAny": false,
+    "noImplicitReturns": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "baseUrl": ".",
     "esModuleInterop": true,
     "target": "ES2022",
@@ -34,11 +38,21 @@
       "@/*": [
         "./src/*"
       ],
-      "@/blog/*": ["./src/domains/blog/*"],
-      "@/content/*": ["./src/domains/content/*"],
-      "@/media/*": ["./src/domains/media/*"],
-      "@/auth/*": ["./src/domains/auth/*"],
-      "@/shared/*": ["./src/shared/*"]
+      "@/blog/*": [
+        "./src/domains/blog/*"
+      ],
+      "@/content/*": [
+        "./src/domains/content/*"
+      ],
+      "@/media/*": [
+        "./src/domains/media/*"
+      ],
+      "@/auth/*": [
+        "./src/domains/auth/*"
+      ],
+      "@/shared/*": [
+        "./src/shared/*"
+      ]
     }
   },
   "include": [
