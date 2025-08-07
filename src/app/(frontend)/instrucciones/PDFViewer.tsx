@@ -17,37 +17,37 @@ export default function PDFViewer() {
         // Función para detectar si el navegador puede mostrar PDFs
         const detectPDFSupport = () => {
             // Verificar si hay plugins de PDF disponibles
-            const hasPDFPlugin = navigator.mimeTypes['application/pdf'] &&
-                navigator.mimeTypes['application/pdf'].enabledPlugin
+            // const hasPDFPlugin = navigator.mimeTypes['application/pdf'] &&
+            //     navigator.mimeTypes['application/pdf'].enabledPlugin
 
-            // Verificar si es un navegador moderno con soporte nativo
-            const isModernBrowser = 'chrome' in window || 'safari' in window ||
-                navigator.userAgent.includes('Firefox')
+            // // Verificar si es un navegador moderno con soporte nativo
+            // const isModernBrowser = 'chrome' in window || 'safari' in window ||
+            //     navigator.userAgent.includes('Firefox')
 
-            if (hasPDFPlugin || isModernBrowser) {
-                setViewerMethod('embed')
+            // if (hasPDFPlugin || isModernBrowser) {
+            //     setViewerMethod('embed')
 
-                // Probar cargar el PDF para verificar que existe
-                setTimeout(() => {
-                    const testEmbed = document.createElement('embed')
-                    testEmbed.src = '/pdf_instrucciones.pdf'
-                    testEmbed.type = 'application/pdf'
-                    testEmbed.style.display = 'none'
-                    testEmbed.onload = () => {
-                        console.log('PDF cargado exitosamente')
-                        document.body.removeChild(testEmbed)
-                    }
-                    testEmbed.onerror = () => {
-                        console.log('Error cargando PDF, usando fallback')
-                        setPdfLoadError(true)
-                        setViewerMethod('fallback')
-                        document.body.removeChild(testEmbed)
-                    }
-                    document.body.appendChild(testEmbed)
-                }, 100)
-            } else {
-                setViewerMethod('fallback')
-            }
+            //     // Probar cargar el PDF para verificar que existe
+            //     setTimeout(() => {
+            //         const testEmbed = document.createElement('embed')
+            //         testEmbed.src = '/pdf_instrucciones.pdf'
+            //         testEmbed.type = 'application/pdf'
+            //         testEmbed.style.display = 'none'
+            //         testEmbed.onload = () => {
+            //             console.log('PDF cargado exitosamente')
+            //             document.body.removeChild(testEmbed)
+            //         }
+            //         testEmbed.onerror = () => {
+            //             console.log('Error cargando PDF, usando fallback')
+            //             setPdfLoadError(true)
+            //             setViewerMethod('fallback')
+            //             document.body.removeChild(testEmbed)
+            //         }
+            //         document.body.appendChild(testEmbed)
+            //     }, 100)
+            // } else {
+            //     setViewerMethod('fallback')
+            // }
         }
 
         detectPDFSupport()

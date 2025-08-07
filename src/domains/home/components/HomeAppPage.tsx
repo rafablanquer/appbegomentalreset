@@ -1,86 +1,11 @@
 'use client'
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 const HomeAppPage = () => {
-  const [isScrollingDown, setIsScrollingDown] = useState(false);
-  const [lastScrollY, setLastScrollY] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        // Scrolling down
-        setIsScrollingDown(true);
-      } else if (currentScrollY < lastScrollY) {
-        // Scrolling up
-        setIsScrollingDown(false);
-      }
-
-      setLastScrollY(currentScrollY);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
-
-  useEffect(() => {
-    // Apply styles to navbar - try multiple selectors for the header
-    const selectors = ['header', 'nav', '[role="banner"]', '.header', '.navbar'];
-    let navbar: HTMLElement | null = null;
-
-    for (const selector of selectors) {
-      navbar = document.querySelector(selector) as HTMLElement;
-      if (navbar) break;
-    }
-
-    if (navbar) {
-      navbar.style.transform = isScrollingDown ? 'translateY(-100%)' : 'translateY(0)';
-      navbar.style.transition = 'transform 0.3s ease-in-out';
-      navbar.style.position = 'fixed';
-      navbar.style.top = '0';
-      navbar.style.left = '0';
-      navbar.style.right = '0';
-      navbar.style.zIndex = '1000';
-    }
-
-    // Cleanup function
-    return () => {
-      if (navbar) {
-        navbar.style.transform = '';
-        navbar.style.transition = '';
-        navbar.style.position = '';
-        navbar.style.top = '';
-        navbar.style.left = '';
-        navbar.style.right = '';
-        navbar.style.zIndex = '';
-      }
-    };
-  }, [isScrollingDown]);
 
   return (
     <>
-      <div className={`app-page ${isScrollingDown ? 'hero-sticky' : ''}`}>
-        {/* Hero Section with Main Message */}
-        <section className={`hero-section ${isScrollingDown ? 'sticky-mode' : ''}`}>
-          <div className="hero-content">
-            <div className="hero-text">
-              <h1>Reprograma tu mente, rediseña tu vida</h1>
-              <p>
-                ¡Bienvenido a tu espacio de cambio! Haz click para
-                descubrir cómo aprovechar al máximo esta experiencia BMR
-              </p>
-            </div>
-            <div className="hero-image">
-              <img
-                src="/assets/home/branding-Begona-BMR-1-copia.png"
-                alt="Begoña Mental Reset"
-                className="hero-portrait"
-              />
-            </div>
-          </div>
-        </section>
+      <div className="app-page">
 
         {/* Player Section */}
         <section className="player-section">
@@ -146,77 +71,15 @@ const HomeAppPage = () => {
 
         <style jsx>{`
           .app-page {
-            background: linear-gradient(135deg, #f0f4f7 0%, #e8f2f6 100%);
-            min-height: 100vh;
-            padding-bottom: 120px; /* Space for fixed footer */
+            background: url('/assets/home-app/backgrround.png');
+            background-size: cover;
+            background-position: bottom center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: calc(100vh - 120px); /* Exclude footer height */
+            padding: 20px 0 120px 0; /* Top padding and space for fixed footer */
             font-family: 'Arial', sans-serif;
-          }
-
-          .app-page.hero-sticky {
-            padding-top: 160px; /* Compensate for fixed hero height */
-          }
-
-          /* Hero Section */
-          .hero-section {
-            background: linear-gradient(135deg, #c8d5b9 0%, #b8c5a6 100%);
-            padding: 30px 20px;
-            border-radius: 0 0 30px 30px;
-            margin-bottom: 20px;
-            text-align: center;
-            transition: all 0.3s ease-in-out;
             position: relative;
-            z-index: 900;
-          }
-
-          .hero-section.sticky-mode {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 900;
-            border-radius: 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-          }
-
-          .hero-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            max-width: 400px;
-            margin: 0 auto;
-            gap: 20px;
-          }
-
-          .hero-text {
-            flex: 1;
-            text-align: left;
-          }
-
-          .hero-text h1 {
-            font-size: 24px;
-            font-weight: bold;
-            color: #2d3a2e;
-            margin: 0 0 10px 0;
-            line-height: 1.2;
-          }
-
-          .hero-text p {
-            font-size: 14px;
-            color: #4a5a4d;
-            margin: 0;
-            line-height: 1.4;
-          }
-
-          .hero-image {
-            flex-shrink: 0;
-          }
-
-          .hero-portrait {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid white;
           }
 
           /* Player Section */
@@ -247,8 +110,9 @@ const HomeAppPage = () => {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 15px;
-            max-width: 400px;
+            max-width: 100%;
             margin: 0 auto;
+            padding: 0 10px;
           }
 
           .program-card {
@@ -322,22 +186,18 @@ const HomeAppPage = () => {
           
           /* Mobile Responsive */
           @media (max-width: 480px) {
-            .hero-content {
-              flex-direction: column;
-              text-align: center;
-            }
-            
-            .hero-text {
-              text-align: center;
-            }
-            
-            .hero-text h1 {
-              font-size: 20px;
+            .app-page {
+              background-attachment: scroll; /* Better performance on mobile */
             }
 
             .programs-grid {
-              grid-template-columns: 1fr;
-              gap: 20px;
+              grid-template-columns: repeat(3, 1fr);
+              gap: 8px;
+              padding: 0 5px;
+            }
+
+            .program-card {
+              border-radius: 10px;
             }
 
             .action-btn {
@@ -348,19 +208,6 @@ const HomeAppPage = () => {
 
           /* Landscape Mobile */
           @media (max-width: 768px) and (orientation: landscape) {
-            .hero-section {
-              padding: 20px;
-            }
-            
-            .hero-text h1 {
-              font-size: 18px;
-            }
-            
-            .hero-portrait {
-              width: 80px;
-              height: 80px;
-            }
-
             .app-page {
               padding-bottom: 80px;
             }
