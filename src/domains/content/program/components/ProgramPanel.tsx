@@ -1,5 +1,6 @@
 'use client'
 import Image from "next/image"
+import PlayListPanel from "../../playlist/components/PlayListPanel"
 
 const ProgramPanel = ({ title, description, heroPath, activities }: { title: string, description: string, keywords: string[], activities: any, heroPath: string, }) => {
     return (
@@ -26,18 +27,10 @@ const ProgramPanel = ({ title, description, heroPath, activities }: { title: str
                     </div>
                 </section>
 
-                {/* Programs Grid Section */}
-                <section className="programs-section">
-                    <div className="programs-grid">
-                        {activities.map((program: any) => (
-                            <div key={program.id} className="program-card">
-                                <div className="program-content">
-                                    <h2 className="program-title">{program.title}</h2>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </section>
+                <PlayListPanel
+                    showPlaylist={false}
+                    togglePlaylist={() => { }}
+                    audioTracks={activities} currentTrack={0} />
             </div>
 
             <style jsx>{`
