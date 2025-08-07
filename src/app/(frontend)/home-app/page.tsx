@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
-import ContactPage from '@/domains/contact/components/ContactPage'
-import LandingMembresiasPage from '@/domains/landing/components/LandingMembresiasPage'
+
+import { RouteProtection } from '@/utilities/membership'
+import ProtectedRoute from '@/components/ProtectedRoute'
 import HomeAppPage from '@/domains/home/components/HomeAppPage'
 
 export const metadata: Metadata = {
@@ -23,6 +24,12 @@ export const metadata: Metadata = {
     },
 }
 
+
+
 export default function HomeApp() {
-    return <HomeAppPage />
+    return (
+        <ProtectedRoute protection={RouteProtection.MEMBERSHIP}>
+            <HomeAppPage />
+        </ProtectedRoute>
+    )
 }

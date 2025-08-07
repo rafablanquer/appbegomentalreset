@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
-import ContactPage from '@/domains/contact/components/ContactPage'
-import LandingMembresiasPage from '@/domains/landing/components/LandingMembresiasPage'
+
+import { RouteProtection } from '@/utilities/membership'
+import ProtectedRoute from '@/components/ProtectedRoute'
 import CollectionPanel from '@/domains/content/collection/components/CollectionPanel'
 import Image from 'next/image'
 
@@ -24,8 +25,9 @@ export const metadata: Metadata = {
     },
 }
 
-export default function RespiracionesConscientesPage() {
 
+
+function RespiracionesContent() {
     const title = "Respiraciones Conscientes"
     const description = "Equilibra tu sistema nervioso y encuentra un momento de calma en tu día. Estos audios te guiarán en una sencilla pero poderosa práctica de respiración consciente. Dedica unos minutos a conectar con el presente, reducir el estrés y renovar tu energía. Solo necesitas escuchar y respirar."
     const keywords = ["Respiraciones Conscientes", "Begoña Mental Reset", "BMR", "Respiraciones", "Conscientes"]
@@ -60,4 +62,12 @@ export default function RespiracionesConscientesPage() {
 
     const heroPath = "/content/collectionRespiracionesConscientes/hero.png"
     return <CollectionPanel title={title} description={description} keywords={keywords} programs={programs} heroPath={heroPath} />
+}
+
+export default function RespiracionesConscientesPage() {
+    return (
+        <ProtectedRoute protection={RouteProtection.MEMBERSHIP}>
+            <RespiracionesContent />
+        </ProtectedRoute>
+    )
 }

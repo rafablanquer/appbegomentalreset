@@ -163,23 +163,6 @@ const ContactForm: React.FC = () => {
                     )}
                 </div>
 
-                <div className="flex items-center justify-start space-x-4">
-                    <input
-                        type="number"
-                        placeholder=""
-                        className="w-24 p-3 text-base border border-gray-300 rounded-lg bg-gray-200 text-black text-center"
-                        {...register('captcha', {
-                            required: 'Responde la suma',
-                            validate: value => value === '12' || 'Respuesta incorrecta'
-                        })}
-                    />
-                </div>
-                {errors.captcha && (
-                    <div className="bg-red-500 text-white p-2 rounded-md text-sm flex items-center">
-                        <span className="mr-2">⚠️</span>
-                        {errors.captcha.message}
-                    </div>
-                )}
 
                 {/* Consentimiento de Privacidad */}
                 <div className="flex items-start space-x-3">

@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
-import ContactPage from '@/domains/contact/components/ContactPage'
-import LandingMembresiasPage from '@/domains/landing/components/LandingMembresiasPage'
+
+import { RouteProtection } from '@/utilities/membership'
+import ProtectedRoute from '@/components/ProtectedRoute'
 import ProgramPanel from '@/domains/content/program/components/ProgramPanel'
 
 export const metadata: Metadata = {
@@ -23,7 +24,9 @@ export const metadata: Metadata = {
     },
 }
 
-export default function RutinaDeEnfoqueDiarioPage() {
+
+
+function RutinaContent() {
     const title = "NEURODESPERTAR"
     const description = "Activa tu mente. Dirige tu día desde el primer pensamiento. Lo que piensas y sientes al despertar condiciona tu día.Estos audios están diseñados para activar tu sistema límbico en un estado emocional positivo, potenciar tu motivación y enfocar tu atención hacia lo que sí quieres lograr hoy."
     const path = "/neuropausa"
@@ -61,5 +64,13 @@ export default function RutinaDeEnfoqueDiarioPage() {
 
     ]
     return <ProgramPanel title={title} description={description} keywords={keywords} activities={activities} heroPath={heroPath} />
+}
+
+export default function RutinaDeEnfoqueDiarioPage() {
+    return (
+        <ProtectedRoute protection={RouteProtection.MEMBERSHIP}>
+            <RutinaContent />
+        </ProtectedRoute>
+    )
 }
 

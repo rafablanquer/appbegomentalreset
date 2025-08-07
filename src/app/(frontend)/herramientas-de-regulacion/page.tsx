@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
-import ContactPage from '@/domains/contact/components/ContactPage'
-import LandingMembresiasPage from '@/domains/landing/components/LandingMembresiasPage'
+import { RouteProtection } from '@/utilities/membership'
+import ProtectedRoute from '@/components/ProtectedRoute'
 import ProgramPanel from '@/domains/content/program/components/ProgramPanel'
 
 export const metadata: Metadata = {
@@ -23,8 +23,9 @@ export const metadata: Metadata = {
   },
 }
 
-export default function HerramientasDeRegulacionPage() {
 
+
+function HerramientasContent() {
   const title = "NEUROPAUSA"
   const description = "Una interrupción estratégica para reequilibrar tu sistema nervioso. Tómate un respiro, regula tu mente y cuerpo en pocos minutos con estas pausas conscientes."
   const path = "/neuropausa"
@@ -78,6 +79,14 @@ export default function HerramientasDeRegulacionPage() {
     }
   ]
   return <ProgramPanel title={title} description={description} keywords={keywords} activities={activities} heroPath={heroPath} />
+}
+
+export default function HerramientasDeRegulacionPage() {
+  return (
+    <ProtectedRoute protection={RouteProtection.MEMBERSHIP}>
+      <HerramientasContent />
+    </ProtectedRoute>
+  )
 }
 
 
