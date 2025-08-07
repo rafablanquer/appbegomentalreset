@@ -51,7 +51,10 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, isAuthenticate
 
   return useUnAuthVersion ? (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm fixed-header">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm fixed-header"
+        style={{
+          backgroundColor: "rgb(250, 241, 230)",
+        }}>
         <div className="container mx-auto px-4">
           <div className="py-4 flex justify-between items-center">
             <Link href="/">

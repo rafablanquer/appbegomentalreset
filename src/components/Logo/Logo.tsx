@@ -29,7 +29,7 @@ export const Logo = (props: Props) => {
         maxHeight: '74px',
         marginLeft: '14px',
       }}
-      src={isAuthenticated ? "/assets/layout/BMR-nav-logo.png" : "/assets/layout/branding-Begona-BMR-1-2.png"}
+      src={!isAuthenticated ? "/assets/layout/BMR-nav-logo.png" : "/assets/layout/branding-Begona-BMR-1-2.png"}
     />
   )
 }

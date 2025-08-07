@@ -13,10 +13,10 @@ const PlayListPanel = ({ showPlaylist, togglePlaylist, audioTracks, currentTrack
     const audioRef = useRef<HTMLAudioElement>(null)
 
     return (
-        <div>
-            <Card className="w-full max-w-sm bg-sage-200/90 backdrop-blur-sm border-sage-300 p-6 mb-6">
-                <h3 className="font-semibold text-sage-800 text-lg mb-2">{audioTracks[currentTrack].title}</h3>
-                <p className="text-sage-700 text-sm leading-relaxed">{audioTracks[currentTrack].description}</p>
+        <div className="flex flex-col items-center space-y-4" style={{ paddingLeft: '7.5vw', paddingRight: '7.5vw' }}>
+            <Card className="w-full max-w-xs  bg-sage-200/80 backdrop-blur-sm border-sage-300 p-4 mx-auto">
+                <h3 className="font-medium text-sage-800 text-base mb-1 text-center">{audioTracks[currentTrack].title}</h3>
+                <p className="text-sage-700 text-xs leading-relaxed text-center opacity-80">{audioTracks[currentTrack].description}</p>
             </Card>
 
             <PlayListPlayer

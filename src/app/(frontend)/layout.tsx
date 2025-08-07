@@ -55,14 +55,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 preview: isEnabled,
               }}
             />
-
             <Header />
             <main className="pt-20 min-h-screen">
               {children}
             </main>
             <ConditionalAudioPlayer />
             {/* <Footer /> */}
-
             <CookieBanner />
           </FirstVisitWrapper>
         </Providers>

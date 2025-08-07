@@ -6,8 +6,7 @@ const ProgramPanel = ({ title, description, heroPath, activities }: { title: str
     return (
         <>
             <div className="app-page">
-                {/* Hero Section */}
-                <section className="hero-section">
+                <div className="hero-section">
                     <Image
                         src={heroPath}
                         alt="APP BMR Preview"
@@ -15,15 +14,13 @@ const ProgramPanel = ({ title, description, heroPath, activities }: { title: str
                         height={400}
                         className="hero-image"
                     />
-                </section>
+                </div>
 
                 {/* Content Section */}
                 <section className="content-section">
                     <div className="content-container">
-                        <div className="text-background">
-                            <h1 className="main-title">{title}</h1>
-                            <p className="description">{description}</p>
-                        </div>
+                        <h1 className="main-title">{title}</h1>
+                        <p className="description">{description}</p>
                     </div>
                 </section>
 
@@ -44,14 +41,14 @@ const ProgramPanel = ({ title, description, heroPath, activities }: { title: str
 
                 /* Hero Section */
                 .hero-section {
-                    padding: 0 15px 20px 15px;
+                    padding: 0 0 20px 0;
                     text-align: center;
                 }
 
                 .hero-image {
                     width: 100%;
                     height: auto;
-                    border-radius: 15px;
+                    border-radius: 0;
                     box-shadow: 0 8px 25px rgba(0,0,0,0.15);
                 }
 
@@ -63,14 +60,15 @@ const ProgramPanel = ({ title, description, heroPath, activities }: { title: str
 
                 .content-container {
                     max-width: 400px;
-                    margin: 0 auto;
+                    margin: 0 10vw;
+                    margin-bottom: 16px;
                 }
 
                 .main-title {
-                    font-size: 24px;
-                    font-weight: bold;
-                    color: #333;
-                    margin-bottom: 15px;
+                    font-size: 21px;
+                    font-weight: 500;
+                    color: #000;
+                    margin-bottom: 8px;
                     text-align: center;
                 }
 
@@ -136,26 +134,19 @@ const ProgramPanel = ({ title, description, heroPath, activities }: { title: str
                     }
 
                     .hero-section {
-                        padding: 0 10px 15px 10px;
+                        padding: 0 0 15px 0;
                     }
 
                     .content-section {
                         padding: 10px 15px 25px 15px;
                     }
 
-                    .content-container {
-                        max-width: 100%;
-                    }
+                    
 
                     .text-background {
                         padding: 20px 15px;
                         border-radius: 15px;
                         margin: 0 5px;
-                    }
-
-                    .main-title {
-                        font-size: 24px;
-                        margin-bottom: 15px;
                     }
 
                     .description {

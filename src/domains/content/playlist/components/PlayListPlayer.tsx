@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { SkipBack, SkipForward, Pause, Play, ChevronUp, ChevronDown } from "lucide-react";
+import { SkipBack, SkipForward, Pause, Play, ChevronUp, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import { AudioTrack } from "../../types/types";
 
 
@@ -24,31 +24,16 @@ const PlayListPlayer = ({ isPlaying, audioTracks, currentTrack, togglePlay, hand
             </div>
 
             <div className="flex items-center justify-center gap-6 mb-4">
-                <Button
-                    variant="ghost"
-                    size="lg"
-                    onClick={handlePrevious}
-                    className="text-sage-700 hover:bg-sage-100 w-12 h-12 rounded-full"
-                >
-                    <SkipBack className="w-6 h-6" />
-                </Button>
 
-                <Button
-                    onClick={togglePlay}
-                    size="lg"
-                    className="bg-sage-600 hover:bg-sage-700 text-white rounded-full w-16 h-16 shadow-lg"
-                >
-                    {isPlaying ? <Pause className="w-7 h-7" /> : <Play className="w-7 h-7 ml-1" />}
-                </Button>
+                <ChevronLeft className="text-sage-700 hover:bg-sage-100 w-12 h-12 rounded-full" onClick={handlePrevious} />
 
-                <Button
-                    variant="ghost"
-                    size="lg"
-                    onClick={handleNext}
-                    className="text-sage-700 hover:bg-sage-100 w-12 h-12 rounded-full"
-                >
-                    <SkipForward className="w-6 h-6" />
-                </Button>
+
+                {isPlaying ? <Pause onClick={togglePlay}
+                    className="bg-sage-600 hover:bg-sage-700 text-white rounded-full w-12 h-12 shadow-lg" />
+                    : <Play onClick={togglePlay}
+                        className="bg-sage-600 hover:bg-sage-700 text-white rounded-full w-16 h-16 m-4 p-4 shadow-lg" />}
+
+                <ChevronRight className="text-sage-700 hover:bg-sage-100 w-12 h-12 rounded-full" onClick={handleNext} />
             </div>
 
             <div className="flex justify-center">
