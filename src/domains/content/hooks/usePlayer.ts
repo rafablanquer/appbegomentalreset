@@ -19,16 +19,33 @@ export default function usePlayer(audioTracks: any[] = []) {
         const updateTime = () => setCurrentTime(audio.currentTime)
         const updateDuration = () => setDuration(audio.duration)
 
+        const handleAudioEnd = () => {
+            // Si no es el último audio de la lista, pasar al siguiente automáticamente
+            if (currentTrack < audioTracks.length - 1) {
+                setCurrentTrack(prev => prev + 1)
+                // Mantener el estado de reproducción para auto-reproducir
+                setTimeout(() => {
+                    if (audioRef.current) {
+                        audioRef.current.play()
+                        setIsPlaying(true)
+                    }
+                }, 100)
+            } else {
+                // Si es el último audio, detener la reproducción
+                setIsPlaying(false)
+            }
+        }
+
         audio.addEventListener("timeupdate", updateTime)
         audio.addEventListener("loadedmetadata", updateDuration)
-        audio.addEventListener("ended", handleNext)
+        audio.addEventListener("ended", handleAudioEnd)
 
         return () => {
             audio.removeEventListener("timeupdate", updateTime)
             audio.removeEventListener("loadedmetadata", updateDuration)
-            audio.removeEventListener("ended", handleNext)
+            audio.removeEventListener("ended", handleAudioEnd)
         }
-    }, [currentTrack])
+    }, [currentTrack, audioTracks.length])
 
     const togglePlay = () => {
         const audio = audioRef.current
@@ -43,6 +60,7 @@ export default function usePlayer(audioTracks: any[] = []) {
     }
 
     const handleNext = () => {
+        // Para el botón manual de siguiente, usar módulo para ciclar
         setCurrentTrack((prev) => (prev + 1) % audioTracks.length)
         setIsPlaying(false)
     }
@@ -87,4 +105,21 @@ export default function usePlayer(audioTracks: any[] = []) {
         }
     }
 
+    return {
+        currentTrack,
+        isPlaying,
+        currentTime,
+        duration,
+        showPlaylist,
+        sideMenuOpen,
+        togglePlay,
+        handleNext,
+        handlePrevious,
+        handleSeek,
+        formatTime,
+        selectTrack,
+        togglePlaylist,
+        setSideMenuOpen,
+        audioRef
+    }
 }

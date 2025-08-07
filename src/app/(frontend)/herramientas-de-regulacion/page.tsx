@@ -37,9 +37,47 @@ export default function HerramientasDeRegulacionPage() {
   const activities = [
     {
       id: 1,
-      title: "Pausa 1",
-      path: "pausa-1"
+      title: "MEDITACIÓN AUTOEXIGENCIA Y ANSIEDAD",
+      path: "meditacion-autoexigencia-ansiedad",
+      description: "Esta pausa te ayuda a liberar la presión de hacerlo todo perfecto y a reconectar con tu valor más allá del rendimiento."
+    }, {
+      id: 2,
+      title: "VISUALIZA TU NUEVA IDENTIDAD",
+      path: "meditacion-autoexigencia-ansiedad",
+      description: "Conecta con tu versión más auténtica y empieza a vivir como ella desde hoy"
     },
+    {
+      id: 3,
+      title: "TU ORÁCULO",
+      path: "meditacion-autoexigencia-ansiedad",
+      description: "Recibe una guía interior inmediata para tomar decisiones con claridad y confianza."
+    },
+    {
+      id: 4,
+      title: "REPROGRAMA TU PRODUCTIVIDAD",
+      path: "meditacion-autoexigencia-ansiedad",
+      description: "Activa tu enfoque y libera bloqueos mentales para avanzar con ligereza."
+    },
+    {
+      id: 5,
+      title: "FRECUENCIA ALFA Y DE AGRADECIMIENTO",
+      path: "meditacion-autoexigencia-ansiedad",
+      description: "Cambia tu estado mental en minutos y eleva tu energía desde la gratitud."
+    },
+    {
+      id: 6,
+      title: "CONSTRUYE RELACIONES POSITIVAS",
+      path: "meditacion-autoexigencia-ansiedad",
+      description: "Reprograma tu forma de relacionarte entrenando el cerebro para crear vínculos sanos, auténticos y seguros."
+    },
+    {
+      id: 7,
+      title: "ESCANEO CORPORAL",
+      path: "meditacion-autoexigencia-ansiedad",
+      description: "Reconecta con tu cuerpo, detecta puntos de tensión y restablece el equilibrio físico y mental desde la calma."
+    }
   ]
   return <ProgramPanel title={title} description={description} keywords={keywords} activities={activities} heroPath={heroPath} />
 }
+
+

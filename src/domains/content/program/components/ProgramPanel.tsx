@@ -1,8 +1,25 @@
 'use client'
 import Image from "next/image"
 import PlayListPanel from "../../playlist/components/PlayListPanel"
+import usePlayer from "../../hooks/usePlayer"
 
 const ProgramPanel = ({ title, description, heroPath, activities }: { title: string, description: string, keywords: string[], activities: any, heroPath: string, }) => {
+    const {
+        currentTrack,
+        isPlaying,
+        currentTime,
+        duration,
+        showPlaylist,
+        togglePlay,
+        handleNext,
+        handlePrevious,
+        handleSeek,
+        formatTime,
+        selectTrack,
+        togglePlaylist,
+        audioRef
+    } = usePlayer(activities)
+
     return (
         <>
             <div className="app-page">
@@ -25,36 +42,52 @@ const ProgramPanel = ({ title, description, heroPath, activities }: { title: str
                 </section>
 
                 <PlayListPanel
-                    showPlaylist={false}
-                    togglePlaylist={() => { }}
-                    audioTracks={activities} currentTrack={0} />
+                    showPlaylist={showPlaylist}
+                    togglePlaylist={togglePlaylist}
+                    audioTracks={activities}
+                    currentTrack={currentTrack}
+                    isPlaying={isPlaying}
+                    togglePlay={togglePlay}
+                    handleNext={handleNext}
+                    handlePrevious={handlePrevious}
+                    handleSeek={handleSeek}
+                    formatTime={formatTime}
+                    selectTrack={selectTrack}
+                    currentTime={currentTime}
+                    duration={duration}
+                    audioRef={audioRef}
+                />
             </div>
 
             <style jsx>{`
                 .app-page {
                     background-color: rgb(255, 250, 239);
                     min-height: 100vh;
-                    padding: 20px 0 60px 0;
+                    padding: 0 0 60px 0;
                     font-family: 'Arial', sans-serif;
                     position: relative;
                 }
 
                 /* Hero Section */
                 .hero-section {
-                    padding: 0 0 20px 0;
+                    padding: 0;
                     text-align: center;
+                    width: 100%;
+                    margin: 0;
                 }
 
                 .hero-image {
-                    width: 100%;
+                    width: 100vw;
                     height: auto;
                     border-radius: 0;
-                    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+                    box-shadow: none;
+                    margin-left: calc(-50vw + 50%);
+                    object-fit: cover;
                 }
 
                 /* Content Section */
                 .content-section {
-                    padding: 20px;
+                    padding: 30px 20px 20px 20px;
                     text-align: center;
                 }
 
@@ -130,15 +163,15 @@ const ProgramPanel = ({ title, description, heroPath, activities }: { title: str
                 /* Mobile Responsive */
                 @media (max-width: 480px) {
                     .app-page {
-                        padding: 15px 0 30px 0;
+                        padding: 0 0 30px 0;
                     }
 
                     .hero-section {
-                        padding: 0 0 15px 0;
+                        padding: 0;
                     }
 
                     .content-section {
-                        padding: 10px 15px 25px 15px;
+                        padding: 25px 15px 25px 15px;
                     }
 
                     

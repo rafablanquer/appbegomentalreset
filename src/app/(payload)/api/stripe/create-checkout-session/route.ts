@@ -14,6 +14,7 @@ export async function POST(req: NextRequest) {
         const payload = await getPayload({ config })
         const { membershipType, email, name, userId } = await req.json()
 
+
         // Validar datos requeridos
         if (!membershipType || !email || !name) {
             return NextResponse.json(

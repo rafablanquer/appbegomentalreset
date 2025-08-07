@@ -46,7 +46,20 @@ export default function RutinaDeEnfoqueDiarioPage() {
             description: "Tu estado emocional no es un accidente: es una decisión bioquímica. Decide con conciencia.",
             path: "pausa-1"
         },
+        {
+            id: 3,
+            title: "Entrena tu atención",
+            description: "La atención es como una linterna: donde la enfoques, crece tu realidad. Este audio afina tu foco interno",
+            path: "pausa-1"
+        },
+        {
+            id: 4,
+            title: "Diseña tu día",
+            description: "Antes de que el piloto automático tome el mando, decide cómo quieres vivir hoy. Este audio es tu interruptor.",
+            path: "pausa-1"
+        },
 
     ]
     return <ProgramPanel title={title} description={description} keywords={keywords} activities={activities} heroPath={heroPath} />
 }
+
