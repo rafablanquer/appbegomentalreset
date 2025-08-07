@@ -45,17 +45,16 @@ export const PostHero: React.FC<{
           <div className="flex flex-col md:flex-row gap-4 md:gap-16">
             {hasAuthors && (
               <div className="flex flex-col gap-4">
-                <div className="flex flex-col gap-1">
+                {/* <div className="flex flex-col gap-1">
                   <p className="text-sm">Author</p>
 
                   <p>{formatAuthors(populatedAuthors)}</p>
-                </div>
+                </div> */}
               </div>
             )}
             {publishedAt && (
               <div className="flex flex-col gap-1">
-                <p className="text-sm">Date Published</p>
-
+                {/* <p className="text-sm">Date Published</p> */}
                 <time dateTime={publishedAt}>{formatDateTime(publishedAt)}</time>
               </div>
             )}

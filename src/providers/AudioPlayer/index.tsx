@@ -117,6 +117,8 @@ export function AudioPlayerProvider({ children }: AudioPlayerProviderProps) {
         togglePlay,
         toggleMinimized,
         handleSeek,
+        goToPreviousSession: undefined,
+        goToNextSession: undefined,
         audioRef,
     }
 

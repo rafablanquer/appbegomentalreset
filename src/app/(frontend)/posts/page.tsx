@@ -29,7 +29,7 @@ export default async function Page() {
   })
 
   return (
-    <div className="pt-24 pb-24">
+    <div  >
       <PageClient />
       <Image
         src="/assets/blog/hero-blog.png"
@@ -38,11 +38,11 @@ export default async function Page() {
         height={900}
         className="hero-image"
       />
-      <div className="container mb-16">
+      {/* <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-none">
           <h1>Posts</h1>
         </div>
-      </div>
+      </div> */}
 
       <div className="container mb-8">
         <PageRange
@@ -52,9 +52,7 @@ export default async function Page() {
           totalDocs={posts.totalDocs}
         />
       </div>
-
       <CollectionArchive posts={posts.docs} />
-
       <div className="container">
         {posts.totalPages > 1 && posts.page && (
           <Pagination page={posts.page} totalPages={posts.totalPages} />

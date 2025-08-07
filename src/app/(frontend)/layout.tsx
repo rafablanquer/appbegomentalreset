@@ -11,7 +11,7 @@ import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
 import { FirstVisitWrapper } from '@/components/FirstVisitWrapper'
 import { CookieBanner } from '@/components/CookieBanner'
-import PersistentAudioPlayer from '@/components/PersistentAudioPlayer'
+import { ConditionalAudioPlayer } from '@/components/ConditionalAudioPlayer'
 import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
@@ -60,7 +60,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <main className="pt-20 min-h-screen">
               {children}
             </main>
-            <PersistentAudioPlayer />
+            <ConditionalAudioPlayer />
             {/* <Footer /> */}
 
             <CookieBanner />
