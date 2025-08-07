@@ -7,6 +7,7 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 import PageClient from './page.client'
+import Image from 'next/image'
 
 export const dynamic = 'force-static'
 export const revalidate = 600
@@ -30,6 +31,13 @@ export default async function Page() {
   return (
     <div className="pt-24 pb-24">
       <PageClient />
+      <Image
+        src="/assets/blog/hero-blog.png"
+        alt="APP BMR Preview"
+        width={700}
+        height={900}
+        className="hero-image"
+      />
       <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-none">
           <h1>Posts</h1>

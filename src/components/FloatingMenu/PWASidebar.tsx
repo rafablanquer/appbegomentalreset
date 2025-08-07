@@ -86,7 +86,13 @@ const menuSections = [
         title: 'Recursos',
         items: [
             {
-                label: 'Blog e Instrucciones',
+                label: 'Instrucciones',
+                href: '/instrucciones',
+                icon: BookOpen,
+                description: 'Artículos y contenido'
+            },
+            {
+                label: 'Blog',
                 href: '/posts',
                 icon: BookOpen,
                 description: 'Artículos y contenido'
