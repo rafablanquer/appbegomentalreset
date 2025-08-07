@@ -51,40 +51,42 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, isAuthenticate
 
   return useUnAuthVersion ? (
     <>
-      <header className="container relative z-20 bg-white-500"  >
-        <div className="py-4 flex justify-between items-center">
-          <Link href="/">
-            <Logo loading="eager" priority="high" />
-          </Link>
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm fixed-header">
+        <div className="container mx-auto px-4">
+          <div className="py-4 flex justify-between items-center">
+            <Link href="/">
+              <Logo loading="eager" priority="high" />
+            </Link>
 
-          <div className="flex items-center gap-4">
-            <HeaderNav data={data} />
+            <div className="flex items-center gap-4">
+              <HeaderNav data={data} />
 
-            {/* Botón del menú integrado */}
-            <button
-              onClick={toggleSidebar}
-              className={cn(
-                'p-2 rounded-lg header-menu-button',
-                'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2',
-                'active:scale-95'
-              )}
-              aria-label={isSidebarOpen ? 'Cerrar menú' : 'Abrir menú'}
-            >
-              <div className="relative w-6 h-6">
-                <Menu
-                  className={cn(
-                    'absolute inset-0 w-6 h-6 transition-all duration-300',
-                    isSidebarOpen ? 'opacity-0 rotate-180 scale-0' : 'opacity-100 rotate-0 scale-100'
-                  )}
-                />
-                <X
-                  className={cn(
-                    'absolute inset-0 w-6 h-6 transition-all duration-300',
-                    isSidebarOpen ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 rotate-180 scale-0'
-                  )}
-                />
-              </div>
-            </button>
+              {/* Botón del menú integrado */}
+              <button
+                onClick={toggleSidebar}
+                className={cn(
+                  'p-2 rounded-lg header-menu-button',
+                  'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2',
+                  'active:scale-95'
+                )}
+                aria-label={isSidebarOpen ? 'Cerrar menú' : 'Abrir menú'}
+              >
+                <div className="relative w-6 h-6">
+                  <Menu
+                    className={cn(
+                      'absolute inset-0 w-6 h-6 transition-all duration-300',
+                      isSidebarOpen ? 'opacity-0 rotate-180 scale-0' : 'opacity-100 rotate-0 scale-100'
+                    )}
+                  />
+                  <X
+                    className={cn(
+                      'absolute inset-0 w-6 h-6 transition-all duration-300',
+                      isSidebarOpen ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 rotate-180 scale-0'
+                    )}
+                  />
+                </div>
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -93,22 +95,24 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, isAuthenticate
     </>
   ) : (
     <>
-      <header className="container relative z-20 "
+      <header className="fixed top-0 left-0 right-0 z-50 border-b border-gray-200 shadow-sm fixed-header"
         style={{
           height: "100px",
           backgroundColor: "rgb(250, 241, 230)",
         }}>
-        <div className="py-8 flex justify-between items-center ">
-          <Link href="/">
-            <Logo loading="eager" priority="high" className="invert dark:invert-0" />
-          </Link>
+        <div className="container mx-auto px-4">
+          <div className="py-8 flex justify-between items-center">
+            <Link href="/">
+              <Logo loading="eager" priority="high" className="invert dark:invert-0" />
+            </Link>
 
-          <div className="flex items-center gap-4">
-            <HeaderNav data={data} />
+            <div className="flex items-center gap-4">
+              <HeaderNav data={data} />
 
-            {/* Botón de Únete */}
-            <div className="et_pb_button_module_wrapper et_pb_button_alignment_right">
-              <ButtonUnete onClick={toggleSidebar} />
+              {/* Botón de Únete */}
+              <div className="et_pb_button_module_wrapper et_pb_button_alignment_right">
+                <ButtonUnete onClick={toggleSidebar} />
+              </div>
             </div>
           </div>
         </div>

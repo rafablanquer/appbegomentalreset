@@ -40,7 +40,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             />
 
             <Header />
-            {children}
+            <main className="pt-20 min-h-screen">
+              {children}
+            </main>
             {/* <Footer /> */}
             <CookieBanner />
           </FirstVisitWrapper>

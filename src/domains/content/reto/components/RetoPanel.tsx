@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { Play, Pause, SkipBack, SkipForward, Menu, FileText, CheckCircle, Lock, Calendar } from "lucide-react"
+import { Play, Pause, SkipBack, SkipForward, Menu, FileText, CheckCircle, Lock, Calendar, ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
 import { Card } from "@/components/ui/card"
@@ -260,6 +260,34 @@ export default function RetoPanel({ sessions, pathInstructions, title, descripti
         }
     }
 
+    const goToPreviousSession = () => {
+        if (!currentSession) return
+
+        const currentWeekSessions = audioSessions.filter((session) => session.week === selectedWeek)
+        const currentIndex = currentWeekSessions.findIndex(s => s.id === currentSession.id)
+
+        if (currentIndex > 0) {
+            const previousSession = currentWeekSessions[currentIndex - 1]
+            if (previousSession && previousSession.unlocked) {
+                selectSession(currentIndex - 1)
+            }
+        }
+    }
+
+    const goToNextSession = () => {
+        if (!currentSession) return
+
+        const currentWeekSessions = audioSessions.filter((session) => session.week === selectedWeek)
+        const currentIndex = currentWeekSessions.findIndex(s => s.id === currentSession.id)
+
+        if (currentIndex < currentWeekSessions.length - 1) {
+            const nextSession = currentWeekSessions[currentIndex + 1]
+            if (nextSession && nextSession.unlocked) {
+                selectSession(currentIndex + 1)
+            }
+        }
+    }
+
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-black-100 via-blue-50 to-indigo-100 relative"
@@ -284,48 +312,50 @@ export default function RetoPanel({ sessions, pathInstructions, title, descripti
                     </div>
 
                     {/* Sección de progreso y navegación integrada */}
-                    <section className="w-full bg-white/60 backdrop-blur-sm rounded-xl mx-4 mb-6 shadow-sm overflow-hidden">
-                        {/* Resumen superior */}
-                        <div className="px-6 py-6">
-                            <div className="flex items-center gap-6 mb-6">
-                                <div className="flex-shrink-0">
-                                    <ProgressRing value={completedCount} total={totalCount} />
+                    <div className="px-0">
+                        <section className="w-full bg-white/60 backdrop-blur-sm rounded-xl mb-6 shadow-sm overflow-hidden">
+                            <div className="px-4 py-4">
+                                <div className="flex items-center gap-4 mb-5">
+                                    <div className="flex-shrink-0">
+                                        <ProgressRing value={completedCount} total={totalCount} />
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-sm text-gray-600 mb-3 font-medium">Racha: 3 días consecutivos 🔥</p>
+                                        {nextSession && (
+                                            <Button
+                                                onClick={handleContinue}
+                                                className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-xl text-sm font-medium w-full sm:w-auto"
+                                            >
+                                                Continuar {nextSession.title.split('·')[1]?.trim() || nextSession.title}
+                                            </Button>
+                                        )}
+                                    </div>
                                 </div>
-                                <div className="flex-1 min-w-0">
-                                    <p className="text-sm text-gray-600 mb-3 font-medium">Racha: 3 días consecutivos 🔥</p>
-                                    {nextSession && (
-                                        <Button
-                                            onClick={handleContinue}
-                                            className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-xl text-sm font-medium w-full sm:w-auto"
+
+                                <div className="flex gap-2 justify-stretch">
+                                    {weeks.map((week) => (
+                                        <button
+                                            key={week}
+                                            className={`flex-1 px-4 py-3 rounded-xl border text-sm font-medium transition-all ${week === selectedWeek
+                                                ? "bg-purple-600 text-white border-purple-600 shadow-md"
+                                                : "bg-white text-gray-600 border-gray-200 hover:border-purple-300 hover:shadow-sm"
+                                                }`}
+                                            onClick={() => setSelectedWeek(week)}
                                         >
-                                            Continuar {nextSession.title.split('·')[1]?.trim() || nextSession.title}
-                                        </Button>
-                                    )}
+                                            Semana {week}
+                                        </button>
+                                    ))}
                                 </div>
                             </div>
 
-                            {/* Selector de semana integrado */}
-                            <div className="flex gap-2 justify-center mb-4">
-                                {weeks.map((week) => (
-                                    <button
-                                        key={week}
-                                        className={`flex-1 max-w-[120px] px-6 py-3 rounded-xl border text-sm font-medium transition-all ${week === selectedWeek
-                                            ? "bg-purple-600 text-white border-purple-600 shadow-md"
-                                            : "bg-white text-gray-600 border-gray-200 hover:border-purple-300 hover:shadow-sm"
-                                            }`}
-                                        onClick={() => setSelectedWeek(week)}
-                                    >
-                                        Semana {week}
-                                    </button>
-                                ))}
+                            <div className="  pb-2 "
+                                style={{
+                                    marginRight: 18
+                                }}>
+                                <WeekCarousel week={selectedWeek} sessions={weekSessions?.[selectedWeek] ?? []} onSessionSelect={handleSessionSelect} />
                             </div>
-                        </div>
-
-                        {/* WeekCarousel integrado */}
-                        <div className="px-6 pb-6">
-                            <WeekCarousel week={selectedWeek} sessions={weekSessions?.[selectedWeek] ?? []} onSessionSelect={handleSessionSelect} />
-                        </div>
-                    </section>
+                        </section>
+                    </div>
                 </div>
 
                 <div className="w-full px-4 space-y-4 mb-6">
@@ -401,20 +431,33 @@ export default function RetoPanel({ sessions, pathInstructions, title, descripti
 
                 {/* Controls */}
                 <div className="flex items-center justify-center gap-6">
-                    <Button variant="ghost" size="lg" className="text-gray-400 hover:bg-gray-100 hover:text-gray-600 w-14 h-14 rounded-full flex items-center justify-center transition-all">
-                        <SkipBack className="w-6 h-6" />
+                    <Button
+                        variant="ghost"
+                        size="lg"
+                        onClick={goToPreviousSession}
+                        disabled={!currentSession}
+                        className="text-gray-400 hover:bg-gray-100 hover:text-gray-600 w-14 h-14 rounded-full flex items-center justify-center transition-all disabled:opacity-30"
+                    >
+                        <ChevronLeft className="w-6 h-6" />
                     </Button>
 
                     <Button
                         onClick={togglePlay}
                         size="lg"
-                        className="bg-purple-600 hover:bg-purple-700 text-white rounded-full w-20 h-20 shadow-lg hover:shadow-xl transition-all"
+                        disabled={!currentSession}
+                        className="bg-purple-600 hover:bg-purple-700 text-white rounded-full w-20 h-20 shadow-lg hover:shadow-xl transition-all disabled:opacity-50"
                     >
                         {isPlaying ? <Pause className="w-8 h-8" /> : <Play className="w-8 h-8 ml-1" />}
                     </Button>
 
-                    <Button variant="ghost" size="lg" className="text-gray-400 hover:bg-gray-100 hover:text-gray-600 w-14 h-14 rounded-full flex items-center justify-center transition-all">
-                        <SkipForward className="w-6 h-6" />
+                    <Button
+                        variant="ghost"
+                        size="lg"
+                        onClick={goToNextSession}
+                        disabled={!currentSession}
+                        className="text-gray-400 hover:bg-gray-100 hover:text-gray-600 w-14 h-14 rounded-full flex items-center justify-center transition-all disabled:opacity-30"
+                    >
+                        <ChevronRight className="w-6 h-6" />
                     </Button>
                 </div>
             </div>

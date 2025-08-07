@@ -182,3 +182,39 @@ html[data-theme='light'] {
     opacity: 0;
   }
 }
+
+/* Estilos para header fijo tipo PWA/móvil */
+.fixed-header {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Prevenir scroll horizontal en móviles */
+html,
+body {
+  overflow-x: hidden;
+}
+
+/* Mejorar la experiencia táctil en móviles */
+@media (max-width: 768px) {
+  .header-menu-button {
+    min-height: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Compensar altura del header en móviles */
+  main {
+    padding-top: calc(env(safe-area-inset-top) + 4rem);
+  }
+}
+
+/* Soporte para safe areas en dispositivos con notch */
+@supports (padding-top: env(safe-area-inset-top)) {
+  .fixed-header {
+    padding-top: env(safe-area-inset-top);
+  }
+}
