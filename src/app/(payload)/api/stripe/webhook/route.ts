@@ -125,8 +125,9 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription, payl
             const user = users.docs[0]
 
             // Calcular fecha de fin basada en el tipo de suscripción
-            const startDate = new Date(subscription.current_period_start * 1000)
-            const endDate = new Date(subscription.current_period_end * 1000)
+            const subscriptionData = subscription as any
+            const startDate = new Date((subscriptionData.current_period_start || Math.floor(Date.now() / 1000)) * 1000)
+            const endDate = new Date((subscriptionData.current_period_end || Math.floor(Date.now() / 1000) + 2592000) * 1000) // +30 días por defecto
 
             await payload.update({
                 collection: 'users',
@@ -161,7 +162,8 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription, payl
 
         if (users.docs.length > 0) {
             const user = users.docs[0]
-            const endDate = new Date(subscription.current_period_end * 1000)
+            const subscriptionData = subscription as any
+            const endDate = new Date((subscriptionData.current_period_end || Math.floor(Date.now() / 1000) + 2592000) * 1000) // +30 días por defecto
 
             const status = subscription.status === 'active' ? 'active' :
                 subscription.status === 'canceled' ? 'cancelled' :
@@ -232,9 +234,11 @@ async function handlePaymentSucceeded(invoice: Stripe.Invoice, payload: any) {
             const user = users.docs[0]
 
             // Renovar la membresía
-            if (invoice.subscription) {
-                const subscription = await stripe.subscriptions.retrieve(invoice.subscription as string)
-                const endDate = new Date(subscription.current_period_end * 1000)
+            const invoiceData = invoice as any
+            if (invoiceData.subscription) {
+                const subscription = await stripe.subscriptions.retrieve(invoiceData.subscription as string)
+                const subscriptionData = subscription as any
+                const endDate = new Date((subscriptionData.current_period_end || Math.floor(Date.now() / 1000) + 2592000) * 1000) // +30 días por defecto
 
                 await payload.update({
                     collection: 'users',
