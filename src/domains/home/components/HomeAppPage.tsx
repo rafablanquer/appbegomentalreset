@@ -1,7 +1,12 @@
 'use client'
-import React from 'react';
+import React, { useState } from 'react';
 
 const HomeAppPage = () => {
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+
+  const handlePlayVideo = () => {
+    setIsVideoPlaying(true);
+  };
 
   return (
     <>
@@ -10,11 +15,43 @@ const HomeAppPage = () => {
         {/* Player Section */}
         <section className="player-section">
           <div className="player-container">
-            <img
-              src="/assets/home-app/hero-player.png"
-              alt="Reproductor BMR"
-              className="player-image"
-            />
+            {!isVideoPlaying ? (
+              <div onClick={handlePlayVideo}>
+                <img
+                  src="/assets/home-app/hero-player.png"
+                  alt="Reproductor BMR"
+                  className="player-image"
+                />
+                <div className="play-button-overlay">
+                  <div className="play-button">
+                    <svg
+                      width="60"
+                      height="60"
+                      viewBox="0 0 60 60"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle cx="30" cy="30" r="30" fill="rgba(255, 255, 255, 0.9)" />
+                      <path
+                        d="M23 18L23 42L41 30L23 18Z"
+                        fill="#4a5568"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="video-container">
+                <iframe
+                  src="https://player.vimeo.com/video/1101953160?autoplay=1&title=0&byline=0&portrait=0"
+                  width="100%"
+                  frameBorder="0"
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  allowFullScreen
+                  title="BMR Video"
+                ></iframe>
+              </div>
+            )}
           </div>
         </section>
 
@@ -84,13 +121,34 @@ const HomeAppPage = () => {
 
           /* Player Section */
           .player-section {
-            padding: 0 20px 20px;
+            padding: 0 15px 20px 15px;
             text-align: center;
           }
           
           .player-container {
-            max-width: 400px;
-            margin: 0 auto;
+            width: 100%;
+            position: relative;
+            transition: transform 0.3s ease;
+          }
+
+          .player-container > div:first-child {
+            cursor: pointer;
+          }
+
+          .player-container > div:first-child:hover {
+            transform: scale(1.02);
+          }
+
+          .video-container {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+          }
+
+          .video-container iframe {
+            border-radius: 15px;
+            aspect-ratio: 16/9;
+            height: auto;
           }
 
           .player-image {
@@ -98,6 +156,42 @@ const HomeAppPage = () => {
             height: auto;
             border-radius: 15px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+          }
+
+          .play-button-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
+          }
+
+          .play-button {
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+          }
+
+          .play-button:hover {
+            transform: scale(1.1);
+          }
+
+          @keyframes pulse {
+            0% {
+              transform: scale(1);
+              opacity: 1;
+            }
+            50% {
+              transform: scale(1.05);
+              opacity: 0.8;
+            }
+            100% {
+              transform: scale(1);
+              opacity: 1;
+            }
           }
 
           /* Programs Section */
@@ -188,6 +282,10 @@ const HomeAppPage = () => {
           @media (max-width: 480px) {
             .app-page {
               background-attachment: scroll; /* Better performance on mobile */
+            }
+
+            .player-section {
+              padding: 0 10px 20px 10px;
             }
 
             .programs-grid {
