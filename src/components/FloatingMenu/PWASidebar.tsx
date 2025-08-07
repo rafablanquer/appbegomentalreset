@@ -40,34 +40,37 @@ const menuSections = [
         title: 'Programas',
         items: [
             {
+                label: 'Neurodespertar',
+                href: '/rutina-de-enfoque-diario',
+                icon: Target,
+                description: 'Neurodespertar'
+            },
+
+            {
+                label: 'Neuropausa',
+                href: '/herramientas-de-regulacion',
+                icon: Heart,
+                description: 'Neuropausa'
+            },
+
+            {
+                label: 'Reprogramación nocturna',
+                href: '/transformacion-nocturna',
+                icon: Moon,
+                description: 'Reprogramación nocturna'
+            },
+            {
                 label: 'Respiraciones Conscientes',
                 href: '/respiraciones-conscientes',
                 icon: Wind,
                 description: 'Ejercicios de respiración'
             },
-            {
-                label: 'Rutina de Enfoque Diario',
-                href: '/rutina-de-enfoque-diario',
-                icon: Target,
-                description: 'Rutinas diarias'
-            },
-            {
-                label: 'Transformación Nocturna',
-                href: '/transformacion-nocturna',
-                icon: Moon,
-                description: 'Programa nocturno'
-            },
+
             {
                 label: 'Reto 21 Días',
                 href: '/reto-21-dias',
                 icon: Calendar,
                 description: 'Desafío de 21 días'
-            },
-            {
-                label: 'Herramientas de Regulación',
-                href: '/herramientas-de-regulacion',
-                icon: Heart,
-                description: 'Herramientas para regular'
             }
         ]
     },

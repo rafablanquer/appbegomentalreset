@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import ContactPage from '@/domains/contact/components/ContactPage'
 import LandingMembresiasPage from '@/domains/landing/components/LandingMembresiasPage'
+import RetoPanel from '@/domains/content/reto/components/RetoPanel'
 
 export const metadata: Metadata = {
     title: 'Contacto - BMR - Begoña Mental Reset',
@@ -23,5 +24,5 @@ export const metadata: Metadata = {
 }
 
 export default function Reto21DiasPage() {
-    return <LandingMembresiasPage />
+    return <RetoPanel />
 }
