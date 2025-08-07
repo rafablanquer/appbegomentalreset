@@ -373,7 +373,13 @@ export interface Category {
  */
 export interface User {
   id: number;
-  name?: string | null;
+  name: string;
+  membershipType?: ('none' | 'monthly' | 'quarterly' | 'annual') | null;
+  membershipStatus?: ('inactive' | 'active' | 'cancelled' | 'pending') | null;
+  stripeCustomerId?: string | null;
+  stripeSubscriptionId?: string | null;
+  membershipStartDate?: string | null;
+  membershipEndDate?: string | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -1274,6 +1280,12 @@ export interface CategoriesSelect<T extends boolean = true> {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
+  membershipType?: T;
+  membershipStatus?: T;
+  stripeCustomerId?: T;
+  stripeSubscriptionId?: T;
+  membershipStartDate?: T;
+  membershipEndDate?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;

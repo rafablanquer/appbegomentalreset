@@ -1,7 +1,7 @@
 'use client'
 import Image from "next/image"
 
-const CollectionPanel = ({ title, description, heroPath, programs }: { title: string, description: string, keywords: string[], programs: any, heroPath: string, collection: any }) => {
+const CollectionPanel = ({ title, description, heroPath, programs }: { title: string, description: string, keywords: string[], programs: any, heroPath: string, collection?: any }) => {
     return (
         <>
             <div className="app-page">

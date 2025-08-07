@@ -41,11 +41,18 @@ const membershipLevels: MembershipLevel[] = [
     }
 ]
 
-const LandingMembresiasPage = () => {
+interface LandingMembresiasPageProps {
+    onMembershipSelect?: (levelId: string) => void
+}
+
+const LandingMembresiasPage: React.FC<LandingMembresiasPageProps> = ({ onMembershipSelect }) => {
     const handleSelectPlan = (levelId: string) => {
-        // Aquí se integraría con el sistema de pagos de Payload
-        console.log(`Seleccionado plan: ${levelId}`)
-        // Redirección a página de pago o apertura de modal de pago
+        if (onMembershipSelect) {
+            onMembershipSelect(levelId)
+        } else {
+            // Redirección por defecto a la página de pago
+            window.location.href = `/pago-de-membresia?type=${levelId}`
+        }
     }
 
     return (
