@@ -9,6 +9,7 @@ import { Inter } from "next/font/google"
 import { AdminBar } from '@/components/AdminBar'
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
+import { FirstVisitWrapper } from '@/components/FirstVisitWrapper'
 import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
@@ -30,16 +31,17 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </head>
       <body>
         <Providers>
-          <AdminBar
-            adminBarProps={{
-              preview: isEnabled,
-            }}
-          />
+          <FirstVisitWrapper>
+            <AdminBar
+              adminBarProps={{
+                preview: isEnabled,
+              }}
+            />
 
-          <Header />
-          {children}
-          {/* <Footer /> */}
-
+            <Header />
+            {children}
+            {/* <Footer /> */}
+          </FirstVisitWrapper>
         </Providers>
       </body>
     </html>
@@ -49,7 +51,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 export const metadata: Metadata = {
   title: "Neurodespertar - Bego Mental Reset",
   description: "Activa tu mente. Dirige tu día desde el primer pensamiento.",
-  manifest: "/manifest.json",
+  manifest: "/manifest.webmanifest",
   metadataBase: new URL(getServerSideURL()),
   openGraph: mergeOpenGraph(),
   twitter: {

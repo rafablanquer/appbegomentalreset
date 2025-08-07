@@ -5,10 +5,11 @@ interface Props {
   className?: string
   loading?: 'lazy' | 'eager'
   priority?: 'auto' | 'high' | 'low'
+  isAuthenticated?: boolean
 }
 
 export const Logo = (props: Props) => {
-  const { loading: loadingFromProps, priority: priorityFromProps, className } = props
+  const { loading: loadingFromProps, priority: priorityFromProps, className, isAuthenticated = false } = props
 
   const loading = loadingFromProps || 'lazy'
   const priority = priorityFromProps || 'low'
@@ -28,7 +29,7 @@ export const Logo = (props: Props) => {
         maxHeight: '74px',
         marginLeft: '14px',
       }}
-      src="/assets/layout/BMR-nav-logo.png"
+      src={isAuthenticated ? "/assets/layout/BMR-nav-logo.png" : "/assets/layout/branding-Begona-BMR-1-2.png"}
     />
   )
 }

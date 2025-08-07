@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
+import ButtonUnete from '@/components/Buttons/ButtonUnete'
 
 interface LandingPageProps {
 	data?: any;
@@ -193,7 +194,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
 
 							<div className="et_pb_module et_pb_heading">
 								<div className="et_pb_heading_container">
-									<h2 className="et_pb_module_heading">UN ESPACIO PARA REPROGRAMAR TU MENTE</h2>
+									<h2 className="et_pb_module_heading"
+										style={
+											{
+												color: "rgb(192, 198, 168)"
+											}
+										}
+									>UN ESPACIO PARA REPROGRAMAR TU MENTE</h2>
 								</div>
 							</div>
 
@@ -242,16 +249,24 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
 							</div>
 
 							<div className="et_pb_button_module_wrapper et_pb_button_alignment_center et_had_animation">
-								<Link href="#membresias" className="et_pb_button">
-									¡únete!
-								</Link>
+								<ButtonUnete onClick={() => { }} style={{
+									backgroundColor: "rgb(163, 177, 138)",
+									color: "white",
+									textTransform: "uppercase",
+									borderColor: "black",
+									borderWidth: "1px",
+									borderStyle: "solid",
+									fontSize: "16px",
+									fontWeight: "bold",
+									padding: "10px 26px",
+									marginTop: "20px",
+								}} />
+
 							</div>
 						</div>
 					</div>
-				</section>
 
-				{/* Features Section */}
-				<section className="et_pb_section features-section">
+
 					<div className="et_pb_row">
 						<div className="et_pb_column et_pb_column_1_2">
 							<div className="et_pb_module et_pb_heading et_had_animation">
@@ -282,19 +297,17 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
 									/>
 								</div>
 							</div>
-
-							<div className="feature-icon">
-								<svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-									<path d="M12 1L14.5 8.5L22 9L16 14L18 22L12 18L6 22L8 14L2 9L9.5 8.5L12 1Z" fill="#a3b18a" />
-								</svg>
-							</div>
 						</div>
 
 						<div className="et_pb_column et_pb_column_1_2">
 							<div className="feature-icon">
-								<svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-									<path d="M12 2L13.09 8.26L18 7L14.74 11.74L21 12L14.74 12.26L18 17L13.09 15.74L12 22L10.91 15.74L6 17L9.26 12.26L3 12L9.26 11.74L6 7L10.91 8.26L12 2Z" fill="#a3b18a" />
-								</svg>
+								<Image
+									src="/assets/home/imgSec1.png"
+									alt="Begoña Mental Reset"
+									width={160}
+									height={160}
+									loading="lazy"
+								/>
 							</div>
 							<div className="et_pb_module et_pb_heading">
 								<div className="et_pb_heading_container">
@@ -314,19 +327,16 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
 
 					{/* Additional Features Rows */}
 					<div className="et_pb_row">
-						<div className="et_pb_column et_pb_column_1_2">
-							<div className="feature-icon">
-								<svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-									<path d="M9 1C5.13 1 2 4.13 2 8S5.13 15 9 15C12.87 15 16 11.87 16 8S12.87 1 9 1ZM9 13C6.24 13 4 10.76 4 8S6.24 3 9 3S14 5.24 14 8S11.76 13 9 13ZM20.59 19.59L16.01 15.01C16.7 13.56 17 11.95 17 10.34C17 9.89 16.63 9.52 16.18 9.52S15.36 9.89 15.36 10.34C15.36 11.58 15.1 12.8 14.6 13.92L19.18 18.5L20.59 19.59Z" fill="#a3b18a" />
-								</svg>
-							</div>
-						</div>
 
 						<div className="et_pb_column et_pb_column_1_2">
 							<div className="feature-icon">
-								<svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-									<path d="M12 2C16.97 2 21 6.03 21 11C21 13.5 20.04 15.81 18.41 17.41C16.81 19.04 14.5 20 12 20C9.5 20 7.19 19.04 5.59 17.41C3.96 15.81 3 13.5 3 11C3 6.03 7.03 2 12 2ZM12 4C8.13 4 5 7.13 5 11C5 13 5.78 14.78 7.05 16.05C8.22 17.22 9.74 17.78 11.31 17.95C11.54 17.98 11.77 18 12 18C14 18 15.78 17.22 17.05 16.05C18.22 14.78 19 13 19 11C19 7.13 15.87 4 12 4ZM10.5 8C11.33 8 12 8.67 12 9.5S11.33 11 10.5 11S9 10.33 9 9.5S9.67 8 10.5 8ZM13.5 8C14.33 8 15 8.67 15 9.5S14.33 11 13.5 11S12 10.33 12 9.5S12.67 8 13.5 8Z" fill="#a3b18a" />
-								</svg>
+								<Image
+									src="/assets/home/imgSec2.png"
+									alt="Begoña Mental Reset"
+									width={160}
+									height={160}
+									loading="lazy"
+								/>
 							</div>
 							<div className="et_pb_module et_pb_heading">
 								<div className="et_pb_heading_container">
@@ -345,19 +355,16 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
 					</div>
 
 					<div className="et_pb_row">
-						<div className="et_pb_column et_pb_column_1_2">
-							<div className="feature-icon">
-								<svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-									<path d="M17 10.5V7C17 4.24 14.76 2 12 2S7 4.24 7 7V10.5C5.9 10.5 5 11.4 5 12.5V19.5C5 20.6 5.9 21.5 7 21.5H17C18.1 21.5 19 20.6 19 19.5V12.5C19 11.4 18.1 10.5 17 10.5ZM9 7C9 5.34 10.34 4 12 4S15 5.34 15 7V10.5H9V7Z" fill="#a3b18a" />
-								</svg>
-							</div>
-						</div>
 
 						<div className="et_pb_column et_pb_column_1_2">
 							<div className="feature-icon">
-								<svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-									<path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V8H19V19ZM7 10H17V12H7V10ZM7 14H17V16H7V14Z" fill="#a3b18a" />
-								</svg>
+								<Image
+									src="/assets/home/imgSec3.png"
+									alt="Begoña Mental Reset"
+									width={160}
+									height={160}
+									loading="lazy"
+								/>
 							</div>
 							<div className="et_pb_module et_pb_heading">
 								<div className="et_pb_heading_container">
@@ -375,70 +382,124 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
 						</div>
 					</div>
 
-					{/* Challenge Section */}
-					<div className="et_pb_row challenge-row">
-						<div className="et_pb_column et_pb_column_1_2">
-							<div className="feature-icon">
-								<svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-									<path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 7.5V9M12 7.5C12.83 8.24 14 8.9 14 11V12.5L22 21H20L14 13.5V11C14 10.33 13.67 10 13 10S12 10.33 12 11V19H10V11C10 10.33 9.67 10 9 10S8 10.33 8 11V12.5L2 21H4L10 13.5V11C10 8.9 11.17 8.24 12 7.5Z" fill="#a3b18a" />
-								</svg>
-							</div>
-							<div className="et_pb_module et_pb_heading">
-								<div className="et_pb_heading_container">
-									<h2 className="et_pb_module_heading">Reto de 3 semanas para reprogramarte y desarrollar tu mejor versión</h2>
-								</div>
-							</div>
-
-							<div className="et_pb_module et_pb_text">
-								<div className="et_pb_text_inner">
-									<p style={{ textAlign: 'center' }}>
-										9 audios y ejercicios diarios que activan tu sistema reticular atencional, reorientando tu enfoque hacia lo que realmente quieres crear. Te ofrecen reprogramar identidad, creencias y percepción de tu realidad.
-									</p>
-								</div>
+					<div className="   ">
+						<div className="feature-icon">
+							<Image
+								src="/assets/home/imgSec4.png"
+								alt="Begoña Mental Reset"
+								width={160}
+								height={160}
+								loading="lazy"
+							/>
+						</div>
+						<div className="et_pb_module et_pb_heading">
+							<div className="et_pb_heading_container">
+								<h2 className="et_pb_module_heading">Reto de 3 semanas para reprogramarte y desarrollar tu mejor versión</h2>
 							</div>
 						</div>
 
+						<div className="et_pb_module et_pb_text">
+							<div className="et_pb_text_inner">
+								<p style={{ textAlign: 'center' }}>
+									9 audios y ejercicios diarios que activan tu sistema reticular atencional, reorientando tu enfoque hacia lo que realmente quieres crear. Te ofrecen reprogramar identidad, creencias y percepción de tu realidad.
+								</p>
+							</div>
+						</div>
+					</div>
+
+
+				</section>
+
+
+				<section className="et_pb_section stats-section">
+					<div className="et_pb_row">
+
+
 						<div className="et_pb_column et_pb_column_1_2">
-							<div className="et_pb_module et_pb_image">
-								<Image
-									src="/assets/home/branding-Begona-BMR-1-1.png"
-									alt="Reto 21 días"
-									width={400}
-									height={500}
-									loading="lazy"
-								/>
+							<div className="et_pb_module et_pb_heading">
+								<div className="et_pb_heading_container">
+									<h3 className="et_pb_module_heading">Esto es lo que está ocurriendo en la APP BMR</h3>
+								</div>
+							</div>
+
+							<div className="   ">
+								<div className="   ">
+									<Image
+										src="/assets/home/branding-Begona-BMR-1-copia.png"
+										alt="Begoña Mental Reset"
+										width={500}
+										height={650}
+										loading="lazy"
+									/>
+								</div>
+							</div>
+
+							<div className="stats-list">
+								<div className="stat-item">
+									<p><strong>Más de 2000 personas entrenan su mente cada día con estos audios.</strong></p>
+								</div>
+
+								<div className="stat-item">
+									<p><strong>Se reproducen miles de minutos diarios de transformación real.</strong></p>
+								</div>
+
+								<div className="stat-item">
+									<p><strong>Aquí no se medita para calmarse únicamente. Se entrena para reprogramarse.</strong></p>
+								</div>
+
+								<div className="stat-item">
+									<p><strong>Cada audio es una herramienta para romper creencias y crear nuevas formas de pensar, sentir y vivir.</strong></p>
+								</div>
+							</div>
+
+							<div className="et_pb_button_module_wrapper et_pb_button_alignment_center et_had_animation">
+								<ButtonUnete onClick={() => { }} style={{
+									backgroundColor: "rgb(163, 177, 138)",
+									color: "white",
+									textTransform: "uppercase",
+									borderColor: "black",
+									borderWidth: "1px",
+									borderStyle: "solid",
+									fontSize: "16px",
+									fontWeight: "bold",
+									padding: "10px 26px",
+									marginTop: "20px",
+								}} />
+
 							</div>
 						</div>
 					</div>
 				</section>
 
-				{/* About Section */}
-				<section className="et_pb_section about-section">
+
+				<section className="et_pb_section about-section"
+					style={{
+						backgroundColor: "rgb(250, 241, 230)",
+					}}>
 					<div className="et_pb_row">
-						<div className="et_pb_column et_pb_column_1_2">
-							<div className="et_pb_module et_pb_image">
-								<Image
-									src="/assets/home/Sin-titulo-1280-x-720-px-1284-x-600-px-700-x-900-px-copia-3.png.png"
-									alt="¿Qué encontrarás dentro?"
-									width={700}
-									height={900}
-									loading="lazy"
-								/>
-							</div>
-						</div>
 
 						<div className="et_pb_column et_pb_column_1_2">
-							<div className="et_pb_module et_pb_heading">
-								<div className="et_pb_heading_container">
-									<h3 className="et_pb_module_heading">¿Qué encontrarás dentro?</h3>
+							<div className="et_pb_column et_pb_column_1_2">
+								<div className="et_pb_module et_pb_image">
+									<Image
+										src="/assets/home/Sin-titulo-1280-x-720-px-1284-x-600-px-700-x-900-px-copia-3.png.png"
+										alt="¿Qué encontrarás dentro?"
+										width={700}
+										height={900}
+										loading="lazy"
+									/>
 								</div>
 							</div>
-
 							<div className="et_pb_module et_pb_heading">
-								<div className="et_pb_heading_container">
-									<h2 className="et_pb_module_heading">
+								<div className="et_pb_module et_pb_heading">
+									<div className="et_pb_heading_container">
+										<h3 className="et_pb_module_heading">¿Qué encontrarás dentro?</h3>
+									</div>
+								</div>
+								<div className="">
+									<span className="">
 										En resumen, tienes acceso estructurado y claro y un método de reprogramación creado por una neuropsicóloga especializa.
-									</h2>
+									</span>
 								</div>
 							</div>
 						</div>
@@ -473,54 +534,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
 					</div>
 				</section>
 
-				{/* Stats Section */}
-				<section className="et_pb_section stats-section">
-					<div className="et_pb_row">
-						<div className="et_pb_column et_pb_column_1_2">
-							<div className="et_pb_module et_pb_image">
-								<Image
-									src="/assets/home/branding-Begona-BMR-1-copia.png"
-									alt="Begoña Mental Reset"
-									width={500}
-									height={650}
-									loading="lazy"
-								/>
-							</div>
-						</div>
 
-						<div className="et_pb_column et_pb_column_1_2">
-							<div className="et_pb_module et_pb_heading">
-								<div className="et_pb_heading_container">
-									<h3 className="et_pb_module_heading">Esto es lo que está ocurriendo en la APP BMR</h3>
-								</div>
-							</div>
-
-							<div className="stats-list">
-								<div className="stat-item">
-									<p><strong>Más de 2000 personas entrenan su mente cada día con estos audios.</strong></p>
-								</div>
-
-								<div className="stat-item">
-									<p><strong>Se reproducen miles de minutos diarios de transformación real.</strong></p>
-								</div>
-
-								<div className="stat-item">
-									<p><strong>Aquí no se medita para calmarse únicamente. Se entrena para reprogramarse.</strong></p>
-								</div>
-
-								<div className="stat-item">
-									<p><strong>Cada audio es una herramienta para romper creencias y crear nuevas formas de pensar, sentir y vivir.</strong></p>
-								</div>
-							</div>
-
-							<div className="et_pb_button_module_wrapper et_pb_button_alignment_center et_had_animation">
-								<Link href="#membresias" className="et_pb_button">
-									¡únete!
-								</Link>
-							</div>
-						</div>
-					</div>
-				</section>
 
 				{/* CTA Section */}
 				<section className="et_pb_section cta-section">
@@ -655,14 +669,18 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
 									<p>
 										Si tras rellenar el formulario con tu usuario, contraseña y correo, no completas tu pago o te ha dado error. No te preocupes, no tienes que empezar de cero.
 									</p>
+
+
+
+
+
+
+
 								</div>
 							</div>
 						</div>
 					</div>
-				</section>
 
-				{/* FAQ Section */}
-				<section className="et_pb_section faq-section">
 					<div className="et_pb_row">
 						<div className="et_pb_column et_pb_column_4_4">
 							<div className="et_pb_module et_pb_heading">
@@ -761,14 +779,68 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
 					</div>
 				</section>
 
-				{/* Footer */}
-				<footer className="footer">
-					<div className="container">
-						<div className="footer-content">
-							<p>&copy; 2025 BMR - Begoña Mental Reset. Todos los derechos reservados.</p>
+				{/* Sección de Contacto */}
+				<section className="et_pb_section et_pb_section_8 et_section_regular">
+					<div className="et_pb_row et_pb_row_8">
+						<div className="et_pb_column et_pb_column_4_4 et_pb_column_8 et_pb_css_mix_blend_mode_passthrough et-last-child">
+							<div className="et_pb_module et_pb_text et_pb_text_8 et_pb_text_align_center et_pb_bg_layout_light">
+								<div className="et_pb_text_inner">
+									<h2 style={{
+										fontFamily: 'Inter, Helvetica, Arial, Lucida, sans-serif',
+										fontSize: '2.5rem',
+										fontWeight: 'bold',
+										color: '#8fa383',
+										textAlign: 'center',
+										marginBottom: '1rem',
+										lineHeight: '1.2em'
+									}}>
+										¿Tienes más preguntas?
+									</h2>
+									<p style={{
+										fontSize: '1.1rem',
+										color: '#666',
+										textAlign: 'center',
+										marginBottom: '2rem',
+										lineHeight: '1.6em'
+									}}>
+										Si hay algo que necesites saber antes de entrar, escríbenos.
+										Estamos aquí para ayudarte a dar el paso con claridad y
+										confianza.
+									</p>
+									<div style={{ textAlign: 'center', marginTop: '2rem' }}>
+										<a
+											href="/contacto"
+											className="contact-button"
+											style={{
+												backgroundColor: '#8fa383',
+												color: 'white',
+												padding: '12px 30px',
+												borderRadius: '5px',
+												textDecoration: 'none',
+												fontSize: '1.1rem',
+												fontWeight: '600',
+												display: 'inline-block',
+												transition: 'all 0.3s ease',
+												border: 'none',
+												cursor: 'pointer'
+											}}
+											onMouseEnter={(e) => {
+												e.currentTarget.style.backgroundColor = '#7a926e';
+												e.currentTarget.style.transform = 'translateY(-2px)';
+											}}
+											onMouseLeave={(e) => {
+												e.currentTarget.style.backgroundColor = '#8fa383';
+												e.currentTarget.style.transform = 'translateY(0)';
+											}}
+										>
+											CONTÁCTANOS
+										</a>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
-				</footer>
+				</section>
 
 				<style jsx>{`
           /* CSS Estático Base - Siempre funcional */
@@ -889,7 +961,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
           .et_pb_heading_container h5,
           .et_pb_heading_container h6 {
             color: #333;
-            padding-bottom: 10px;
             line-height: 1em;
             font-weight: 500;
             margin: 0;
