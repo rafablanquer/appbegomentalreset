@@ -10,6 +10,7 @@ import { Progress } from "@/components/ui/progress"
 import Image from "next/image"
 import ProgressRing from "./ProgressRing"
 import WeekCarousel from "./WeekCarousel"
+import { useAudioPlayer } from "@/providers/AudioPlayer"
 
 export interface AudioSession {
     id: number
@@ -37,13 +38,9 @@ export interface Session {
 
 
 export default function RetoPanel({ sessions, pathInstructions, title, description }: { sessions: AudioSession[], pathInstructions: string, title: string, description: string }) {
-    const [currentSession, setCurrentSession] = useState<Session | null>(null)
-    const [isPlaying, setIsPlaying] = useState(false)
-    const [currentTime, setCurrentTime] = useState(0)
-    const [duration, setDuration] = useState(0)
+    const { setCurrentSession } = useAudioPlayer()
     const [selectedWeek, setSelectedWeek] = useState(1)
     const [sideMenuOpen, setSideMenuOpen] = useState(false)
-    const audioRef = useRef<HTMLAudioElement>(null)
 
     const audioSessions = sessions.map((session) => ({
         ...session,
@@ -175,47 +172,7 @@ export default function RetoPanel({ sessions, pathInstructions, title, descripti
 
     const currentWeekSessions = audioSessions.filter((session) => session.week === selectedWeek)
 
-    useEffect(() => {
-        const audio = audioRef.current
-        if (!audio) return
 
-        const updateTime = () => setCurrentTime(audio.currentTime)
-        const updateDuration = () => setDuration(audio.duration)
-
-        audio.addEventListener("timeupdate", updateTime)
-        audio.addEventListener("loadedmetadata", updateDuration)
-
-        return () => {
-            audio.removeEventListener("timeupdate", updateTime)
-            audio.removeEventListener("loadedmetadata", updateDuration)
-        }
-    }, [currentSession])
-
-    const togglePlay = () => {
-        const audio = audioRef.current
-        if (!audio) return
-
-        if (isPlaying) {
-            audio.pause()
-        } else {
-            audio.play()
-        }
-        setIsPlaying(!isPlaying)
-    }
-
-    const handleSeek = (value: number[]) => {
-        const audio = audioRef.current
-        if (!audio) return
-
-        audio.currentTime = value[0]
-        setCurrentTime(value[0])
-    }
-
-    const formatTime = (time: number) => {
-        const minutes = Math.floor(time / 60)
-        const seconds = Math.floor(time % 60)
-        return `${minutes}:${seconds.toString().padStart(2, "0")}`
-    }
 
     const selectSession = (sessionIndex: number) => {
         const session = currentWeekSessions[sessionIndex]
@@ -225,7 +182,6 @@ export default function RetoPanel({ sessions, pathInstructions, title, descripti
                 shortTitle: session.title.split('·')[1]?.trim() || session.title
             }
             setCurrentSession(sessionWithShortTitle)
-            setIsPlaying(false)
         }
     }
 
@@ -246,7 +202,6 @@ export default function RetoPanel({ sessions, pathInstructions, title, descripti
     const handleSessionSelect = (session: Session) => {
         setSelectedSession(session)
         setCurrentSession(session)
-        setIsPlaying(false)
     }
 
 
@@ -260,33 +215,7 @@ export default function RetoPanel({ sessions, pathInstructions, title, descripti
         }
     }
 
-    const goToPreviousSession = () => {
-        if (!currentSession) return
 
-        const currentWeekSessions = audioSessions.filter((session) => session.week === selectedWeek)
-        const currentIndex = currentWeekSessions.findIndex(s => s.id === currentSession.id)
-
-        if (currentIndex > 0) {
-            const previousSession = currentWeekSessions[currentIndex - 1]
-            if (previousSession && previousSession.unlocked) {
-                selectSession(currentIndex - 1)
-            }
-        }
-    }
-
-    const goToNextSession = () => {
-        if (!currentSession) return
-
-        const currentWeekSessions = audioSessions.filter((session) => session.week === selectedWeek)
-        const currentIndex = currentWeekSessions.findIndex(s => s.id === currentSession.id)
-
-        if (currentIndex < currentWeekSessions.length - 1) {
-            const nextSession = currentWeekSessions[currentIndex + 1]
-            if (nextSession && nextSession.unlocked) {
-                selectSession(currentIndex + 1)
-            }
-        }
-    }
 
 
     return (
@@ -405,62 +334,7 @@ export default function RetoPanel({ sessions, pathInstructions, title, descripti
                 </div>
             </div>
 
-            <div className="mt-auto bg-white/95 backdrop-blur-sm border-t border-gray-200 p-6 w-full">
-                <audio ref={audioRef} src={currentSession?.audioUrl} preload="metadata" />
 
-                {/* Current Session Info */}
-                <div className="text-center mb-4 px-2">
-                    <p className="text-gray-800 font-semibold text-base">{currentSession?.title}</p>
-                    <p className="text-gray-600 text-sm mt-1">Día {currentSession?.day}</p>
-                </div>
-
-                {/* Progress Bar */}
-                <div className="mb-6 px-2">
-                    <Slider
-                        value={[currentTime]}
-                        max={duration || 100}
-                        step={1}
-                        onValueChange={handleSeek}
-                        className="w-full"
-                    />
-                    <div className="flex justify-between text-xs text-gray-600 mt-2 font-medium">
-                        <span>{formatTime(currentTime)}</span>
-                        <span>{formatTime(duration)}</span>
-                    </div>
-                </div>
-
-                {/* Controls */}
-                <div className="flex items-center justify-center gap-6">
-                    <Button
-                        variant="ghost"
-                        size="lg"
-                        onClick={goToPreviousSession}
-                        disabled={!currentSession}
-                        className="text-gray-400 hover:bg-gray-100 hover:text-gray-600 w-14 h-14 rounded-full flex items-center justify-center transition-all disabled:opacity-30"
-                    >
-                        <ChevronLeft className="w-6 h-6" />
-                    </Button>
-
-                    <Button
-                        onClick={togglePlay}
-                        size="lg"
-                        disabled={!currentSession}
-                        className="bg-purple-600 hover:bg-purple-700 text-white rounded-full w-20 h-20 shadow-lg hover:shadow-xl transition-all disabled:opacity-50"
-                    >
-                        {isPlaying ? <Pause className="w-8 h-8" /> : <Play className="w-8 h-8 ml-1" />}
-                    </Button>
-
-                    <Button
-                        variant="ghost"
-                        size="lg"
-                        onClick={goToNextSession}
-                        disabled={!currentSession}
-                        className="text-gray-400 hover:bg-gray-100 hover:text-gray-600 w-14 h-14 rounded-full flex items-center justify-center transition-all disabled:opacity-30"
-                    >
-                        <ChevronRight className="w-6 h-6" />
-                    </Button>
-                </div>
-            </div>
         </div>
     )
 }

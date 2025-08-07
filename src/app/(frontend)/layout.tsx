@@ -11,6 +11,7 @@ import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
 import { FirstVisitWrapper } from '@/components/FirstVisitWrapper'
 import { CookieBanner } from '@/components/CookieBanner'
+import PersistentAudioPlayer from '@/components/PersistentAudioPlayer'
 import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
@@ -29,8 +30,24 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         {/* <link rel="apple-touch-icon" href="/icon-192x192.png" /> */}
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                  navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                      console.log('ServiceWorker registration successful');
+                    }, function(err) {
+                      console.log('ServiceWorker registration failed: ', err);
+                    });
+                });
+              }
+            `,
+          }}
+        />
       </head>
-      <body>
+      <body className="safe-area-top safe-area-bottom safe-area-left safe-area-right">
         <Providers>
           <FirstVisitWrapper>
             <AdminBar
@@ -40,10 +57,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             />
 
             <Header />
-            <main className="pt-20 min-h-screen">
+            <main className="pt-20 min-h-screen pb-24">
               {children}
             </main>
             {/* <Footer /> */}
+            <PersistentAudioPlayer />
             <CookieBanner />
           </FirstVisitWrapper>
         </Providers>
@@ -62,11 +80,25 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     creator: '@payloadcms',
   },
-  themeColor: "#ffffff",
+  themeColor: "#8b7355",
   appleWebApp: {
     capable: true,
-    statusBarStyle: "default",
+    statusBarStyle: "black-translucent",
     title: "Neurodespertar",
+    startupImage: [
+      {
+        url: "/apple-touch-icon-180x180.png",
+        media: "(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)",
+      },
+      {
+        url: "/apple-touch-icon-152x152.png",
+        media: "(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)",
+      },
+    ],
+  },
+  other: {
+    "mobile-web-app-capable": "yes",
+    "mobile-web-app-status-bar-style": "black-translucent",
   },
 }
 
@@ -76,6 +108,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
+  viewportFit: "cover",
 }
 
 
