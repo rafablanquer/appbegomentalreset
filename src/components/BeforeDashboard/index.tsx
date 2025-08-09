@@ -26,14 +26,6 @@ const BeforeDashboard: React.FC = () => {
         <SeedButton />
       </div>
       <AdminDashboard />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-        <Card title="Programas" description="Gestiona programas de audio" href="/admin/collections/programs" />
-        <Card title="Colecciones" description="Ítems con video / enlaces" href="/admin/collections/content-collections" />
-        <Card title="Retos" description="Días con audio, video o enlaces" href="/admin/collections/challenges" />
-        <Card title="Pagos de membresía" description="Histórico de cobros (Stripe)" href="/admin/collections/membership-payments" />
-        <Card title="Usuarios" description="Roles y estado de membresía" href="/admin/collections/users" />
-        <Card title="Blog" description="Posts y categorías" href="/admin/collections/posts" />
-      </div>
     </div>
   )
 }

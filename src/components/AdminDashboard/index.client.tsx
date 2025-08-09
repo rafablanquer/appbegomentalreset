@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useEffect, useMemo, useState } from 'react'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 
 type UsersResponse = {
     totalDocs: number
@@ -132,48 +133,64 @@ export const AdminDashboard: React.FC = () => {
     const maxUsers = Math.max(5, ...usersSeries.map((b) => b.count))
 
     return (
-        <div className="mb-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
-                <div className={cardClass}>
-                    <div className="text-neutral-400 text-xs mb-1">Usuarios totales</div>
-                    <div className="text-2xl font-semibold">{loading ? '—' : formatNumber(totalUsers)}</div>
-                </div>
-                <div className={cardClass}>
-                    <div className="text-neutral-400 text-xs mb-1">Miembros activos</div>
-                    <div className="text-2xl font-semibold">{loading ? '—' : formatNumber(activeMembers)}</div>
-                </div>
-                <div className={cardClass}>
-                    <div className="text-neutral-400 text-xs mb-1">Nuevos últimos 14 días</div>
-                    <div className="text-2xl font-semibold">{loading ? '—' : formatNumber(recentUsers.length)}</div>
-                </div>
-                <div className={cardClass}>
-                    <div className="text-neutral-400 text-xs mb-1">Ingresos 30 días (EUR)</div>
-                    <div className="text-2xl font-semibold">{loading ? '—' : formatNumber(Math.round(paymentsTotal30))}</div>
-                </div>
+        <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+                <Card className="bg-neutral-950 border-neutral-800">
+                    <CardHeader className="pb-2">
+                        <CardDescription>Usuarios totales</CardDescription>
+                        <CardTitle className="text-3xl">{loading ? '—' : formatNumber(totalUsers)}</CardTitle>
+                    </CardHeader>
+                </Card>
+                <Card className="bg-neutral-950 border-neutral-800">
+                    <CardHeader className="pb-2">
+                        <CardDescription>Miembros activos</CardDescription>
+                        <CardTitle className="text-3xl">{loading ? '—' : formatNumber(activeMembers)}</CardTitle>
+                    </CardHeader>
+                </Card>
+                <Card className="bg-neutral-950 border-neutral-800">
+                    <CardHeader className="pb-2">
+                        <CardDescription>Nuevos últimos 14 días</CardDescription>
+                        <CardTitle className="text-3xl">{loading ? '—' : formatNumber(recentUsers.length)}</CardTitle>
+                    </CardHeader>
+                </Card>
+                <Card className="bg-neutral-950 border-neutral-800">
+                    <CardHeader className="pb-2">
+                        <CardDescription>Ingresos 30 días (EUR)</CardDescription>
+                        <CardTitle className="text-3xl">{loading ? '—' : formatNumber(Math.round(paymentsTotal30))}</CardTitle>
+                    </CardHeader>
+                </Card>
             </div>
 
-            <div className={cardClass}>
-                <div className="flex items-center justify-between mb-2">
-                    <div className="text-sm font-semibold">Altas de usuarios (14 días)</div>
-                    {error && <div className="text-xs text-red-400">{error}</div>}
-                </div>
-                {/* Mini bar chart sin librerías */}
-                <div className="flex items-end gap-1 h-28">
-                    {usersSeries.map((b) => {
-                        const h = maxUsers === 0 ? 0 : Math.round((b.count / maxUsers) * 100)
-                        return (
-                            <div key={b.label} className="flex-1">
-                                <div
-                                    className="w-full rounded-sm bg-blue-500/70"
-                                    style={{ height: `${h}%`, minHeight: 2 }}
-                                    title={`${b.label}: ${b.count}`}
-                                />
-                                <div className="text-[10px] text-neutral-400 text-center mt-1">{b.label}</div>
-                            </div>
-                        )
-                    })}
-                </div>
-            </div>
+            <Card className="bg-neutral-950 border-neutral-800">
+                <CardHeader className="pb-0">
+                    <div className="flex items-center justify-between">
+                        <CardTitle className="text-base">Altas de usuarios (14 días)</CardTitle>
+                        {error && <span className="text-xs text-red-400">{error}</span>}
+                    </div>
+                </CardHeader>
+                <CardContent>
+                    {/* Mini bar chart sin librerías */}
+                    <div className="relative">
+                        {/* Fondo cuadriculado sutil */}
+                        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:24px_24px] rounded-md" aria-hidden />
+                        <div className="flex items-end gap-1 h-36 relative p-2">
+                            {usersSeries.map((b) => {
+                                const heightPct = maxUsers === 0 ? 0 : Math.round((b.count / maxUsers) * 100)
+                                return (
+                                    <div key={b.label} className="flex-1 flex flex-col items-center">
+                                        <div
+                                            className="w-full rounded-sm bg-gradient-to-t from-blue-600/80 to-blue-400/70"
+                                            style={{ height: `${heightPct}%`, minHeight: 2 }}
+                                            title={`${b.label}: ${b.count}`}
+                                        />
+                                        <div className="text-[10px] text-neutral-400 mt-1">{b.label}</div>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
         </div>
     )
 }
