@@ -6,14 +6,6 @@ import CollectionPanel from '@/domains/content/collection/components/CollectionP
 
 type Params = { params: Promise<{ slug: string }> }
 
-function heroForCollection(slug: string | null | undefined): string {
-  const key = (slug || '').toLowerCase()
-  const map: Record<string, string> = {
-    'respiraciones-conscientes': '/content/collectionRespiracionesConscientes/hero.png',
-  }
-  return map[key] || '/content/collectionRespiracionesConscientes/hero.png'
-}
-
 export default async function CollectionPage({ params }: Params) {
   const { slug } = await params
   const payload = await getPayload({ config: configPromise })
@@ -30,12 +22,12 @@ export default async function CollectionPage({ params }: Params) {
   if (!collection) return null
 
   const programs = [
-    ...(collection.items || []).map((it: any, idx: number) => ({ id: idx + 1, title: String(it?.title || '') })),
+    ...(collection.folders || []).map((it: any, idx: number) => ({ id: idx + 1, title: String(it?.title || '') })),
   ]
 
   const heroPath = collection?.image && typeof collection.image === 'object' && collection.image?.url
     ? String(collection.image.url)
-    : heroForCollection(collection.slug || '')
+    : undefined
 
   return (
     <ProtectedRoute protection={RouteProtection.MEMBERSHIP}>

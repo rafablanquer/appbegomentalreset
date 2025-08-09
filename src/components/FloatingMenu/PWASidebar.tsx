@@ -50,10 +50,11 @@ const ICON_BY_SLUG: Record<string, LucideIcon> = {
     'reto-21-dias': Calendar,
 }
 
-const DEFAULT_ICON = {
+const DEFAULT_ICON: Record<'program' | 'collection' | 'challenge' | 'page', LucideIcon> = {
     program: Target as LucideIcon,
     collection: FolderOpen as LucideIcon,
     challenge: Trophy as LucideIcon,
+    page: BookOpen as LucideIcon,
 }
 
 // Overrides de ruta si el slug no coincide con la ruta real de la PWA
@@ -67,6 +68,7 @@ export const PWASidebar: React.FC<PWASidebarProps> = ({ isOpen, onClose }) => {
     const [programs, setPrograms] = useState<MenuItem[]>([])
     const [collections, setCollections] = useState<MenuItem[]>([])
     const [challenges, setChallenges] = useState<MenuItem[]>([])
+    const [pages, setPages] = useState<MenuItem[]>([])
     const [loadingActs, setLoadingActs] = useState<boolean>(true)
 
     // Cerrar al presionar Escape
@@ -98,16 +100,18 @@ export const PWASidebar: React.FC<PWASidebarProps> = ({ isOpen, onClose }) => {
                     fetch('/api/programs?depth=0&limit=200&sort=title', { credentials: 'include' }),
                     fetch('/api/content-collections?depth=0&limit=200&sort=title', { credentials: 'include' }),
                     fetch('/api/challenges?depth=0&limit=200&sort=title', { credentials: 'include' }),
+                    fetch('/api/pages?depth=0&limit=200&sort=title', { credentials: 'include' }),
                 ])
 
                 if (!isMounted) return
 
-                const [progRes, collRes, chalRes] = results
+                const [progRes, collRes, chalRes, pagesRes] = results
                 const progJson = progRes.status === 'fulfilled' && progRes.value.ok ? await progRes.value.json() : { docs: [] }
                 const collJson = collRes.status === 'fulfilled' && collRes.value.ok ? await collRes.value.json() : { docs: [] }
                 const chalJson = chalRes.status === 'fulfilled' && chalRes.value.ok ? await chalRes.value.json() : { docs: [] }
+                const pagesJson = pagesRes.status === 'fulfilled' && pagesRes.value.ok ? await pagesRes.value.json() : { docs: [] }
 
-                const toItem = (title: string, kind: 'program' | 'collection' | 'challenge', slug?: string | null): MenuItem => {
+                const toItem = (title: string, kind: 'program' | 'collection' | 'challenge' | 'page', slug?: string | null): MenuItem => {
                     const s = (slug || '').toLowerCase()
                     const href = ROUTE_BY_SLUG[s] || (s ? `/${s}` : '#')
                     const Icon = ICON_BY_SLUG[s] || DEFAULT_ICON[kind]
@@ -117,6 +121,7 @@ export const PWASidebar: React.FC<PWASidebarProps> = ({ isOpen, onClose }) => {
                 setPrograms((progJson.docs || []).map((p: any) => toItem(String(p.title || ''), 'program', p.slug)))
                 setCollections((collJson.docs || []).map((c: any) => toItem(String(c.title || ''), 'collection', c.slug)))
                 setChallenges((chalJson.docs || []).map((c: any) => toItem(String(c.title || ''), 'challenge', c.slug)))
+                setPages((pagesJson.docs || []).map((pg: any) => toItem(String(pg.title || ''), 'page', pg.slug)))
             } finally {
                 if (isMounted) setLoadingActs(false)
             }
@@ -151,13 +156,14 @@ export const PWASidebar: React.FC<PWASidebarProps> = ({ isOpen, onClose }) => {
             {
                 title: 'Recursos',
                 items: [
+                    ...pages,
                     { label: 'Contacto', href: '/contacto', icon: Mail, description: 'Ponte en contacto' },
                 ],
             },
         ]
 
         return [...base, ...acts, ...tail]
-    }, [programs, collections, challenges])
+    }, [programs, collections, challenges, pages])
 
     return (
         <>

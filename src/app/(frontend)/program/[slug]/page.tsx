@@ -15,15 +15,6 @@ function secondsToClock(total?: number | null): string {
   return `${m}:${String(s).padStart(2, '0')}`
 }
 
-function heroForProgram(slug: string | null | undefined): string {
-  const key = (slug || '').toLowerCase()
-  const map: Record<string, string> = {
-    'neurodespertar': '/content/programNeurodespertar/hero.png',
-    'neuropausa': '/content/programNeuropausa/hero.png',
-    'reprogramacion-nocturna': '/content/programReprogramacionNocturna/hero.png',
-  }
-  return map[key] || '/content/programNeurodespertar/hero.png'
-}
 
 export default async function ProgramPage({ params }: Params) {
   const { slug } = await params
@@ -57,10 +48,10 @@ export default async function ProgramPage({ params }: Params) {
 
   const heroPath = program?.image && typeof program.image === 'object' && program.image?.url
     ? String(program.image.url)
-    : heroForProgram(program.slug || '')
+    : undefined
 
   const descriptionNode = program?.description ? (
-    <RichText data={program.description as any} enableGutter={false} />
+    <RichText data={program.description as any} enableGutter={false} enableProse={false} />
   ) : undefined
 
   return (
