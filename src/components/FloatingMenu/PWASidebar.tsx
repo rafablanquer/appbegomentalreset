@@ -134,6 +134,10 @@ export const PWASidebar: React.FC<PWASidebarProps> = ({ isOpen, onClose }) => {
                 title: 'Principal',
                 items: [
                     { label: 'Inicio', href: '/home-app', icon: Home, description: 'Página principal' },
+                    { label: 'Instrucciones', href: '/instrucciones', icon: BookOpen, description: 'Artículos y contenido' },
+                    { label: 'Blog', href: '/posts', icon: BookOpen, description: 'Artículos y contenido' },
+                    { label: 'Niveles de Membresía', href: '/niveles-de-membresia', icon: User, description: 'Planes y membresías' },
+
                 ],
             },
         ]
@@ -143,17 +147,10 @@ export const PWASidebar: React.FC<PWASidebarProps> = ({ isOpen, onClose }) => {
         ]
 
         const tail: MenuSection[] = [
-            {
-                title: 'Cuenta',
-                items: [
-                    { label: 'Niveles de Membresía', href: '/niveles-de-membresia', icon: User, description: 'Planes y membresías' },
-                ],
-            },
+
             {
                 title: 'Recursos',
                 items: [
-                    { label: 'Instrucciones', href: '/instrucciones', icon: BookOpen, description: 'Artículos y contenido' },
-                    { label: 'Blog', href: '/posts', icon: BookOpen, description: 'Artículos y contenido' },
                     { label: 'Contacto', href: '/contacto', icon: Mail, description: 'Ponte en contacto' },
                 ],
             },

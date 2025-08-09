@@ -39,7 +39,11 @@ const ProgramPanel = ({ title, description, heroPath, activities }: { title: str
                     <div className="content-container">
                         <h1 className="main-title">{title}</h1>
                         {description ? (
-                            <div className="description">{description}</div>
+                            typeof description === 'string' ? (
+                                <p className="description">{description}</p>
+                            ) : (
+                                <div className="description">{description}</div>
+                            )
                         ) : null}
                     </div>
                 </section>

@@ -118,7 +118,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, isAuthenticate
             </Link>
 
             <div className="flex items-center gap-4">
-              <HeaderNav data={data} />
+              {/* <HeaderNav data={data} /> */}
 
               {/* Botón de Únete */}
               <div className="et_pb_button_module_wrapper et_pb_button_alignment_right">
