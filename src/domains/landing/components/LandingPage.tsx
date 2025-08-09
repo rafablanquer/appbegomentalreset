@@ -5,6 +5,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import ButtonUnete from '@/components/Buttons/ButtonUnete'
+import MembershipPricing from '@/domains/membership/components/MembershipPricing'
 
 interface LandingPageProps {
 	data?: any;
@@ -584,89 +585,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
 
 				{/* Pricing Section */}
 				<section id="membresias" className="et_pb_section pricing-section">
-					<div className="et_pb_row">
-						<div className="et_pb_column et_pb_column_4_4">
-							<div className="et_pb_module et_pb_heading et_had_animation">
-								<div className="et_pb_heading_container">
-									<h3 className="pricing-main-title">Elige tu plan de reprogramación</h3>
-								</div>
-							</div>
-
-							{/* Plan Mensual */}
-							<div className="pricing-plan-wrapper">
-								<div className="pricing-plan-title">
-									<h2>PLAN MENSUAL 14,97 €/MES</h2>
-								</div>
-								<div className="pricing-plan-content">
-									<ul>
-										<li>Acceso completo a toda la biblioteca de reprogramación durante un mes, (luego se renueva)</li>
-										<li>No incluye Zooms grupales.</li>
-									</ul>
-								</div>
-								<div className="pricing-plan-button">
-									<Link href="/pago-de-membresia/?pmpro_level=2" className="et_pb_button">
-										QUIERO EL MENSUAL
-									</Link>
-								</div>
-							</div>
-
-							{/* Plan Trimestral */}
-							<div className="pricing-plan-wrapper">
-								<div className="pricing-plan-title">
-									<h2>PLAN TRIMESTRAL 37,97 €/CADA 3 MESES (AHORRAS 6 €)</h2>
-								</div>
-								<div className="pricing-plan-content">
-									<ul>
-										<li>Accesos completo a toda la biblioteca de reprogramación durante 3 meses (luego se renueva)</li>
-										<li>Zoom grupal trimestral para profundizar, resolver dudas y seguir integrando.</li>
-									</ul>
-								</div>
-								<div className="pricing-plan-button">
-									<Link href="/pago-de-membresia/?pmpro_level=3" className="et_pb_button">
-										QUIERO EL TRIMESTRAL
-									</Link>
-								</div>
-							</div>
-
-							{/* Plan Anual */}
-							<div className="pricing-plan-wrapper">
-								<div className="pricing-plan-title">
-									<h2>PLAN ANUAL 127,97 €/AÑO (AHORRAS 52 €)</h2>
-								</div>
-								<div className="pricing-plan-content">
-									<ul>
-										<li>Accesos completo a toda la biblioteca de reprogramación durante <strong>12 meses</strong> (luego se renueva)</li>
-										<li>Incluye todos los Zooms grupales trimestrales del año.</li>
-										<li>Contenido exclusivo para miembros anuales.</li>
-									</ul>
-								</div>
-								<div className="pricing-plan-button">
-									<Link href="/pago-de-membresia/?pmpro_level=4" className="et_pb_button">
-										QUIERO EL ANUAL
-									</Link>
-								</div>
-							</div>
-
-							{/* Important Notice */}
-							<div className="important-notice">
-								<div className="important-title">
-									<h3>¡IMPORTANTE!</h3>
-								</div>
-								<div className="important-content">
-									<p>
-										Si tras rellenar el formulario con tu usuario, contraseña y correo, no completas tu pago o te ha dado error. No te preocupes, no tienes que empezar de cero.
-									</p>
-
-
-
-
-
-
-
-								</div>
-							</div>
-						</div>
-					</div>
+					<MembershipPricing />
 
 					<div className="et_pb_row">
 						<div className="et_pb_column et_pb_column_4_4">
@@ -688,14 +607,32 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
 
 							<div className="et_pb_module et_pb_accordion">
 								<div className="et_pb_toggle et_pb_module et_pb_accordion_item">
-									<h5
-										className="et_pb_toggle_title"
+									<div
+										className="faq-header"
 										onClick={() => toggleAccordion('0')}
-										style={{ cursor: 'pointer' }}
+										role="button"
+										aria-expanded={!!activeAccordions['0']}
+										aria-controls="faq-content-0"
 									>
-										¿Para quién es este espacio?
-									</h5>
-									<div className={`et_pb_toggle_content ${activeAccordions['0'] ? '' : 'et_pb_toggle_close'}`}>
+										<h5 className="et_pb_toggle_title">¿Para quién es este espacio?</h5>
+										<button
+											type="button"
+											className="faq-toggle-btn"
+											aria-label={activeAccordions['0'] ? 'Contraer' : 'Expandir'}
+											onClick={(e) => { e.stopPropagation(); toggleAccordion('0'); }}
+										>
+											{activeAccordions['0'] ? (
+												<svg width="20" height="20" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+													<path d="M5 12h14" stroke="#8e8e8e" />
+												</svg>
+											) : (
+												<svg width="20" height="20" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+													<path d="M12 5v14M5 12h14" stroke="#8e8e8e" />
+												</svg>
+											)}
+										</button>
+									</div>
+									<div id="faq-content-0" className={`et_pb_toggle_content ${activeAccordions['0'] ? '' : 'et_pb_toggle_close'}`}>
 										<p>
 											Para quienes están listos para dejar de repetir patrones y comenzar a reprogramar su mente con ciencia, intención y resultados.
 										</p>
@@ -703,14 +640,32 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
 								</div>
 
 								<div className="et_pb_toggle et_pb_module et_pb_accordion_item">
-									<h5
-										className="et_pb_toggle_title"
+									<div
+										className="faq-header"
 										onClick={() => toggleAccordion('1')}
-										style={{ cursor: 'pointer' }}
+										role="button"
+										aria-expanded={!!activeAccordions['1']}
+										aria-controls="faq-content-1"
 									>
-										¿Necesito tener experiencia previa en meditación o neurociencia?
-									</h5>
-									<div className={`et_pb_toggle_content ${activeAccordions['1'] ? '' : 'et_pb_toggle_close'}`}>
+										<h5 className="et_pb_toggle_title">¿Necesito tener experiencia previa en meditación o neurociencia?</h5>
+										<button
+											type="button"
+											className="faq-toggle-btn"
+											aria-label={activeAccordions['1'] ? 'Contraer' : 'Expandir'}
+											onClick={(e) => { e.stopPropagation(); toggleAccordion('1'); }}
+										>
+											{activeAccordions['1'] ? (
+												<svg width="20" height="20" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+													<path d="M5 12h14" stroke="#8e8e8e" />
+												</svg>
+											) : (
+												<svg width="20" height="20" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+													<path d="M12 5v14M5 12h14" stroke="#8e8e8e" />
+												</svg>
+											)}
+										</button>
+									</div>
+									<div id="faq-content-1" className={`et_pb_toggle_content ${activeAccordions['1'] ? '' : 'et_pb_toggle_close'}`}>
 										<p>
 											No. Este espacio está diseñado para que cualquier persona pueda empezar desde cero y ver resultados reales.
 										</p>
@@ -718,14 +673,32 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
 								</div>
 
 								<div className="et_pb_toggle et_pb_module et_pb_accordion_item">
-									<h5
-										className="et_pb_toggle_title"
+									<div
+										className="faq-header"
 										onClick={() => toggleAccordion('2')}
-										style={{ cursor: 'pointer' }}
+										role="button"
+										aria-expanded={!!activeAccordions['2']}
+										aria-controls="faq-content-2"
 									>
-										¿Cuánto tiempo necesito dedicar cada día?
-									</h5>
-									<div className={`et_pb_toggle_content ${activeAccordions['2'] ? '' : 'et_pb_toggle_close'}`}>
+										<h5 className="et_pb_toggle_title">¿Cuánto tiempo necesito dedicar cada día?</h5>
+										<button
+											type="button"
+											className="faq-toggle-btn"
+											aria-label={activeAccordions['2'] ? 'Contraer' : 'Expandir'}
+											onClick={(e) => { e.stopPropagation(); toggleAccordion('2'); }}
+										>
+											{activeAccordions['2'] ? (
+												<svg width="20" height="20" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+													<path d="M5 12h14" stroke="#8e8e8e" />
+												</svg>
+											) : (
+												<svg width="20" height="20" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+													<path d="M12 5v14M5 12h14" stroke="#8e8e8e" />
+												</svg>
+											)}
+										</button>
+									</div>
+									<div id="faq-content-2" className={`et_pb_toggle_content ${activeAccordions['2'] ? '' : 'et_pb_toggle_close'}`}>
 										<p>
 											Con 10-15 minutos al día ya comenzarás a notar cambios. La clave está en la consistencia, no en la duración.
 										</p>
@@ -733,14 +706,32 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
 								</div>
 
 								<div className="et_pb_toggle et_pb_module et_pb_accordion_item">
-									<h5
-										className="et_pb_toggle_title"
+									<div
+										className="faq-header"
 										onClick={() => toggleAccordion('3')}
-										style={{ cursor: 'pointer' }}
+										role="button"
+										aria-expanded={!!activeAccordions['3']}
+										aria-controls="faq-content-3"
 									>
-										¿Puedo cancelar mi suscripción cuando quiera?
-									</h5>
-									<div className={`et_pb_toggle_content ${activeAccordions['3'] ? '' : 'et_pb_toggle_close'}`}>
+										<h5 className="et_pb_toggle_title">¿Puedo cancelar mi suscripción cuando quiera?</h5>
+										<button
+											type="button"
+											className="faq-toggle-btn"
+											aria-label={activeAccordions['3'] ? 'Contraer' : 'Expandir'}
+											onClick={(e) => { e.stopPropagation(); toggleAccordion('3'); }}
+										>
+											{activeAccordions['3'] ? (
+												<svg width="20" height="20" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+													<path d="M5 12h14" stroke="#8e8e8e" />
+												</svg>
+											) : (
+												<svg width="20" height="20" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+													<path d="M12 5v14M5 12h14" stroke="#8e8e8e" />
+												</svg>
+											)}
+										</button>
+									</div>
+									<div id="faq-content-3" className={`et_pb_toggle_content ${activeAccordions['3'] ? '' : 'et_pb_toggle_close'}`}>
 										<p>
 											Sí, puedes cancelar tu suscripción en cualquier momento desde tu área de usuario sin penalizaciones.
 										</p>
@@ -748,14 +739,32 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
 								</div>
 
 								<div className="et_pb_toggle et_pb_module et_pb_accordion_item">
-									<h5
-										className="et_pb_toggle_title"
+									<div
+										className="faq-header"
 										onClick={() => toggleAccordion('4')}
-										style={{ cursor: 'pointer' }}
+										role="button"
+										aria-expanded={!!activeAccordions['4']}
+										aria-controls="faq-content-4"
 									>
-										¿Los audios funcionan realmente?
-									</h5>
-									<div className={`et_pb_toggle_content ${activeAccordions['4'] ? '' : 'et_pb_toggle_close'}`}>
+										<h5 className="et_pb_toggle_title">¿Los audios funcionan realmente?</h5>
+										<button
+											type="button"
+											className="faq-toggle-btn"
+											aria-label={activeAccordions['4'] ? 'Contraer' : 'Expandir'}
+											onClick={(e) => { e.stopPropagation(); toggleAccordion('4'); }}
+										>
+											{activeAccordions['4'] ? (
+												<svg width="20" height="20" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+													<path d="M5 12h14" stroke="#8e8e8e" />
+												</svg>
+											) : (
+												<svg width="20" height="20" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+													<path d="M12 5v14M5 12h14" stroke="#8e8e8e" />
+												</svg>
+											)}
+										</button>
+									</div>
+									<div id="faq-content-4" className={`et_pb_toggle_content ${activeAccordions['4'] ? '' : 'et_pb_toggle_close'}`}>
 										<p>
 											Sí. Están basados en neurociencia y técnicas de reprogramación mental validadas. Miles de personas ya han experimentado cambios reales y sostenibles.
 										</p>
@@ -1102,33 +1111,65 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
           }
           
           .et_pb_toggle {
-            border: 1px solid #ddd;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            overflow: hidden;
+            border: 1px solid #e6e1d9;
+            margin-bottom: 14px;
+            border-radius: 12px;
+            overflow: clip;
+            background: #fff;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.03);
           }
           
+          .faq-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            background: #fbf6ef;
+            padding: 18px 18px 18px 20px;
+            border-bottom: 1px solid #efe9e0;
+          }
+
           .et_pb_toggle_title {
-            background: #f8f8f8;
-            padding: 20px;
             margin: 0;
-            cursor: pointer;
-            border-bottom: 1px solid #ddd;
             font-size: 18px;
             font-weight: 600;
-            transition: background-color 0.3s ease;
+            color: #2b2b2b;
+          }
+
+          .faq-toggle-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 9999px;
+            border: 1px solid #ddd6c8;
+            background: #ffffff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s ease, transform 0.15s ease;
+          }
+
+          .faq-toggle-btn:hover {
+            background: #f3f0ea;
+          }
+
+          .faq-toggle-btn:active {
+            transform: scale(0.98);
           }
           
           .et_pb_toggle_title:hover {
-            background: #e8e8e8;
+            /* titulo no cambia fondo; el contenedor header maneja hover */
           }
           
           .et_pb_toggle_content {
             padding: 20px;
             background: #fff;
-            transition: all 0.3s ease;
+            transition: height 0.3s ease, padding 0.3s ease, opacity 0.2s ease;
           }
           
+          .et_pb_toggle_close {
+            border-color: #eee7dd;
+          }
+
           .et_pb_toggle_close .et_pb_toggle_content {
             display: none;
           }
