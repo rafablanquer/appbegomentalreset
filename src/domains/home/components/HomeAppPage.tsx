@@ -1,12 +1,94 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+
+// Evita errores de TypeScript cuando aún no está cargado el script de Vimeo
+declare global {
+  interface Window {
+    Vimeo?: {
+      Player: any;
+    };
+  }
+}
 
 const HomeAppPage = () => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const videoContainerRef = useRef<HTMLDivElement | null>(null);
+  const playerRef = useRef<any>(null);
+  const vimeoVideoId = 1101953160; // ID del vídeo
+  const desiredQuality = '540p'; // Cambia a '540p' si quieres aún menos peso
 
   const handlePlayVideo = () => {
     setIsVideoPlaying(true);
   };
+
+  useEffect(() => {
+    if (!isVideoPlaying) return;
+
+    let cancelled = false;
+
+    const createPlayer = () => {
+      if (cancelled || !videoContainerRef.current || !window.Vimeo?.Player) return;
+      // Limpieza previa si existiera
+      if (playerRef.current) {
+        try {
+          playerRef.current.unload?.();
+          playerRef.current.destroy?.();
+        } catch { }
+        playerRef.current = null;
+      }
+
+      playerRef.current = new window.Vimeo.Player(videoContainerRef.current, {
+        id: vimeoVideoId,
+        autoplay: true,
+        byline: false,
+        title: false,
+        portrait: false,
+        controls: true,
+        // Importante para rendimiento en móviles
+        responsive: true,
+        // Intento de arrancar en baja latencia si el navegador lo soporta
+        playsinline: true,
+      });
+
+      // Fijar calidad deseada (Vimeo puede ajustar si no está disponible)
+      playerRef.current
+        .setQuality(desiredQuality)
+        .catch(() => {
+          // Si no se puede forzar, ignoramos: el reproductor elegirá adaptativo
+        });
+    };
+
+    const ensureScript = () => {
+      if (window.Vimeo?.Player) {
+        createPlayer();
+        return;
+      }
+      const existing = document.querySelector<HTMLScriptElement>('script[src="https://player.vimeo.com/api/player.js"]');
+      if (existing) {
+        existing.addEventListener('load', createPlayer, { once: true });
+        return;
+      }
+      const script = document.createElement('script');
+      script.src = 'https://player.vimeo.com/api/player.js';
+      script.async = true;
+      script.defer = true;
+      script.addEventListener('load', createPlayer, { once: true });
+      document.body.appendChild(script);
+    };
+
+    ensureScript();
+
+    return () => {
+      cancelled = true;
+      if (playerRef.current) {
+        try {
+          playerRef.current.unload?.();
+          playerRef.current.destroy?.();
+        } catch { }
+        playerRef.current = null;
+      }
+    };
+  }, [isVideoPlaying]);
 
   return (
     <>
@@ -42,14 +124,7 @@ const HomeAppPage = () => {
               </div>
             ) : (
               <div className="video-container">
-                <iframe
-                  src="https://player.vimeo.com/video/1101953160?autoplay=1&title=0&byline=0&portrait=0&quality=540p"
-                  width="100%"
-                  frameBorder="0"
-                  allow="autoplay; fullscreen; picture-in-picture"
-                  allowFullScreen
-                  title="BMR Video"
-                ></iframe>
+                <div ref={videoContainerRef} className="vimeo-player-root" />
               </div>
             )}
           </div>
@@ -145,10 +220,13 @@ const HomeAppPage = () => {
             box-shadow: 0 8px 25px rgba(0,0,0,0.15);
           }
 
-          .video-container iframe {
+          .video-container iframe,
+          .video-container .vimeo-player-root {
             border-radius: 15px;
             aspect-ratio: 16/9;
             height: auto;
+            width: 100%;
+            display: block;
           }
 
           .player-image {
