@@ -1,9 +1,10 @@
 'use client'
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
+    type LucideIcon,
     Home,
     BookOpen,
     Heart,
@@ -15,7 +16,9 @@ import {
     User,
     Settings,
     X,
-    UserCircle
+    UserCircle,
+    Trophy,
+    FolderOpen
 } from 'lucide-react'
 import { cn } from '@/utilities/ui'
 
@@ -24,94 +27,47 @@ interface PWASidebarProps {
     onClose: () => void
 }
 
-const menuSections = [
-    {
-        title: 'Principal',
-        items: [
-            {
-                label: 'Inicio',
-                href: '/home-app',
-                icon: Home,
-                description: 'Página principal'
-            }
-        ]
-    },
-    {
-        title: 'Programas',
-        items: [
-            {
-                label: 'Neurodespertar',
-                href: '/rutina-de-enfoque-diario',
-                icon: Target,
-                description: 'Neurodespertar'
-            },
+type MenuItem = {
+    label: string
+    href: string
+    icon: LucideIcon
+    description?: string
+}
 
-            {
-                label: 'Neuropausa',
-                href: '/herramientas-de-regulacion',
-                icon: Heart,
-                description: 'Neuropausa'
-            },
+type MenuSection = {
+    title: string
+    items: MenuItem[]
+}
 
-            {
-                label: 'Reprogramación nocturna',
-                href: '/transformacion-nocturna',
-                icon: Moon,
-                description: 'Reprogramación nocturna'
-            },
-            {
-                label: 'Respiraciones Conscientes',
-                href: '/respiraciones-conscientes',
-                icon: Wind,
-                description: 'Ejercicios de respiración'
-            },
+// Mapa de iconos por slug. Se inicializa una vez al cargar el módulo
+const ICON_BY_SLUG: Record<string, LucideIcon> = {
+    'neurodespertar': Target,
+    'rutina-de-enfoque-diario': Target,
+    'neuropausa': Heart,
+    'herramientas-de-regulacion': Heart,
+    'transformacion-nocturna': Moon,
+    'respiraciones-conscientes': Wind,
+    'reto-21-dias': Calendar,
+}
 
-            {
-                label: 'Reto 21 Días',
-                href: '/reto-21-dias',
-                icon: Calendar,
-                description: 'Desafío de 21 días'
-            }
-        ]
-    },
-    {
-        title: 'Cuenta',
-        items: [
-            {
-                label: 'Niveles de Membresía',
-                href: '/niveles-de-membresia',
-                icon: User,
-                description: 'Planes y membresías'
-            }
-        ]
-    },
-    {
-        title: 'Recursos',
-        items: [
-            {
-                label: 'Instrucciones',
-                href: '/instrucciones',
-                icon: BookOpen,
-                description: 'Artículos y contenido'
-            },
-            {
-                label: 'Blog',
-                href: '/posts',
-                icon: BookOpen,
-                description: 'Artículos y contenido'
-            },
-            {
-                label: 'Contacto',
-                href: '/contacto',
-                icon: Mail,
-                description: 'Ponte en contacto'
-            }
-        ]
-    }
-]
+const DEFAULT_ICON = {
+    program: Target as LucideIcon,
+    collection: FolderOpen as LucideIcon,
+    challenge: Trophy as LucideIcon,
+}
+
+// Overrides de ruta si el slug no coincide con la ruta real de la PWA
+const ROUTE_BY_SLUG: Record<string, string> = {
+    neurodespertar: '/rutina-de-enfoque-diario',
+    neuropausa: '/herramientas-de-regulacion',
+}
 
 export const PWASidebar: React.FC<PWASidebarProps> = ({ isOpen, onClose }) => {
     const pathname = usePathname()
+    const [programs, setPrograms] = useState<MenuItem[]>([])
+    const [collections, setCollections] = useState<MenuItem[]>([])
+    const [challenges, setChallenges] = useState<MenuItem[]>([])
+    const [loadingActs, setLoadingActs] = useState<boolean>(true)
 
     // Cerrar al presionar Escape
     useEffect(() => {
@@ -131,6 +87,80 @@ export const PWASidebar: React.FC<PWASidebarProps> = ({ isOpen, onClose }) => {
             document.body.style.overflow = 'unset'
         }
     }, [isOpen, onClose])
+
+    // Carga dinámica de actividades
+    useEffect(() => {
+        let isMounted = true
+        async function loadActivities() {
+            try {
+                setLoadingActs(true)
+                const results = await Promise.allSettled([
+                    fetch('/api/programs?depth=0&limit=200&sort=title', { credentials: 'include' }),
+                    fetch('/api/content-collections?depth=0&limit=200&sort=title', { credentials: 'include' }),
+                    fetch('/api/challenges?depth=0&limit=200&sort=title', { credentials: 'include' }),
+                ])
+
+                if (!isMounted) return
+
+                const [progRes, collRes, chalRes] = results
+                const progJson = progRes.status === 'fulfilled' && progRes.value.ok ? await progRes.value.json() : { docs: [] }
+                const collJson = collRes.status === 'fulfilled' && collRes.value.ok ? await collRes.value.json() : { docs: [] }
+                const chalJson = chalRes.status === 'fulfilled' && chalRes.value.ok ? await chalRes.value.json() : { docs: [] }
+
+                const toItem = (title: string, kind: 'program' | 'collection' | 'challenge', slug?: string | null): MenuItem => {
+                    const s = (slug || '').toLowerCase()
+                    const href = ROUTE_BY_SLUG[s] || (s ? `/${s}` : '#')
+                    const Icon = ICON_BY_SLUG[s] || DEFAULT_ICON[kind]
+                    return { label: title || '—', href, icon: Icon }
+                }
+
+                setPrograms((progJson.docs || []).map((p: any) => toItem(String(p.title || ''), 'program', p.slug)))
+                setCollections((collJson.docs || []).map((c: any) => toItem(String(c.title || ''), 'collection', c.slug)))
+                setChallenges((chalJson.docs || []).map((c: any) => toItem(String(c.title || ''), 'challenge', c.slug)))
+            } finally {
+                if (isMounted) setLoadingActs(false)
+            }
+        }
+
+        loadActivities()
+        return () => {
+            isMounted = false
+        }
+    }, [])
+
+    const menuSections: MenuSection[] = useMemo(() => {
+        const base: MenuSection[] = [
+            {
+                title: 'Principal',
+                items: [
+                    { label: 'Inicio', href: '/home-app', icon: Home, description: 'Página principal' },
+                ],
+            },
+        ]
+
+        const acts: MenuSection[] = [
+            { title: 'Programas', items: [...programs, ...collections, ...challenges] },
+        ]
+
+        const tail: MenuSection[] = [
+            {
+                title: 'Cuenta',
+                items: [
+                    { label: 'Niveles de Membresía', href: '/niveles-de-membresia', icon: User, description: 'Planes y membresías' },
+                ],
+            },
+            {
+                title: 'Recursos',
+                items: [
+                    { label: 'Instrucciones', href: '/instrucciones', icon: BookOpen, description: 'Artículos y contenido' },
+                    { label: 'Blog', href: '/posts', icon: BookOpen, description: 'Artículos y contenido' },
+                    { label: 'Contacto', href: '/contacto', icon: Mail, description: 'Ponte en contacto' },
+                ],
+            },
+        ]
+
+        return [...base, ...acts, ...tail]
+    }, [programs, collections, challenges])
 
     return (
         <>
@@ -188,7 +218,7 @@ export const PWASidebar: React.FC<PWASidebarProps> = ({ isOpen, onClose }) => {
 
                                 {/* Items de la sección */}
                                 <div className="space-y-1">
-                                    {section.items.map((item) => {
+                                    {(section.items.length > 0 ? section.items : (!loadingActs ? [] : [])).map((item) => {
                                         const isActive = pathname === item.href
                                         const Icon = item.icon
 
@@ -220,6 +250,9 @@ export const PWASidebar: React.FC<PWASidebarProps> = ({ isOpen, onClose }) => {
                                             </Link>
                                         )
                                     })}
+                                    {section.items.length === 0 && !loadingActs && (
+                                        <div className="px-3 py-2 text-xs text-muted-foreground">Sin elementos</div>
+                                    )}
                                 </div>
                             </div>
                         ))}
