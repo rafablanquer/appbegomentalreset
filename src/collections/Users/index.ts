@@ -12,7 +12,7 @@ export const Users: CollectionConfig = {
     update: authenticated,
   },
   admin: {
-    defaultColumns: ['name', 'email', 'membershipType', 'membershipStatus'],
+    defaultColumns: ['name', 'email', 'membershipType', 'membershipStatus', 'membershipEndDate'],
     useAsTitle: 'name',
   },
   auth: true,
@@ -21,6 +21,18 @@ export const Users: CollectionConfig = {
       name: 'name',
       type: 'text',
       required: true,
+    },
+    {
+      name: 'roles',
+      type: 'select',
+      hasMany: true,
+      label: 'Roles',
+      options: [
+        { label: 'Propietario', value: 'owner' },
+        { label: 'Gestor', value: 'manager' },
+        { label: 'Miembro', value: 'member' },
+      ],
+      defaultValue: ['member'],
     },
     {
       name: 'membershipType',

@@ -72,7 +72,10 @@ export interface Config {
     media: Media;
     categories: Category;
     users: User;
-    redirects: Redirect;
+    programs: Program;
+    'content-collections': ContentCollection;
+    challenges: Challenge;
+    'membership-payments': MembershipPayment;
     forms: Form;
     'form-submissions': FormSubmission;
     search: Search;
@@ -88,7 +91,10 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
-    redirects: RedirectsSelect<false> | RedirectsSelect<true>;
+    programs: ProgramsSelect<false> | ProgramsSelect<true>;
+    'content-collections': ContentCollectionsSelect<false> | ContentCollectionsSelect<true>;
+    challenges: ChallengesSelect<false> | ChallengesSelect<true>;
+    'membership-payments': MembershipPaymentsSelect<false> | MembershipPaymentsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     search: SearchSelect<false> | SearchSelect<true>;
@@ -374,6 +380,7 @@ export interface Category {
 export interface User {
   id: number;
   name: string;
+  roles?: ('owner' | 'manager' | 'member')[] | null;
   membershipType?: ('none' | 'monthly' | 'quarterly' | 'annual') | null;
   membershipStatus?: ('inactive' | 'active' | 'cancelled' | 'pending') | null;
   stripeCustomerId?: string | null;
@@ -742,27 +749,116 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "redirects".
+ * via the `definition` "programs".
  */
-export interface Redirect {
+export interface Program {
   id: number;
-  /**
-   * You will need to rebuild the website when changing this field.
-   */
-  from: string;
-  to?: {
-    type?: ('reference' | 'custom') | null;
-    reference?:
-      | ({
-          relationTo: 'pages';
-          value: number | Page;
-        } | null)
-      | ({
-          relationTo: 'posts';
-          value: number | Post;
-        } | null);
-    url?: string | null;
-  };
+  title: string;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  image?: (number | null) | Media;
+  audios?:
+    | {
+        title: string;
+        description?: string | null;
+        audio?: (number | null) | Media;
+        externalUrl?: string | null;
+        durationSeconds?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  publishedAt?: string | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "content-collections".
+ */
+export interface ContentCollection {
+  id: number;
+  title: string;
+  items?:
+    | {
+        title: string;
+        intro?: string | null;
+        video?: (number | null) | Media;
+        youtubeUrl?: string | null;
+        externalUrl?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "challenges".
+ */
+export interface Challenge {
+  id: number;
+  title: string;
+  description?: string | null;
+  image?: (number | null) | Media;
+  days?:
+    | {
+        dayNumber: number;
+        title?: string | null;
+        note?: string | null;
+        audio?: (number | null) | Media;
+        video?: (number | null) | Media;
+        youtubeUrl?: string | null;
+        externalUrl?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "membership-payments".
+ */
+export interface MembershipPayment {
+  id: number;
+  user: number | User;
+  stripeInvoiceId?: string | null;
+  stripeSubscriptionId?: string | null;
+  amount?: number | null;
+  currency?: string | null;
+  status?: string | null;
+  periodStart?: string | null;
+  periodEnd?: string | null;
+  raw?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -934,8 +1030,20 @@ export interface PayloadLockedDocument {
         value: number | User;
       } | null)
     | ({
-        relationTo: 'redirects';
-        value: number | Redirect;
+        relationTo: 'programs';
+        value: number | Program;
+      } | null)
+    | ({
+        relationTo: 'content-collections';
+        value: number | ContentCollection;
+      } | null)
+    | ({
+        relationTo: 'challenges';
+        value: number | Challenge;
+      } | null)
+    | ({
+        relationTo: 'membership-payments';
+        value: number | MembershipPayment;
       } | null)
     | ({
         relationTo: 'forms';
@@ -1280,6 +1388,7 @@ export interface CategoriesSelect<T extends boolean = true> {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
+  roles?: T;
   membershipType?: T;
   membershipStatus?: T;
   stripeCustomerId?: T;
@@ -1305,17 +1414,90 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "redirects_select".
+ * via the `definition` "programs_select".
  */
-export interface RedirectsSelect<T extends boolean = true> {
-  from?: T;
-  to?:
+export interface ProgramsSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  image?: T;
+  audios?:
     | T
     | {
-        type?: T;
-        reference?: T;
-        url?: T;
+        title?: T;
+        description?: T;
+        audio?: T;
+        externalUrl?: T;
+        durationSeconds?: T;
+        id?: T;
       };
+  publishedAt?: T;
+  slug?: T;
+  slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "content-collections_select".
+ */
+export interface ContentCollectionsSelect<T extends boolean = true> {
+  title?: T;
+  items?:
+    | T
+    | {
+        title?: T;
+        intro?: T;
+        video?: T;
+        youtubeUrl?: T;
+        externalUrl?: T;
+        id?: T;
+      };
+  slug?: T;
+  slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "challenges_select".
+ */
+export interface ChallengesSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  image?: T;
+  days?:
+    | T
+    | {
+        dayNumber?: T;
+        title?: T;
+        note?: T;
+        audio?: T;
+        video?: T;
+        youtubeUrl?: T;
+        externalUrl?: T;
+        id?: T;
+      };
+  slug?: T;
+  slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "membership-payments_select".
+ */
+export interface MembershipPaymentsSelect<T extends boolean = true> {
+  user?: T;
+  stripeInvoiceId?: T;
+  stripeSubscriptionId?: T;
+  amount?: T;
+  currency?: T;
+  status?: T;
+  periodStart?: T;
+  periodEnd?: T;
+  raw?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1678,6 +1860,14 @@ export interface TaskSchedulePublish {
       | ({
           relationTo: 'posts';
           value: number | Post;
+        } | null)
+      | ({
+          relationTo: 'programs';
+          value: number | Program;
+        } | null)
+      | ({
+          relationTo: 'challenges';
+          value: number | Challenge;
         } | null);
     global?: string | null;
     user?: (number | null) | User;

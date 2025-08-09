@@ -11,6 +11,10 @@ import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
+import { Programs } from './collections/Programs'
+import { ContentCollections } from './collections/ContentCollections'
+import { Challenges } from './collections/Challenges'
+import { MembershipPayments } from './collections/MembershipPayments'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { plugins } from './plugins'
@@ -39,6 +43,7 @@ export default buildConfig({
       // The `BeforeDashboard` component renders the 'welcome' block that you see after logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below.
       beforeDashboard: ['@/components/BeforeDashboard'],
+      nav: ['@/components/AdminNav'],
     },
     importMap: {
       baseDir: path.resolve(dirname),
@@ -74,7 +79,17 @@ export default buildConfig({
       connectionString: process.env.POSTGRES_URL || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users],
+  collections: [
+    Pages,
+    Posts,
+    Media,
+    Categories,
+    Users,
+    Programs,
+    ContentCollections,
+    Challenges,
+    MembershipPayments,
+  ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [

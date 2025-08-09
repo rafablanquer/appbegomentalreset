@@ -1,7 +1,7 @@
 'use client'
 import { useHeaderTheme } from '@/providers/HeaderTheme'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { Menu, X } from 'lucide-react'
 
@@ -25,6 +25,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, isAuthenticate
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
   const pathname = usePathname()
+  const router = useRouter()
 
   useEffect(() => {
     setHeaderTheme(null)
@@ -44,11 +45,15 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, isAuthenticate
     setIsSidebarOpen(false)
   }
 
-  // Mostrar SIEMPRE la versión pública en la landing ('/')
-  // y usar la versión de app (hamburguesa) solo cuando el usuario está autenticado
-  // y no está en la landing.
+  // Mostrar el botón "Únete" SOLO en la landing ('/') y en '/contacto'.
+  // En el resto de rutas, mostrar el header con menú hamburguesa.
   const isLanding = pathname === '/'
-  const useAppHeader = isAuthenticated && !isLanding
+  const isContacto = pathname === '/contacto'
+  const useAppHeader = !(isLanding || isContacto)
+
+  const handleUnete = () => {
+    router.push('/niveles-de-membresia')
+  }
 
 
 
@@ -61,7 +66,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, isAuthenticate
         <div className="container mx-auto px-4">
           <div className="py-4 flex justify-between items-center">
             <Link href="/">
-              <Logo loading="eager" priority="high" isAuthenticated />
+              <Logo loading="eager" priority="high" isAuthenticated={isAuthenticated} />
             </Link>
 
             <div className="flex items-center gap-4">
@@ -96,8 +101,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, isAuthenticate
           </div>
         </div>
       </header>
-      <PWASidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
 
+      <PWASidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
     </>
   ) : (
     <>
@@ -117,7 +122,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, isAuthenticate
 
               {/* Botón de Únete */}
               <div className="et_pb_button_module_wrapper et_pb_button_alignment_right">
-                <ButtonUnete onClick={toggleSidebar} />
+                <ButtonUnete onClick={handleUnete} />
               </div>
             </div>
           </div>

@@ -12,7 +12,9 @@ interface Props {
 
 /* This component helps us with SSR based dynamic redirects */
 export const PayloadRedirects: React.FC<Props> = async ({ disableNotFound, url }) => {
-  const redirects = await getCachedRedirects()()
+  // Si el plugin de redirects está oculto/no requerido, podemos devolver vacío sin romper SSR
+  const getRedirects = getCachedRedirects?.()
+  const redirects = typeof getRedirects === 'function' ? await getRedirects() : []
 
   const redirectItem = redirects.find((redirect) => redirect.from === url)
 
