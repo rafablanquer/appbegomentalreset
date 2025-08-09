@@ -250,10 +250,10 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
 
 							<div className="et_pb_button_module_wrapper et_pb_button_alignment_center et_had_animation">
 								<ButtonUnete onClick={() => { }} style={{
-									backgroundColor: "rgb(163, 177, 138)",
-									color: "white",
+									backgroundColor: "#ffffff",
+									color: "#4a4a4a",
 									textTransform: "uppercase",
-									borderColor: "black",
+									borderColor: "#ffffff",
 									borderWidth: "1px",
 									borderStyle: "solid",
 									fontSize: "16px",
@@ -413,8 +413,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
 
 				<section className="et_pb_section stats-section">
 					<div className="et_pb_row">
-
-
 						<div className="et_pb_column et_pb_column_1_2">
 							<div className="et_pb_module et_pb_heading">
 								<div className="et_pb_heading_container">
@@ -435,7 +433,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
 							</div>
 
 							<div className="stats-list">
-								<div className="stat-item">
+								<div   >
 									<p><strong>Más de 2000 personas entrenan su mente cada día con estos audios.</strong></p>
 								</div>
 
@@ -477,58 +475,47 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
 						backgroundColor: "rgb(250, 241, 230)",
 					}}>
 					<div className="et_pb_row">
-
-						<div className="et_pb_column et_pb_column_1_2">
-							<div className="et_pb_column et_pb_column_1_2">
-								<div className="et_pb_module et_pb_image">
-									<Image
-										src="/assets/home/Sin-titulo-1280-x-720-px-1284-x-600-px-700-x-900-px-copia-3.png.png"
-										alt="¿Qué encontrarás dentro?"
-										width={700}
-										height={900}
-										loading="lazy"
-									/>
-								</div>
+						<div className="et_pb_column et_pb_column_4_4 about-intro">
+							<div className="about-image">
+								<Image
+									src="/assets/home/Sin-titulo-1280-x-720-px-1284-x-600-px-700-x-900-px-copia-3.png.png"
+									alt="¿Qué encontrarás dentro?"
+									width={700}
+									height={900}
+									loading="lazy"
+								/>
 							</div>
 							<div className="et_pb_module et_pb_heading">
-								<div className="et_pb_module et_pb_heading">
-									<div className="et_pb_heading_container">
-										<h3 className="et_pb_module_heading">¿Qué encontrarás dentro?</h3>
-									</div>
+								<div className="et_pb_heading_container">
+									<h3 className="et_pb_module_heading">¿Qué encontrarás dentro?</h3>
 								</div>
-								<div className="">
-									<span className="">
-										En resumen, tienes acceso estructurado y claro y un método de reprogramación creado por una neuropsicóloga especializa.
-									</span>
-								</div>
+							</div>
+							<div className="about-subtitle">
+								<p>
+									En resumen, tienes acceso estructurado y claro y un método de reprogramación creado por una neuropsicóloga especializa.
+								</p>
 							</div>
 						</div>
 					</div>
 
-					<div className="et_pb_row">
+					<div className="et_pb_row about-cards-row">
 						<div className="et_pb_column et_pb_column_4_4">
-							<div className="et_pb_with_border et_pb_module et_pb_text">
-								<div className="et_pb_text_inner">
-									<p>
-										Todos los audios y entrenamientos están organizados en áreas permitiéndote avanzar con foco y sin dispersión a lo largo del día.
-									</p>
-								</div>
+							<div className="about-card">
+								<p>
+									Todos los audios y entrenamientos están organizados en áreas permitiéndote avanzar con foco y sin dispersión a lo largo del día.
+								</p>
 							</div>
 
-							<div className="et_pb_with_border et_pb_module et_pb_text">
-								<div className="et_pb_text_inner">
-									<p>
-										Trabajas con reprogramaciones, respiraciones y visualizaciones diseñadas para activar tu sistema reticular, entrenar tu mente y regular tu sistema nervioso.
-									</p>
-								</div>
+							<div className="about-card">
+								<p>
+									Trabajas con reprogramaciones, respiraciones y visualizaciones diseñadas para activar tu sistema reticular, entrenar tu mente y regular tu sistema nervioso.
+								</p>
 							</div>
 
-							<div className="et_pb_with_border et_pb_module et_pb_text">
-								<div className="et_pb_text_inner">
-									<p>
-										Todo está diseñado por Begoña, experta en neuropsicología y reprogramación mental, asegurando que cada audio sea un paso real hacia el cambio que buscas.
-									</p>
-								</div>
+							<div className="about-card">
+								<p>
+									Todo está diseñado por Begoña, experta en neuropsicología y reprogramación mental, asegurando que cada audio sea un paso real hacia el cambio que buscas.
+								</p>
 							</div>
 						</div>
 					</div>
@@ -873,7 +860,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
           }
           
           .landing-page {
-            background-color: #fdf8e9;
+            background-color: #f9f1e6;
             overflow-x: hidden;
             font-family: 'Inter', 'Open Sans', Arial, sans-serif;
             font-size: 16px;
@@ -891,7 +878,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
           
           .et_pb_section {
             position: relative;
-            background-color: #fdf8e9;
+            background-color: #f9f1e6;
             background-position: 50%;
             background-size: cover;
             padding: 60px 0;
@@ -1165,75 +1152,90 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
           }
           
           .pricing-section {
-            background: #fdf8e9;
-            padding: 80px 0;
+            background: #f9f1e6;
+            padding: 60px 0 70px 0;
           }
           
           .pricing-main-title {
-            color: #a3b18a !important;
-            font-size: 28px !important;
-            font-weight: 400 !important;
+            color: #8fa383 !important;
+            font-size: 32px !important;
+            font-weight: 700 !important;
             text-align: center !important;
-            margin-bottom: 50px !important;
+            margin-bottom: 36px !important;
             letter-spacing: 0.5px;
           }
           
           .pricing-plan-wrapper {
-            background: white;
-            margin-bottom: 40px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: transparent;
+            margin: 38px auto;
+            box-shadow: none;
             border-radius: 0;
-            overflow: hidden;
+            overflow: visible;
+            max-width: 980px;
           }
           
           .pricing-plan-title {
-            background: #4a4a4a;
-            padding: 20px;
+            background: transparent;
+            padding: 0 20px 8px;
             text-align: center;
           }
           
           .pricing-plan-title h2 {
-            color: white !important;
-            font-size: 18px !important;
-            font-weight: 700 !important;
+            color: #2b2b2b !important;
+            font-size: 24px !important;
+            font-weight: 800 !important;
             margin: 0 !important;
             text-align: center !important;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
           }
           
           .pricing-plan-content {
-            background: white;
-            padding: 30px;
+            background: transparent;
+            padding: 18px 20px 8px;
           }
           
           .pricing-plan-content ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
+            list-style: disc;
+            padding-left: 24px;
+            margin: 0 auto;
+            max-width: 680px;
           }
           
           .pricing-plan-content li {
-            color: #4a4a4a;
-            font-size: 16px;
-            line-height: 1.6;
-            margin-bottom: 15px;
-            padding-left: 20px;
+            color: #2b2b2b;
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 14px;
+            padding-left: 0;
             position: relative;
           }
           
           .pricing-plan-content li:before {
-            content: "•";
-            color: #a3b18a;
-            font-weight: bold;
-            position: absolute;
-            left: 0;
-            font-size: 18px;
+            content: none;
           }
           
           .pricing-plan-button {
-            background: white;
-            padding: 0 30px 30px;
+            background: transparent;
+            padding: 8px 20px 28px;
             text-align: center;
+          }
+
+          .pricing-plan-button .et_pb_button {
+            background-color: #8fa383 !important;
+            color: #ffffff !important;
+            border: 2px solid #6f8a61 !important;
+            border-radius: 8px !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.8px !important;
+            padding: 14px 28px !important;
+            min-width: 280px;
+            box-shadow: 0 2px 0 rgba(0,0,0,0.12);
+          }
+
+          .pricing-plan-button .et_pb_button:hover {
+            background-color: #7a926e !important;
+            border-color: #617a55 !important;
+            transform: translateY(-1px);
           }
           
           .important-notice {
@@ -1261,7 +1263,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
           }
           
           .hero-section {
-            background: #fdf8e9;
+            background: #f9f1e6;
             text-align: center;
           }
           
@@ -1272,10 +1274,66 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
           .about-section {
             background: #f3f6f0;
           }
+
+          /* Sección ¿Qué encontrarás dentro? */
+          .about-intro {
+            text-align: center;
+          }
+
+          .about-image :global(img) {
+            display: block;
+            margin: 0 auto 10px auto;
+            max-width: 420px;
+            height: auto;
+          }
+
+          .about-subtitle p {
+            font-size: 18px;
+            color: #4a4a4a;
+            text-align: center;
+            margin: 0 auto;
+            max-width: 740px;
+            line-height: 1.6;
+          }
+
+          .about-cards-row {
+            margin-top: 10px;
+          }
+
+          .about-card {
+            background: #ffffff;
+            border: 2px solid #dad5cc;
+            border-radius: 14px;
+            padding: 26px 28px;
+            margin: 18px auto;
+            max-width: 980px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.02);
+          }
+
+          .about-card p {
+            margin: 0;
+            text-align: center;
+            font-size: 20px;
+            line-height: 1.7;
+            color: #1a1a1a;
+          }
+
+          @media (max-width: 767px) {
+            .about-image :global(img) {
+              max-width: 300px;
+            }
+            .about-card {
+              padding: 22px 20px;
+              border-radius: 12px;
+            }
+            .about-card p {
+              font-size: 18px;
+            }
+          }
           
           .stats-section {
-            background: #a3b18a;
-            color: white;
+            background: rgba(163, 177, 138, 0.61) !important;
+            color: #ffffff;
           }
           
           .stats-section .et_pb_heading_container h1,
@@ -1285,20 +1343,32 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
           }
           
           .stats-list {
-            margin: 30px 0;
+            margin: 30px auto;
+            max-width: 720px;
           }
           
           .stat-item {
-            margin-bottom: 20px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            border-left: 4px solid white;
+            margin-bottom: 16px;
+            padding: 18px 20px;
+            background: rgba(255, 255, 255, 0.16);
+            border-radius: 10px;
+            border-left: 4px solid #ffffff;
           }
           
           .stat-item p {
             margin: 0;
-            color: white;
+            color: #ffffff;
+            text-align: center;
+            font-size: 18px;
+            line-height: 1.6;
+          }
+
+          .stats-section .et_pb_image img {
+            width: 100%;
+            height: auto;
+            max-width: 520px;
+            display: block;
+            margin: 0 auto 10px auto;
           }
 
           .cta-section {

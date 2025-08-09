@@ -44,12 +44,15 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, isAuthenticate
     setIsSidebarOpen(false)
   }
 
-  const pageNewUnauthVersion = usePathname() === "/contact"
-  const useUnAuthVersion = isAuthenticated ? pageNewUnauthVersion : true
+  // Mostrar SIEMPRE la versión pública en la landing ('/')
+  // y usar la versión de app (hamburguesa) solo cuando el usuario está autenticado
+  // y no está en la landing.
+  const isLanding = pathname === '/'
+  const useAppHeader = isAuthenticated && !isLanding
 
 
 
-  return useUnAuthVersion ? (
+  return useAppHeader ? (
     <>
       <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm fixed-header"
         style={{
@@ -58,7 +61,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, isAuthenticate
         <div className="container mx-auto px-4">
           <div className="py-4 flex justify-between items-center">
             <Link href="/">
-              <Logo loading="eager" priority="high" />
+              <Logo loading="eager" priority="high" isAuthenticated />
             </Link>
 
             <div className="flex items-center gap-4">
@@ -98,7 +101,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, isAuthenticate
     </>
   ) : (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 border-b border-gray-200 shadow-sm fixed-header"
+      <header className="fixed top-0 left-0 right-0 z-50 fixed-header"
         style={{
           height: "100px",
           backgroundColor: "rgb(250, 241, 230)",
@@ -106,7 +109,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, isAuthenticate
         <div className="container mx-auto px-4">
           <div className="py-8 flex justify-between items-center">
             <Link href="/">
-              <Logo loading="eager" priority="high" className="invert dark:invert-0" />
+              <Logo loading="eager" priority="high" className="invert dark:invert-0" isAuthenticated={false} />
             </Link>
 
             <div className="flex items-center gap-4">

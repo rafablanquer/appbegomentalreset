@@ -37,7 +37,37 @@ export default function TransformacionNocturnaPage() {
         {
             id: 1,
             title: "Auto hipnosis para dormir profundamente",
-            path: "Autohipnosis para dormir profundo y transformar desde el subconsciente."
+            description: "Autohipnosis para dormir profundo y transformar desde el subconsciente."
+        },
+        {
+            id: 2,
+            title: "Recepción nocturna de nuevos códigos",
+            description: "Mientras duermes, tu mente subconsciente se abre a nuevas instrucciones que reprograman tus patrones más profundos."
+        },
+        {
+            id: 3,
+            title: "Sueño con dirección interna",
+            description: "Un audio diseñado para enfocar tu cerebro durante el sueño hacia objetivos claros y estados mentales más coherentes."
+        },
+        {
+            id: 4,
+            title: "Reprogramación silenciosa y suave",
+            description: "Transformación mental en segundo plano: sin esfuerzo, sin lucha, solo descanso y cambio real desde dentro."
+        },
+        {
+            id: 5,
+            title: "Descanso neurointencional",
+            description: "Un descanso dirigido, que regula tu sistema nervioso y favorece la repación emocional y cognitiva mientras duermes."
+        },
+        {
+            id: 6,
+            title: "Ciclo de asimilación subconsciente",
+            description: "Durante el sueño profundo, tu cerebro reorganiza y consolida nuevas conexiones alineadas con tu evolución mental."
+        },
+        {
+            id: 7,
+            title: "Activación interna en estado de sueño",
+            description: "Aunque tu cuerpo duerme, este audio despierta circuitos internos que activan nuevas posibilidades desde el subconsciente."
         },
     ]
 
