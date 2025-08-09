@@ -60,7 +60,7 @@ const LandingMembresiasPage: React.FC<LandingMembresiasPageProps> = ({ onMembers
         <div className="min-h-screen" style={{
             backgroundColor: "rgb(249, 241, 230)",
         }}>
-            <MembershipPricing />
+            <MembershipPricing onSelect={(id) => handleSelectPlan(id)} />
         </div>
     )
 }

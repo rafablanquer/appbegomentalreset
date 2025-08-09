@@ -2,7 +2,11 @@
 
 import Link from 'next/link'
 
-const MembershipPricing = () => {
+const MembershipPricing = ({
+  onSelect,
+}: {
+  onSelect?: (id: 'monthly' | 'quarterly' | 'annual') => void
+}) => {
   return (
     <div className="et_pb_row">
       <div className="et_pb_column et_pb_column_4_4">
@@ -24,7 +28,16 @@ const MembershipPricing = () => {
             </ul>
           </div>
           <div className="pricing-plan-button">
-            <Link href="/pago-de-membresia/?pmpro_level=2" className="et_pb_button">
+            <Link
+              href="/pago-de-membresia?type=monthly"
+              className="et_pb_button"
+              onClick={(e) => {
+                if (onSelect) {
+                  e.preventDefault()
+                  onSelect('monthly')
+                }
+              }}
+            >
               QUIERO EL MENSUAL
             </Link>
           </div>
@@ -42,7 +55,16 @@ const MembershipPricing = () => {
             </ul>
           </div>
           <div className="pricing-plan-button">
-            <Link href="/pago-de-membresia/?pmpro_level=3" className="et_pb_button">
+            <Link
+              href="/pago-de-membresia?type=quarterly"
+              className="et_pb_button"
+              onClick={(e) => {
+                if (onSelect) {
+                  e.preventDefault()
+                  onSelect('quarterly')
+                }
+              }}
+            >
               QUIERO EL TRIMESTRAL
             </Link>
           </div>
@@ -61,7 +83,16 @@ const MembershipPricing = () => {
             </ul>
           </div>
           <div className="pricing-plan-button">
-            <Link href="/pago-de-membresia/?pmpro_level=4" className="et_pb_button">
+            <Link
+              href="/pago-de-membresia?type=annual"
+              className="et_pb_button"
+              onClick={(e) => {
+                if (onSelect) {
+                  e.preventDefault()
+                  onSelect('annual')
+                }
+              }}
+            >
               QUIERO EL ANUAL
             </Link>
           </div>

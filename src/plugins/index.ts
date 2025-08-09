@@ -1,7 +1,7 @@
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs'
-// import { redirectsPlugin } from '@payloadcms/plugin-redirects'
+import { redirectsPlugin } from '@payloadcms/plugin-redirects'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { searchPlugin } from '@payloadcms/plugin-search'
 import { Plugin } from 'payload'
@@ -25,27 +25,27 @@ const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
 }
 
 export const plugins: Plugin[] = [
-  // redirectsPlugin({
-  //   collections: ['pages', 'posts'],
-  //   overrides: {
-  //     fields: ({ defaultFields }) => {
-  //       return defaultFields.map((field) => {
-  //         if ('name' in field && field.name === 'from') {
-  //           return {
-  //             ...field,
-  //             admin: {
-  //               description: 'You will need to rebuild the website when changing this field.',
-  //             },
-  //           }
-  //         }
-  //         return field
-  //       })
-  //     },
-  //     hooks: {
-  //       afterChange: [revalidateRedirects],
-  //     },
-  //   },
-  // }),
+  redirectsPlugin({
+    collections: ['pages', 'posts'],
+    overrides: {
+      fields: ({ defaultFields }) => {
+        return defaultFields.map((field) => {
+          if ('name' in field && field.name === 'from') {
+            return {
+              ...field,
+              admin: {
+                description: 'You will need to rebuild the website when changing this field.',
+              },
+            }
+          }
+          return field
+        })
+      },
+      hooks: {
+        afterChange: [revalidateRedirects],
+      },
+    },
+  }),
   nestedDocsPlugin({
     collections: ['categories'],
     generateURL: (docs) => docs.reduce((url, doc) => `${url}/${doc.slug}`, ''),

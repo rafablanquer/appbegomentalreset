@@ -74,8 +74,8 @@ const AdminNav: React.FC = () => {
         title="Actividades"
         items={[
           { label: 'Programas', href: '/admin/collections/programs', icon: '📆' },
-          { label: 'Retos', href: '/admin/collections/challenges', icon: '🏆' },
           { label: 'Colecciones', href: '/admin/collections/content-collections', icon: '🗂️' },
+          { label: 'Retos', href: '/admin/collections/challenges', icon: '🏆' },
         ]}
       />
       <Group
@@ -90,7 +90,7 @@ const AdminNav: React.FC = () => {
       <Group
         title="Gestión"
         items={[
-          { label: 'Respuestas Contacto', href: '/admin/collections/media', icon: '💬' },
+          { label: 'Respuestas Contacto', href: '/admin/collections/form-submissions', icon: '💬' },
           { label: 'Envio de emails', href: '/admin/collections/media', icon: '📧' },
           // Ocultamos temporalmente Forms y Submissions
           // { label: 'Forms', href: '/admin/collections/forms', icon: '📝' },

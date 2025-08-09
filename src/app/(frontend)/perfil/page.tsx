@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { User, Mail, Calendar, Crown, Settings, Bell, Shield, HelpCircle, LogOut, ChevronRight, Star } from 'lucide-react'
+import { User, Mail, Crown, Shield, HelpCircle, LogOut, ChevronRight } from 'lucide-react'
 import { useAuth } from '@/components/ProtectedRoute'
 import { useRouter } from 'next/navigation'
 
@@ -102,11 +102,10 @@ function ProfileContent() {
                     <div className="flex items-center justify-between mb-3">
                         <div>
                             <h3 className="font-semibold text-[#4a5d4a]">
-                                {user?.membershipType === 'monthly' && 'Plan Mensual'}
-                                {user?.membershipType === 'quarterly' && 'Plan Trimestral'}
-                                {user?.membershipType === 'annual' && 'Plan Anual'}
-                                {user?.membershipType === 'none' && 'Sin Plan Activo'}
-                                {!user?.membershipType && 'Sin Plan Activo'}
+                                {user?.membershipType === 'monthly' && 'Membresía Mensual'}
+                                {user?.membershipType === 'quarterly' && 'Membresía Trimestral'}
+                                {user?.membershipType === 'annual' && 'Membresía Anual'}
+                                {(!user?.membershipType || user?.membershipType === 'none') && 'Sin membresía'}
                             </h3>
                             <p className="text-sm text-[#6b7d6b]">
                                 {user?.membershipStatus === 'active' ? 'Acceso completo a BMR' : 'Acceso limitado'}
@@ -129,18 +128,39 @@ function ProfileContent() {
                         </div>
                     )}
 
-                    <div className="flex space-x-2">
-                        <Button variant="outline" size="sm" className="flex-1 border-[#a8b5a0] text-[#4a5d4a] hover:bg-[#a8b5a0] hover:text-white">
-                            Cambiar Plan
-                        </Button>
-                        <Button variant="outline" size="sm" className="flex-1 border-[#a8b5a0] text-[#4a5d4a] hover:bg-[#a8b5a0] hover:text-white">
-                            Cancelar
-                        </Button>
-                    </div>
+                    {(!user?.membershipType || user?.membershipType === 'none') ? (
+                        <div className="flex">
+                            <Button
+                                className="flex-1 bg-[#4a5d4a] hover:bg-[#3e4f3e] text-white"
+                                onClick={() => router.push('/pago-de-membresia')}
+                            >
+                                Adquirir Membresía
+                            </Button>
+                        </div>
+                    ) : (
+                        <div className="flex space-x-2">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                className="flex-1 border-[#a8b5a0] text-[#4a5d4a] hover:bg-[#a8b5a0] hover:text-white"
+                                onClick={() => router.push('/pago-de-membresia')}
+                            >
+                                Cambiar Plan
+                            </Button>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                className="flex-1 border-[#a8b5a0] text-[#4a5d4a] hover:bg-[#a8b5a0] hover:text-white"
+                                onClick={() => router.push('/pago-de-membresia')}
+                            >
+                                Cancelar
+                            </Button>
+                        </div>
+                    )}
                 </CardContent>
             </Card>
 
-            {/* Progress Stats */}
+            {/* Progress Stats (comentado temporalmente)
             <Card className="mb-6 bg-white/90 backdrop-blur-sm border-0 shadow-lg rounded-2xl">
                 <CardHeader className="pb-3">
                     <CardTitle className="text-lg text-[#4a5d4a]">Mi Progreso</CardTitle>
@@ -162,18 +182,19 @@ function ProfileContent() {
                     </div>
                 </CardContent>
             </Card>
+            */}
 
             {/* Menu Options */}
             <Card className="mb-6 bg-white/90 backdrop-blur-sm border-0 shadow-lg rounded-2xl">
                 <CardContent className="p-0">
                     <div className="space-y-0">
-                        <MenuOption icon={Bell} label="Notificaciones" />
-                        <Separator className="mx-4" />
+                        {/** <MenuOption icon={Bell} label="Notificaciones" /> */}
+                        {/** <Separator className="mx-4" /> */}
                         <MenuOption icon={Shield} label="Privacidad y Seguridad" />
                         <Separator className="mx-4" />
                         <MenuOption icon={HelpCircle} label="Ayuda y Soporte" />
-                        <Separator className="mx-4" />
-                        <MenuOption icon={Star} label="Calificar App" />
+                        {/** <Separator className="mx-4" /> */}
+                        {/** <MenuOption icon={Star} label="Calificar App" /> */}
                     </div>
                 </CardContent>
             </Card>

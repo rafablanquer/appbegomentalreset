@@ -76,6 +76,7 @@ export interface Config {
     'content-collections': ContentCollection;
     challenges: Challenge;
     'membership-payments': MembershipPayment;
+    redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
     search: Search;
@@ -95,6 +96,7 @@ export interface Config {
     'content-collections': ContentCollectionsSelect<false> | ContentCollectionsSelect<true>;
     challenges: ChallengesSelect<false> | ChallengesSelect<true>;
     'membership-payments': MembershipPaymentsSelect<false> | MembershipPaymentsSelect<true>;
+    redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     search: SearchSelect<false> | SearchSelect<true>;
@@ -794,10 +796,35 @@ export interface Program {
 export interface ContentCollection {
   id: number;
   title: string;
+  description?: string | null;
+  image?: (number | null) | Media;
+  folders?:
+    | {
+        title: string;
+        description?: string | null;
+        image?: (number | null) | Media;
+        items?:
+          | {
+              title: string;
+              description?: string | null;
+              audio?: (number | null) | Media;
+              video?: (number | null) | Media;
+              youtubeUrl?: string | null;
+              externalUrl?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Ítems directos en la colección, sin pertenecer a una carpeta
+   */
   items?:
     | {
         title: string;
-        intro?: string | null;
+        description?: string | null;
+        audio?: (number | null) | Media;
         video?: (number | null) | Media;
         youtubeUrl?: string | null;
         externalUrl?: string | null;
@@ -859,6 +886,32 @@ export interface MembershipPayment {
     | number
     | boolean
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "redirects".
+ */
+export interface Redirect {
+  id: number;
+  /**
+   * You will need to rebuild the website when changing this field.
+   */
+  from: string;
+  to?: {
+    type?: ('reference' | 'custom') | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'posts';
+          value: number | Post;
+        } | null);
+    url?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -1044,6 +1097,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'membership-payments';
         value: number | MembershipPayment;
+      } | null)
+    | ({
+        relationTo: 'redirects';
+        value: number | Redirect;
       } | null)
     | ({
         relationTo: 'forms';
@@ -1443,11 +1500,33 @@ export interface ProgramsSelect<T extends boolean = true> {
  */
 export interface ContentCollectionsSelect<T extends boolean = true> {
   title?: T;
+  description?: T;
+  image?: T;
+  folders?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+        items?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              audio?: T;
+              video?: T;
+              youtubeUrl?: T;
+              externalUrl?: T;
+              id?: T;
+            };
+        id?: T;
+      };
   items?:
     | T
     | {
         title?: T;
-        intro?: T;
+        description?: T;
+        audio?: T;
         video?: T;
         youtubeUrl?: T;
         externalUrl?: T;
@@ -1498,6 +1577,22 @@ export interface MembershipPaymentsSelect<T extends boolean = true> {
   periodStart?: T;
   periodEnd?: T;
   raw?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "redirects_select".
+ */
+export interface RedirectsSelect<T extends boolean = true> {
+  from?: T;
+  to?:
+    | T
+    | {
+        type?: T;
+        reference?: T;
+        url?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
