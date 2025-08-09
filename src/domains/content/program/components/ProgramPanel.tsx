@@ -2,8 +2,9 @@
 import Image from "next/image"
 import PlayListPanel from "../../playlist/components/PlayListPanel"
 import usePlayer from "../../hooks/usePlayer"
+import type React from 'react'
 
-const ProgramPanel = ({ title, description, heroPath, activities }: { title: string, description: string, keywords: string[], activities: any, heroPath: string, }) => {
+const ProgramPanel = ({ title, description, heroPath, activities }: { title: string, description?: React.ReactNode, keywords: string[], activities: any, heroPath: string, }) => {
     const {
         currentTrack,
         isPlaying,
@@ -37,7 +38,9 @@ const ProgramPanel = ({ title, description, heroPath, activities }: { title: str
                 <section className="content-section">
                     <div className="content-container">
                         <h1 className="main-title">{title}</h1>
-                        <p className="description">{description}</p>
+                        {description ? (
+                            <div className="description">{description}</div>
+                        ) : null}
                     </div>
                 </section>
 
