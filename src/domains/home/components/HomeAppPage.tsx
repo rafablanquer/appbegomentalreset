@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 
-// Evita errores de TypeScript cuando aún no está cargado el script de Vimeo
 declare global {
   interface Window {
     Vimeo?: {
@@ -15,115 +14,60 @@ declare global {
 const HomeAppPage = () => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const videoContainerRef = useRef<HTMLDivElement | null>(null);
-  const playerContainerRef = useRef<HTMLDivElement | null>(null);
   const playerRef = useRef<any>(null);
-  const vimeoVideoId = 1101953160; // ID del vídeo
-  // Deja en null para permitir bitrate adaptativo de Vimeo (recomendado para evitar tirones)
-  const desiredQuality: '540p' | '720p' | null = null;
+  const vimeoVideoId = 1101953160;
 
   const handlePlayVideo = () => {
-    console.log('handlePlayVideo');
     setIsVideoPlaying(true);
   };
-
-  // Precalienta el SDK de Vimeo cuando el contenedor entra en viewport
-  useEffect(() => {
-    if (isVideoPlaying) return;
-    const target = playerContainerRef.current;
-    if (!target) return;
-
-    const warmupScript = () => {
-      if (window.Vimeo?.Player) return;
-      const existing = document.querySelector<HTMLScriptElement>('script[src="https://player.vimeo.com/api/player.js"]');
-      if (existing) return;
-      const script = document.createElement('script');
-      script.src = 'https://player.vimeo.com/api/player.js';
-      script.async = true;
-      script.defer = true;
-      document.body.appendChild(script);
-    };
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            warmupScript();
-          }
-        });
-      },
-      { root: null, rootMargin: '200px 0px', threshold: 0.1 }
-    );
-    observer.observe(target);
-    return () => observer.disconnect();
-  }, [isVideoPlaying]);
 
   useEffect(() => {
     if (!isVideoPlaying) return;
 
-    let cancelled = false;
+    const loadVimeoPlayer = () => {
+      // Si ya existe el player, no hacer nada
+      if (playerRef.current) return;
 
-    const createPlayer = () => {
-      if (cancelled || !videoContainerRef.current || !window.Vimeo?.Player) return;
-      // Limpieza previa si existiera
-      if (playerRef.current) {
-        try {
-          playerRef.current.unload?.();
-          playerRef.current.destroy?.();
-        } catch { }
-        playerRef.current = null;
-      }
+      // Crear el player de Vimeo
+      if (window.Vimeo?.Player && videoContainerRef.current) {
+        playerRef.current = new window.Vimeo.Player(videoContainerRef.current, {
+          id: vimeoVideoId,
+          autoplay: true,
+          byline: false,
+          title: false,
+          portrait: false,
+          controls: true,
+          responsive: true,
+          playsinline: true,
+          // Importante: no forzar calidad específica, dejar que Vimeo maneje el bitrate adaptativo
+        });
 
-      playerRef.current = new window.Vimeo.Player(videoContainerRef.current, {
-        id: vimeoVideoId,
-        autoplay: true,
-        byline: false,
-        title: false,
-        portrait: false,
-        controls: true,
-        // Importante para rendimiento en móviles
-        responsive: true,
-        // Intento de arrancar en baja latencia si el navegador lo soporta
-        playsinline: true,
-        dnt: true,
-      });
-
-      // Fijar calidad solo si se solicita explícitamente; si no, dejar ABR adaptativo
-      if (desiredQuality) {
-        playerRef.current
-          .setQuality(desiredQuality)
-          .catch(() => {
-            /* ignorar */
-          });
+        // Manejar errores silenciosamente
+        playerRef.current.on('error', (error: any) => {
+          console.error('Vimeo player error:', error);
+        });
       }
     };
 
-    const ensureScript = () => {
-      if (window.Vimeo?.Player) {
-        createPlayer();
-        return;
-      }
-      const existing = document.querySelector<HTMLScriptElement>('script[src="https://player.vimeo.com/api/player.js"]');
-      if (existing) {
-        existing.addEventListener('load', createPlayer, { once: true });
-        return;
-      }
+    // Cargar el script de Vimeo si no está presente
+    if (!window.Vimeo?.Player) {
       const script = document.createElement('script');
       script.src = 'https://player.vimeo.com/api/player.js';
       script.async = true;
-      script.defer = true;
-      script.addEventListener('load', createPlayer, { once: true });
+      script.onload = loadVimeoPlayer;
       document.body.appendChild(script);
-    };
+    } else {
+      loadVimeoPlayer();
+    }
 
-    ensureScript();
-
+    // Cleanup
     return () => {
-      cancelled = true;
       if (playerRef.current) {
         try {
-          playerRef.current.unload?.();
-          playerRef.current.destroy?.();
-        } catch { }
+          playerRef.current.destroy();
+        } catch (e) {
+          console.error('Error destroying player:', e);
+        }
         playerRef.current = null;
       }
     };
@@ -135,19 +79,14 @@ const HomeAppPage = () => {
         <link rel="preconnect" href="https://player.vimeo.com" />
         <link rel="preconnect" href="https://i.vimeocdn.com" />
         <link rel="preconnect" href="https://f.vimeocdn.com" />
-        <link rel="preconnect" href="https://vimeo.com" />
-        <link rel="dns-prefetch" href="https://player.vimeo.com" />
-        <link rel="dns-prefetch" href="https://i.vimeocdn.com" />
-        <link rel="dns-prefetch" href="https://f.vimeocdn.com" />
-        <link rel="dns-prefetch" href="https://vimeo.com" />
       </Head>
-      <div className="app-page">
 
+      <div className="app-page">
         {/* Player Section */}
         <section className="player-section">
-          <div className="player-container" ref={playerContainerRef}>
+          <div className="player-container">
             {!isVideoPlaying ? (
-              <div onClick={handlePlayVideo}>
+              <div className="thumbnail-wrapper" onClick={handlePlayVideo}>
                 <div className="hero-image-wrapper">
                   <Image
                     src="/assets/home-app/hero-player.png"
@@ -160,25 +99,16 @@ const HomeAppPage = () => {
                 </div>
                 <div className="play-button-overlay">
                   <div className="play-button">
-                    <svg
-                      width="60"
-                      height="60"
-                      viewBox="0 0 60 60"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
+                    <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
                       <circle cx="30" cy="30" r="30" fill="rgba(255, 255, 255, 0.9)" />
-                      <path
-                        d="M23 18L23 42L41 30L23 18Z"
-                        fill="#4a5568"
-                      />
+                      <path d="M23 18L23 42L41 30L23 18Z" fill="#4a5568" />
                     </svg>
                   </div>
                 </div>
               </div>
             ) : (
-              <div className="video-container">
-                <div ref={videoContainerRef} className="vimeo-player-root" />
+              <div className="video-wrapper">
+                <div ref={videoContainerRef} className="vimeo-container" />
               </div>
             )}
           </div>
@@ -193,27 +123,22 @@ const HomeAppPage = () => {
                 alt="Neurodespertar"
                 className="program-image"
                 loading="lazy"
-                decoding="async"
               />
             </div>
-
             <div className="program-card">
               <img
                 src="/assets/home-app/neuropausa.png"
                 alt="Neuropausa"
                 className="program-image"
                 loading="lazy"
-                decoding="async"
               />
             </div>
-
             <div className="program-card">
               <img
                 src="/assets/home-app/reprogramacion.png"
                 alt="Reprogramación Nocturna"
                 className="program-image"
                 loading="lazy"
-                decoding="async"
               />
             </div>
           </div>
@@ -224,24 +149,20 @@ const HomeAppPage = () => {
           <button className="action-btn breathing-btn">
             🎙️ Respiraciones Conscientes
           </button>
-
           <button className="action-btn challenge-btn">
             👆 ¡Novedad! Reto bmr activo
           </button>
         </section>
 
-        {/* Coming Soon Footer - Fixed at bottom */}
+        {/* Coming Soon Footer */}
         <footer className="coming-soon-footer">
           <img
             src="/assets/home-app/comming-soon.png"
-            alt="Coming Soon - BegoIA chatbot entrenado por Begoña (Próximamente)"
+            alt="Coming Soon"
             className="coming-soon-image"
             loading="lazy"
-            decoding="async"
           />
         </footer>
-
-
 
         <style jsx>{`
           .app-page {
@@ -249,47 +170,24 @@ const HomeAppPage = () => {
             background-size: cover;
             background-position: bottom center;
             background-repeat: no-repeat;
-            background-attachment: scroll; /* Evita jank en móviles/desktop */
-            min-height: calc(100vh - 120px); /* Exclude footer height */
-            padding: 20px 0 120px 0; /* Top padding and space for fixed footer */
+            min-height: 100vh;
+            padding: 20px 0;
             font-family: 'Arial', sans-serif;
-            position: relative;
           }
 
           /* Player Section */
           .player-section {
             padding: 0 15px 20px 15px;
-            text-align: center;
           }
           
           .player-container {
-            width: 100%;
-            position: relative;
-            transition: transform 0.3s ease;
+            max-width: 800px;
+            margin: 0 auto;
           }
 
-          .player-container > div:first-child {
+          .thumbnail-wrapper {
             cursor: pointer;
-          }
-
-          .player-container > div:first-child:hover {
-            transform: scale(1.02);
-          }
-
-          .video-container {
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.12);
-            contain: layout paint; /* Aislar repintados del player */
-          }
-
-          .video-container iframe,
-          .video-container .vimeo-player-root {
-            border-radius: 15px;
-            aspect-ratio: 16/9;
-            height: auto;
-            width: 100%;
-            display: block;
+            position: relative;
           }
 
           .hero-image-wrapper {
@@ -298,7 +196,7 @@ const HomeAppPage = () => {
             aspect-ratio: 16/9;
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
           }
 
           .player-image {
@@ -314,31 +212,36 @@ const HomeAppPage = () => {
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 15px;
           }
 
           .play-button {
-            transition: all 0.3s ease;
-            animation: pulse 2s infinite;
+            transition: transform 0.3s ease;
           }
 
           .play-button:hover {
             transform: scale(1.1);
           }
 
-          @keyframes pulse {
-            0% {
-              transform: scale(1);
-              opacity: 1;
-            }
-            50% {
-              transform: scale(1.05);
-              opacity: 0.8;
-            }
-            100% {
-              transform: scale(1);
-              opacity: 1;
-            }
+          /* Video Container - Simplificado */
+          .video-wrapper {
+            width: 100%;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            background: #000;
+          }
+
+          .vimeo-container {
+            width: 100%;
+            aspect-ratio: 16/9;
+          }
+
+          /* Fix para evitar tropiezos en el video */
+          .vimeo-container iframe {
+            width: 100% !important;
+            height: 100% !important;
+            border: none;
+            display: block;
           }
 
           /* Programs Section */
@@ -351,16 +254,14 @@ const HomeAppPage = () => {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 15px;
-            max-width: 100%;
+            max-width: 800px;
             margin: 0 auto;
-            padding: 0 10px;
           }
 
           .program-card {
-            position: relative;
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
           }
 
           .program-image {
@@ -376,7 +277,7 @@ const HomeAppPage = () => {
             flex-direction: column;
             gap: 15px;
             max-width: 400px;
-            margin: 0 auto;
+            margin: 0 auto 30px;
           }
 
           .action-btn {
@@ -388,19 +289,11 @@ const HomeAppPage = () => {
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-          }
-
-          .breathing-btn {
-            background: #4a5568;
-          }
-
-          .challenge-btn {
-            background: #4a5568;
           }
 
           .action-btn:hover {
@@ -408,10 +301,11 @@ const HomeAppPage = () => {
             box-shadow: 0 6px 20px rgba(0,0,0,0.2);
           }
 
-          /* Coming Soon Footer - no fijo para evitar repaints constantes durante reproducción */
+          /* Footer */
           .coming-soon-footer {
-            background: transparent;
             padding: 0;
+            max-width: 800px;
+            margin: 0 auto;
           }
 
           .coming-soon-image {
@@ -420,24 +314,15 @@ const HomeAppPage = () => {
             display: block;
           }
           
-          /* Mobile Responsive */
+          /* Mobile */
           @media (max-width: 480px) {
-            .app-page {
-              background-attachment: scroll; /* Better performance on mobile */
-            }
-
             .player-section {
               padding: 0 10px 20px 10px;
             }
 
             .programs-grid {
-              grid-template-columns: repeat(3, 1fr);
               gap: 8px;
               padding: 0 5px;
-            }
-
-            .program-card {
-              border-radius: 10px;
             }
 
             .action-btn {
@@ -446,10 +331,10 @@ const HomeAppPage = () => {
             }
           }
 
-          /* Landscape Mobile */
-          @media (max-width: 768px) and (orientation: landscape) {
-            .app-page {
-              padding-bottom: 80px;
+          /* Modo Fullscreen - importante para evitar tropiezos */
+          @media all and (display-mode: fullscreen) {
+            .video-wrapper {
+              border-radius: 0;
             }
           }
         `}</style>
