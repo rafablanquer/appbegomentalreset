@@ -1,10 +1,10 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { Play, Pause, SkipBack, SkipForward, Menu, FileText, CheckCircle, Lock, Calendar, ChevronLeft, ChevronRight } from "lucide-react"
+import { Play, Pause, SkipBack, SkipForward, Menu, FileText, CheckCircle, Lock, Calendar, ChevronLeft, ChevronRight, Flame } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
-import { Card } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import Image from "next/image"
@@ -219,73 +219,85 @@ export default function RetoPanel({ sessions, pathInstructions, title, descripti
 
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-black-100 via-blue-50 to-indigo-100 relative"
-            style={{
-                backgroundColor: "rgb(255, 250, 239)",
-                marginBottom: 80
-            }}>
-            <div className="relative z-10 min-h-screen flex flex-col">
-                <Image
-                    src="/content/reto21dias/hero.png"
-                    alt="APP BMR Preview"
-                    width={700}
-                    height={900}
-                    className="hero-image"
-                />
+        <div className="relative min-h-[100dvh] bg-background pb-[172px]">
+            {/* Contenedor principal centrado y limitado a móvil */}
+            <div className="mx-auto max-w-screen-sm">
+                {/* HERO con imagen, degradado y contenido superpuesto */}
+                <section className="relative h-[38vh] min-h-[260px] max-h-[340px]">
+                    <Image
+                        src="/content/reto21dias/hero.png"
+                        alt="Imagen del reto BMR"
+                        fill
+                        sizes="(max-width: 768px) 100vw, 100vw"
+                        priority
+                        className="object-cover"
+                    />
+                    {/* Degradado para mejorar legibilidad */}
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/5 via-black/35 to-black/75" />
 
-                <div className="w-full">
-                    <div className="text-center mb-6 px-4">
-                        <h2 className="text-2xl font-bold text-black-900 mt-3 mb-2">{title}</h2>
-                        <p className="text-black-700 text-sm mb-4">{description}</p>
+                    {/* Texto superpuesto dentro de la imagen */}
+                    <div className="absolute inset-0 flex items-end">
+                        <div className="w-full px-4 pb-5">
+                            <Card className="bg-black/20 text-white border-white/10 backdrop-blur-[2px]">
+                                <CardContent className="p-4">
+                                    <h1 className="text-2xl font-semibold leading-tight">{title}</h1>
+                                    <p className="mt-1 text-sm text-white/90">{description}</p>
+                                    <div className="mt-2 flex items-center gap-3">
+                                        <Badge className="bg-white/20 hover:bg-white/25 text-white">{completedCount} / {totalCount}</Badge>
+                                        <div className="flex items-center text-xs text-white/90">
+                                            <Flame className="mr-1 h-4 w-4 text-orange-400" />
+                                            Racha: 3 días consecutivos
+                                        </div>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </div>
                     </div>
 
-                    <div className="px-0">
-                        <section className="w-full bg-white/60 backdrop-blur-sm rounded-xl mb-6 shadow-sm overflow-hidden">
-                            <div className="px-4 py-4">
-                                <div className="flex items-center gap-4 mb-5">
-                                    <div className="flex-shrink-0">
-                                        <ProgressRing value={completedCount} total={totalCount} />
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <p className="text-sm text-gray-600 mb-3 font-medium">Racha: 3 días consecutivos 🔥</p>
-                                        {nextSession && (
-                                            <Button
-                                                onClick={handleContinue}
-                                                className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-xl text-sm font-medium w-full sm:w-auto"
-                                            >
-                                                Continuar {nextSession.title.split('·')[1]?.trim() || nextSession.title}
-                                            </Button>
-                                        )}
-                                    </div>
-                                </div>
+                    {/* Difuminado inferior para fundir con el fondo */}
+                    <div
+                        className="pointer-events-none absolute inset-x-0 bottom-0 h-16"
+                        style={{
+                            WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)",
+                            maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)",
+                            background: "linear-gradient(to bottom, rgba(0,0,0,0), var(--background))",
+                        }}
+                    />
+                </section>
 
-                                <div className="flex gap-2 justify-stretch">
-                                    {weeks.map((week) => (
-                                        <button
-                                            key={week}
-                                            className={`flex-1 px-4 py-3 rounded-xl border text-sm font-medium transition-all ${week === selectedWeek
-                                                ? "bg-purple-600 text-white border-purple-600 shadow-md"
-                                                : "bg-white text-gray-600 border-gray-200 hover:border-purple-300 hover:shadow-sm"
-                                                }`}
-                                            onClick={() => setSelectedWeek(week)}
-                                        >
-                                            Semana {week}
-                                        </button>
-                                    ))}
-                                </div>
+                <section className="px-4 pt-3">
+                    {nextSession && (
+                        <div className="shrink-0 mb-4">
+                            <Button className="w-full" onClick={handleContinue}>
+                                Continuar: {nextSession.title.split('·')[1]?.trim() || nextSession.title}
+                                <ChevronRight className="ml-2 h-4 w-4" />
+                            </Button>
+                        </div>
+                    )}
+                    <section className="w-full bg-white/60 backdrop-blur-sm rounded-xl mb-6 shadow-sm overflow-hidden">
+                        <div className="px-4 py-4">
+                            <div className="flex gap-2 justify-stretch">
+                                {weeks.map((week) => (
+                                    <button
+                                        key={week}
+                                        className={`flex-1 px-4 py-3 rounded-xl border text-sm font-medium transition-all ${week === selectedWeek
+                                            ? "bg-purple-600 text-white border-purple-600 shadow-md"
+                                            : "bg-white text-gray-600 border-gray-200 hover:border-purple-300 hover:shadow-sm"
+                                            }`}
+                                        onClick={() => setSelectedWeek(week)}
+                                    >
+                                        Semana {week}
+                                    </button>
+                                ))}
                             </div>
+                        </div>
+                        <div className="pb-2 pr-4">
+                            <WeekCarousel week={selectedWeek} sessions={weekSessions?.[selectedWeek] ?? []} onSessionSelect={handleSessionSelect} />
+                        </div>
+                    </section>
+                </section>
 
-                            <div className="  pb-2 "
-                                style={{
-                                    marginRight: 18
-                                }}>
-                                <WeekCarousel week={selectedWeek} sessions={weekSessions?.[selectedWeek] ?? []} onSessionSelect={handleSessionSelect} />
-                            </div>
-                        </section>
-                    </div>
-                </div>
-
-                <div className="w-full px-4 space-y-4 mb-6" >
+                <div className="w-full px-4 space-y-4 mb-6">
                     {currentWeekSessions.map((session, index) => (
                         <Card
                             key={session.id}
@@ -298,9 +310,7 @@ export default function RetoPanel({ sessions, pathInstructions, title, descripti
                             onClick={() => session.unlocked && selectSession(index)}
                         >
                             <div className="flex items-start gap-4">
-
                                 <div className="flex-shrink-0 mt-1">
-
                                     {!session.unlocked ? (
                                         <Lock className="w-6 h-6 text-gray-400" />
                                     ) : session.completed ? (
@@ -332,8 +342,6 @@ export default function RetoPanel({ sessions, pathInstructions, title, descripti
                     ))}
                 </div>
             </div>
-
-
         </div>
     )
 }
