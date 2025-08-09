@@ -1,5 +1,6 @@
 'use client'
 import React, { useEffect, useRef, useState } from 'react';
+import Head from 'next/head';
 
 // Evita errores de TypeScript cuando aún no está cargado el script de Vimeo
 declare global {
@@ -15,7 +16,8 @@ const HomeAppPage = () => {
   const videoContainerRef = useRef<HTMLDivElement | null>(null);
   const playerRef = useRef<any>(null);
   const vimeoVideoId = 1101953160; // ID del vídeo
-  const desiredQuality = '540p'; // Cambia a '540p' si quieres aún menos peso
+  // Deja en null para permitir bitrate adaptativo de Vimeo (recomendado para evitar tirones)
+  const desiredQuality: '540p' | '720p' | null = null;
 
   const handlePlayVideo = () => {
     setIsVideoPlaying(true);
@@ -50,12 +52,14 @@ const HomeAppPage = () => {
         playsinline: true,
       });
 
-      // Fijar calidad deseada (Vimeo puede ajustar si no está disponible)
-      playerRef.current
-        .setQuality(desiredQuality)
-        .catch(() => {
-          // Si no se puede forzar, ignoramos: el reproductor elegirá adaptativo
-        });
+      // Fijar calidad solo si se solicita explícitamente; si no, dejar ABR adaptativo
+      if (desiredQuality) {
+        playerRef.current
+          .setQuality(desiredQuality)
+          .catch(() => {
+            /* ignorar */
+          });
+      }
     };
 
     const ensureScript = () => {
@@ -92,6 +96,12 @@ const HomeAppPage = () => {
 
   return (
     <>
+      <Head>
+        <link rel="preconnect" href="https://player.vimeo.com" />
+        <link rel="preconnect" href="https://i.vimeocdn.com" />
+        <link rel="preconnect" href="https://f.vimeocdn.com" />
+        <link rel="preconnect" href="https://vimeo.com" />
+      </Head>
       <div className="app-page">
 
         {/* Player Section */}
@@ -138,6 +148,8 @@ const HomeAppPage = () => {
                 src="/assets/home-app/neurociencia.png"
                 alt="Neurodespertar"
                 className="program-image"
+                loading="lazy"
+                decoding="async"
               />
             </div>
 
@@ -146,6 +158,8 @@ const HomeAppPage = () => {
                 src="/assets/home-app/neuropausa.png"
                 alt="Neuropausa"
                 className="program-image"
+                loading="lazy"
+                decoding="async"
               />
             </div>
 
@@ -154,6 +168,8 @@ const HomeAppPage = () => {
                 src="/assets/home-app/reprogramacion.png"
                 alt="Reprogramación Nocturna"
                 className="program-image"
+                loading="lazy"
+                decoding="async"
               />
             </div>
           </div>
@@ -176,6 +192,8 @@ const HomeAppPage = () => {
             src="/assets/home-app/comming-soon.png"
             alt="Coming Soon - BegoIA chatbot entrenado por Begoña (Próximamente)"
             className="coming-soon-image"
+            loading="lazy"
+            decoding="async"
           />
         </footer>
 
@@ -187,7 +205,7 @@ const HomeAppPage = () => {
             background-size: cover;
             background-position: bottom center;
             background-repeat: no-repeat;
-            background-attachment: fixed;
+            background-attachment: scroll; /* Evita jank en móviles/desktop */
             min-height: calc(100vh - 120px); /* Exclude footer height */
             padding: 20px 0 120px 0; /* Top padding and space for fixed footer */
             font-family: 'Arial', sans-serif;
@@ -218,6 +236,7 @@ const HomeAppPage = () => {
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            contain: layout paint; /* Aislar repintados del player */
           }
 
           .video-container iframe,
@@ -339,13 +358,8 @@ const HomeAppPage = () => {
             box-shadow: 0 6px 20px rgba(0,0,0,0.2);
           }
 
-          /* Coming Soon Footer - Fixed at bottom */
+          /* Coming Soon Footer - no fijo para evitar repaints constantes durante reproducción */
           .coming-soon-footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
             background: transparent;
             padding: 0;
           }
