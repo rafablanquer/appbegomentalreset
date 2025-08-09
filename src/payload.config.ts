@@ -4,6 +4,9 @@ import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
 import sharp from 'sharp' // sharp-import
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
+// Admin UI traducciones
+import { en } from 'payload/i18n/en'
+import { es } from 'payload/i18n/es'
 import { fileURLToPath } from 'url'
 
 import { Categories } from './collections/Categories'
@@ -11,6 +14,10 @@ import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
+import { Programs } from './collections/Programs'
+import { ContentCollections } from './collections/ContentCollections'
+import { Challenges } from './collections/Challenges'
+import { MembershipPayments } from './collections/MembershipPayments'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { plugins } from './plugins'
@@ -31,6 +38,10 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
+  localization: {
+    locales: ['en', 'es'],
+    defaultLocale: 'es',
+  },
   admin: {
     components: {
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
@@ -39,6 +50,7 @@ export default buildConfig({
       // The `BeforeDashboard` component renders the 'welcome' block that you see after logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below.
       beforeDashboard: ['@/components/BeforeDashboard'],
+      Nav: '@/components/AdminNav',
     },
     importMap: {
       baseDir: path.resolve(dirname),
@@ -67,6 +79,11 @@ export default buildConfig({
       ],
     },
   },
+  // Traducciones del panel de administración
+  i18n: {
+    supportedLanguages: { en, es },
+    fallbackLanguage: 'es',
+  },
   // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
   db: vercelPostgresAdapter({
@@ -74,7 +91,17 @@ export default buildConfig({
       connectionString: process.env.POSTGRES_URL || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users],
+  collections: [
+    Pages,
+    Posts,
+    Media,
+    Categories,
+    Users,
+    Programs,
+    ContentCollections,
+    Challenges,
+    MembershipPayments,
+  ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [

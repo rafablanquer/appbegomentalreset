@@ -5,6 +5,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import ButtonUnete from '@/components/Buttons/ButtonUnete'
+import MembershipPricing from '@/domains/membership/components/MembershipPricing'
 
 interface LandingPageProps {
 	data?: any;
@@ -250,10 +251,10 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
 
 							<div className="et_pb_button_module_wrapper et_pb_button_alignment_center et_had_animation">
 								<ButtonUnete onClick={() => { }} style={{
-									backgroundColor: "rgb(163, 177, 138)",
-									color: "white",
+									backgroundColor: "#ffffff",
+									color: "#4a4a4a",
 									textTransform: "uppercase",
-									borderColor: "black",
+									borderColor: "#ffffff",
 									borderWidth: "1px",
 									borderStyle: "solid",
 									fontSize: "16px",
@@ -413,8 +414,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
 
 				<section className="et_pb_section stats-section">
 					<div className="et_pb_row">
-
-
 						<div className="et_pb_column et_pb_column_1_2">
 							<div className="et_pb_module et_pb_heading">
 								<div className="et_pb_heading_container">
@@ -435,7 +434,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
 							</div>
 
 							<div className="stats-list">
-								<div className="stat-item">
+								<div   >
 									<p><strong>Más de 2000 personas entrenan su mente cada día con estos audios.</strong></p>
 								</div>
 
@@ -477,58 +476,47 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
 						backgroundColor: "rgb(250, 241, 230)",
 					}}>
 					<div className="et_pb_row">
-
-						<div className="et_pb_column et_pb_column_1_2">
-							<div className="et_pb_column et_pb_column_1_2">
-								<div className="et_pb_module et_pb_image">
-									<Image
-										src="/assets/home/Sin-titulo-1280-x-720-px-1284-x-600-px-700-x-900-px-copia-3.png.png"
-										alt="¿Qué encontrarás dentro?"
-										width={700}
-										height={900}
-										loading="lazy"
-									/>
-								</div>
+						<div className="et_pb_column et_pb_column_4_4 about-intro">
+							<div className="about-image">
+								<Image
+									src="/assets/home/Sin-titulo-1280-x-720-px-1284-x-600-px-700-x-900-px-copia-3.png.png"
+									alt="¿Qué encontrarás dentro?"
+									width={700}
+									height={900}
+									loading="lazy"
+								/>
 							</div>
 							<div className="et_pb_module et_pb_heading">
-								<div className="et_pb_module et_pb_heading">
-									<div className="et_pb_heading_container">
-										<h3 className="et_pb_module_heading">¿Qué encontrarás dentro?</h3>
-									</div>
+								<div className="et_pb_heading_container">
+									<h3 className="et_pb_module_heading">¿Qué encontrarás dentro?</h3>
 								</div>
-								<div className="">
-									<span className="">
-										En resumen, tienes acceso estructurado y claro y un método de reprogramación creado por una neuropsicóloga especializa.
-									</span>
-								</div>
+							</div>
+							<div className="about-subtitle">
+								<p>
+									En resumen, tienes acceso estructurado y claro y un método de reprogramación creado por una neuropsicóloga especializa.
+								</p>
 							</div>
 						</div>
 					</div>
 
-					<div className="et_pb_row">
+					<div className="et_pb_row about-cards-row">
 						<div className="et_pb_column et_pb_column_4_4">
-							<div className="et_pb_with_border et_pb_module et_pb_text">
-								<div className="et_pb_text_inner">
-									<p>
-										Todos los audios y entrenamientos están organizados en áreas permitiéndote avanzar con foco y sin dispersión a lo largo del día.
-									</p>
-								</div>
+							<div className="about-card">
+								<p>
+									Todos los audios y entrenamientos están organizados en áreas permitiéndote avanzar con foco y sin dispersión a lo largo del día.
+								</p>
 							</div>
 
-							<div className="et_pb_with_border et_pb_module et_pb_text">
-								<div className="et_pb_text_inner">
-									<p>
-										Trabajas con reprogramaciones, respiraciones y visualizaciones diseñadas para activar tu sistema reticular, entrenar tu mente y regular tu sistema nervioso.
-									</p>
-								</div>
+							<div className="about-card">
+								<p>
+									Trabajas con reprogramaciones, respiraciones y visualizaciones diseñadas para activar tu sistema reticular, entrenar tu mente y regular tu sistema nervioso.
+								</p>
 							</div>
 
-							<div className="et_pb_with_border et_pb_module et_pb_text">
-								<div className="et_pb_text_inner">
-									<p>
-										Todo está diseñado por Begoña, experta en neuropsicología y reprogramación mental, asegurando que cada audio sea un paso real hacia el cambio que buscas.
-									</p>
-								</div>
+							<div className="about-card">
+								<p>
+									Todo está diseñado por Begoña, experta en neuropsicología y reprogramación mental, asegurando que cada audio sea un paso real hacia el cambio que buscas.
+								</p>
 							</div>
 						</div>
 					</div>
@@ -597,89 +585,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
 
 				{/* Pricing Section */}
 				<section id="membresias" className="et_pb_section pricing-section">
-					<div className="et_pb_row">
-						<div className="et_pb_column et_pb_column_4_4">
-							<div className="et_pb_module et_pb_heading et_had_animation">
-								<div className="et_pb_heading_container">
-									<h3 className="pricing-main-title">Elige tu plan de reprogramación</h3>
-								</div>
-							</div>
-
-							{/* Plan Mensual */}
-							<div className="pricing-plan-wrapper">
-								<div className="pricing-plan-title">
-									<h2>PLAN MENSUAL 14,97 €/MES</h2>
-								</div>
-								<div className="pricing-plan-content">
-									<ul>
-										<li>Acceso completo a toda la biblioteca de reprogramación durante un mes, (luego se renueva)</li>
-										<li>No incluye Zooms grupales.</li>
-									</ul>
-								</div>
-								<div className="pricing-plan-button">
-									<Link href="/pago-de-membresia/?pmpro_level=2" className="et_pb_button">
-										QUIERO EL MENSUAL
-									</Link>
-								</div>
-							</div>
-
-							{/* Plan Trimestral */}
-							<div className="pricing-plan-wrapper">
-								<div className="pricing-plan-title">
-									<h2>PLAN TRIMESTRAL 37,97 €/CADA 3 MESES (AHORRAS 6 €)</h2>
-								</div>
-								<div className="pricing-plan-content">
-									<ul>
-										<li>Accesos completo a toda la biblioteca de reprogramación durante 3 meses (luego se renueva)</li>
-										<li>Zoom grupal trimestral para profundizar, resolver dudas y seguir integrando.</li>
-									</ul>
-								</div>
-								<div className="pricing-plan-button">
-									<Link href="/pago-de-membresia/?pmpro_level=3" className="et_pb_button">
-										QUIERO EL TRIMESTRAL
-									</Link>
-								</div>
-							</div>
-
-							{/* Plan Anual */}
-							<div className="pricing-plan-wrapper">
-								<div className="pricing-plan-title">
-									<h2>PLAN ANUAL 127,97 €/AÑO (AHORRAS 52 €)</h2>
-								</div>
-								<div className="pricing-plan-content">
-									<ul>
-										<li>Accesos completo a toda la biblioteca de reprogramación durante <strong>12 meses</strong> (luego se renueva)</li>
-										<li>Incluye todos los Zooms grupales trimestrales del año.</li>
-										<li>Contenido exclusivo para miembros anuales.</li>
-									</ul>
-								</div>
-								<div className="pricing-plan-button">
-									<Link href="/pago-de-membresia/?pmpro_level=4" className="et_pb_button">
-										QUIERO EL ANUAL
-									</Link>
-								</div>
-							</div>
-
-							{/* Important Notice */}
-							<div className="important-notice">
-								<div className="important-title">
-									<h3>¡IMPORTANTE!</h3>
-								</div>
-								<div className="important-content">
-									<p>
-										Si tras rellenar el formulario con tu usuario, contraseña y correo, no completas tu pago o te ha dado error. No te preocupes, no tienes que empezar de cero.
-									</p>
-
-
-
-
-
-
-
-								</div>
-							</div>
-						</div>
-					</div>
+					<MembershipPricing />
 
 					<div className="et_pb_row">
 						<div className="et_pb_column et_pb_column_4_4">
@@ -701,14 +607,32 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
 
 							<div className="et_pb_module et_pb_accordion">
 								<div className="et_pb_toggle et_pb_module et_pb_accordion_item">
-									<h5
-										className="et_pb_toggle_title"
+									<div
+										className="faq-header"
 										onClick={() => toggleAccordion('0')}
-										style={{ cursor: 'pointer' }}
+										role="button"
+										aria-expanded={!!activeAccordions['0']}
+										aria-controls="faq-content-0"
 									>
-										¿Para quién es este espacio?
-									</h5>
-									<div className={`et_pb_toggle_content ${activeAccordions['0'] ? '' : 'et_pb_toggle_close'}`}>
+										<h5 className="et_pb_toggle_title">¿Para quién es este espacio?</h5>
+										<button
+											type="button"
+											className="faq-toggle-btn"
+											aria-label={activeAccordions['0'] ? 'Contraer' : 'Expandir'}
+											onClick={(e) => { e.stopPropagation(); toggleAccordion('0'); }}
+										>
+											{activeAccordions['0'] ? (
+												<svg width="20" height="20" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+													<path d="M5 12h14" stroke="#8e8e8e" />
+												</svg>
+											) : (
+												<svg width="20" height="20" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+													<path d="M12 5v14M5 12h14" stroke="#8e8e8e" />
+												</svg>
+											)}
+										</button>
+									</div>
+									<div id="faq-content-0" className={`et_pb_toggle_content ${activeAccordions['0'] ? '' : 'et_pb_toggle_close'}`}>
 										<p>
 											Para quienes están listos para dejar de repetir patrones y comenzar a reprogramar su mente con ciencia, intención y resultados.
 										</p>
@@ -716,14 +640,32 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
 								</div>
 
 								<div className="et_pb_toggle et_pb_module et_pb_accordion_item">
-									<h5
-										className="et_pb_toggle_title"
+									<div
+										className="faq-header"
 										onClick={() => toggleAccordion('1')}
-										style={{ cursor: 'pointer' }}
+										role="button"
+										aria-expanded={!!activeAccordions['1']}
+										aria-controls="faq-content-1"
 									>
-										¿Necesito tener experiencia previa en meditación o neurociencia?
-									</h5>
-									<div className={`et_pb_toggle_content ${activeAccordions['1'] ? '' : 'et_pb_toggle_close'}`}>
+										<h5 className="et_pb_toggle_title">¿Necesito tener experiencia previa en meditación o neurociencia?</h5>
+										<button
+											type="button"
+											className="faq-toggle-btn"
+											aria-label={activeAccordions['1'] ? 'Contraer' : 'Expandir'}
+											onClick={(e) => { e.stopPropagation(); toggleAccordion('1'); }}
+										>
+											{activeAccordions['1'] ? (
+												<svg width="20" height="20" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+													<path d="M5 12h14" stroke="#8e8e8e" />
+												</svg>
+											) : (
+												<svg width="20" height="20" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+													<path d="M12 5v14M5 12h14" stroke="#8e8e8e" />
+												</svg>
+											)}
+										</button>
+									</div>
+									<div id="faq-content-1" className={`et_pb_toggle_content ${activeAccordions['1'] ? '' : 'et_pb_toggle_close'}`}>
 										<p>
 											No. Este espacio está diseñado para que cualquier persona pueda empezar desde cero y ver resultados reales.
 										</p>
@@ -731,14 +673,32 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
 								</div>
 
 								<div className="et_pb_toggle et_pb_module et_pb_accordion_item">
-									<h5
-										className="et_pb_toggle_title"
+									<div
+										className="faq-header"
 										onClick={() => toggleAccordion('2')}
-										style={{ cursor: 'pointer' }}
+										role="button"
+										aria-expanded={!!activeAccordions['2']}
+										aria-controls="faq-content-2"
 									>
-										¿Cuánto tiempo necesito dedicar cada día?
-									</h5>
-									<div className={`et_pb_toggle_content ${activeAccordions['2'] ? '' : 'et_pb_toggle_close'}`}>
+										<h5 className="et_pb_toggle_title">¿Cuánto tiempo necesito dedicar cada día?</h5>
+										<button
+											type="button"
+											className="faq-toggle-btn"
+											aria-label={activeAccordions['2'] ? 'Contraer' : 'Expandir'}
+											onClick={(e) => { e.stopPropagation(); toggleAccordion('2'); }}
+										>
+											{activeAccordions['2'] ? (
+												<svg width="20" height="20" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+													<path d="M5 12h14" stroke="#8e8e8e" />
+												</svg>
+											) : (
+												<svg width="20" height="20" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+													<path d="M12 5v14M5 12h14" stroke="#8e8e8e" />
+												</svg>
+											)}
+										</button>
+									</div>
+									<div id="faq-content-2" className={`et_pb_toggle_content ${activeAccordions['2'] ? '' : 'et_pb_toggle_close'}`}>
 										<p>
 											Con 10-15 minutos al día ya comenzarás a notar cambios. La clave está en la consistencia, no en la duración.
 										</p>
@@ -746,14 +706,32 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
 								</div>
 
 								<div className="et_pb_toggle et_pb_module et_pb_accordion_item">
-									<h5
-										className="et_pb_toggle_title"
+									<div
+										className="faq-header"
 										onClick={() => toggleAccordion('3')}
-										style={{ cursor: 'pointer' }}
+										role="button"
+										aria-expanded={!!activeAccordions['3']}
+										aria-controls="faq-content-3"
 									>
-										¿Puedo cancelar mi suscripción cuando quiera?
-									</h5>
-									<div className={`et_pb_toggle_content ${activeAccordions['3'] ? '' : 'et_pb_toggle_close'}`}>
+										<h5 className="et_pb_toggle_title">¿Puedo cancelar mi suscripción cuando quiera?</h5>
+										<button
+											type="button"
+											className="faq-toggle-btn"
+											aria-label={activeAccordions['3'] ? 'Contraer' : 'Expandir'}
+											onClick={(e) => { e.stopPropagation(); toggleAccordion('3'); }}
+										>
+											{activeAccordions['3'] ? (
+												<svg width="20" height="20" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+													<path d="M5 12h14" stroke="#8e8e8e" />
+												</svg>
+											) : (
+												<svg width="20" height="20" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+													<path d="M12 5v14M5 12h14" stroke="#8e8e8e" />
+												</svg>
+											)}
+										</button>
+									</div>
+									<div id="faq-content-3" className={`et_pb_toggle_content ${activeAccordions['3'] ? '' : 'et_pb_toggle_close'}`}>
 										<p>
 											Sí, puedes cancelar tu suscripción en cualquier momento desde tu área de usuario sin penalizaciones.
 										</p>
@@ -761,14 +739,32 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
 								</div>
 
 								<div className="et_pb_toggle et_pb_module et_pb_accordion_item">
-									<h5
-										className="et_pb_toggle_title"
+									<div
+										className="faq-header"
 										onClick={() => toggleAccordion('4')}
-										style={{ cursor: 'pointer' }}
+										role="button"
+										aria-expanded={!!activeAccordions['4']}
+										aria-controls="faq-content-4"
 									>
-										¿Los audios funcionan realmente?
-									</h5>
-									<div className={`et_pb_toggle_content ${activeAccordions['4'] ? '' : 'et_pb_toggle_close'}`}>
+										<h5 className="et_pb_toggle_title">¿Los audios funcionan realmente?</h5>
+										<button
+											type="button"
+											className="faq-toggle-btn"
+											aria-label={activeAccordions['4'] ? 'Contraer' : 'Expandir'}
+											onClick={(e) => { e.stopPropagation(); toggleAccordion('4'); }}
+										>
+											{activeAccordions['4'] ? (
+												<svg width="20" height="20" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+													<path d="M5 12h14" stroke="#8e8e8e" />
+												</svg>
+											) : (
+												<svg width="20" height="20" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+													<path d="M12 5v14M5 12h14" stroke="#8e8e8e" />
+												</svg>
+											)}
+										</button>
+									</div>
+									<div id="faq-content-4" className={`et_pb_toggle_content ${activeAccordions['4'] ? '' : 'et_pb_toggle_close'}`}>
 										<p>
 											Sí. Están basados en neurociencia y técnicas de reprogramación mental validadas. Miles de personas ya han experimentado cambios reales y sostenibles.
 										</p>
@@ -873,7 +869,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
           }
           
           .landing-page {
-            background-color: #fdf8e9;
+            background-color: #f9f1e6;
             overflow-x: hidden;
             font-family: 'Inter', 'Open Sans', Arial, sans-serif;
             font-size: 16px;
@@ -891,7 +887,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
           
           .et_pb_section {
             position: relative;
-            background-color: #fdf8e9;
+            background-color: #f9f1e6;
             background-position: 50%;
             background-size: cover;
             padding: 60px 0;
@@ -1115,33 +1111,65 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
           }
           
           .et_pb_toggle {
-            border: 1px solid #ddd;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            overflow: hidden;
+            border: 1px solid #e6e1d9;
+            margin-bottom: 14px;
+            border-radius: 12px;
+            overflow: clip;
+            background: #fff;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.03);
           }
           
+          .faq-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            background: #fbf6ef;
+            padding: 18px 18px 18px 20px;
+            border-bottom: 1px solid #efe9e0;
+          }
+
           .et_pb_toggle_title {
-            background: #f8f8f8;
-            padding: 20px;
             margin: 0;
-            cursor: pointer;
-            border-bottom: 1px solid #ddd;
             font-size: 18px;
             font-weight: 600;
-            transition: background-color 0.3s ease;
+            color: #2b2b2b;
+          }
+
+          .faq-toggle-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 9999px;
+            border: 1px solid #ddd6c8;
+            background: #ffffff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s ease, transform 0.15s ease;
+          }
+
+          .faq-toggle-btn:hover {
+            background: #f3f0ea;
+          }
+
+          .faq-toggle-btn:active {
+            transform: scale(0.98);
           }
           
           .et_pb_toggle_title:hover {
-            background: #e8e8e8;
+            /* titulo no cambia fondo; el contenedor header maneja hover */
           }
           
           .et_pb_toggle_content {
             padding: 20px;
             background: #fff;
-            transition: all 0.3s ease;
+            transition: height 0.3s ease, padding 0.3s ease, opacity 0.2s ease;
           }
           
+          .et_pb_toggle_close {
+            border-color: #eee7dd;
+          }
+
           .et_pb_toggle_close .et_pb_toggle_content {
             display: none;
           }
@@ -1165,75 +1193,90 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
           }
           
           .pricing-section {
-            background: #fdf8e9;
-            padding: 80px 0;
+            background: #f9f1e6;
+            padding: 60px 0 70px 0;
           }
           
           .pricing-main-title {
-            color: #a3b18a !important;
-            font-size: 28px !important;
-            font-weight: 400 !important;
+            color: #8fa383 !important;
+            font-size: 32px !important;
+            font-weight: 700 !important;
             text-align: center !important;
-            margin-bottom: 50px !important;
+            margin-bottom: 36px !important;
             letter-spacing: 0.5px;
           }
           
           .pricing-plan-wrapper {
-            background: white;
-            margin-bottom: 40px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: transparent;
+            margin: 38px auto;
+            box-shadow: none;
             border-radius: 0;
-            overflow: hidden;
+            overflow: visible;
+            max-width: 980px;
           }
           
           .pricing-plan-title {
-            background: #4a4a4a;
-            padding: 20px;
+            background: transparent;
+            padding: 0 20px 8px;
             text-align: center;
           }
           
           .pricing-plan-title h2 {
-            color: white !important;
-            font-size: 18px !important;
-            font-weight: 700 !important;
+            color: #2b2b2b !important;
+            font-size: 24px !important;
+            font-weight: 800 !important;
             margin: 0 !important;
             text-align: center !important;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
           }
           
           .pricing-plan-content {
-            background: white;
-            padding: 30px;
+            background: transparent;
+            padding: 18px 20px 8px;
           }
           
           .pricing-plan-content ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
+            list-style: disc;
+            padding-left: 24px;
+            margin: 0 auto;
+            max-width: 680px;
           }
           
           .pricing-plan-content li {
-            color: #4a4a4a;
-            font-size: 16px;
-            line-height: 1.6;
-            margin-bottom: 15px;
-            padding-left: 20px;
+            color: #2b2b2b;
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 14px;
+            padding-left: 0;
             position: relative;
           }
           
           .pricing-plan-content li:before {
-            content: "•";
-            color: #a3b18a;
-            font-weight: bold;
-            position: absolute;
-            left: 0;
-            font-size: 18px;
+            content: none;
           }
           
           .pricing-plan-button {
-            background: white;
-            padding: 0 30px 30px;
+            background: transparent;
+            padding: 8px 20px 28px;
             text-align: center;
+          }
+
+          .pricing-plan-button .et_pb_button {
+            background-color: #8fa383 !important;
+            color: #ffffff !important;
+            border: 2px solid #6f8a61 !important;
+            border-radius: 8px !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.8px !important;
+            padding: 14px 28px !important;
+            min-width: 280px;
+            box-shadow: 0 2px 0 rgba(0,0,0,0.12);
+          }
+
+          .pricing-plan-button .et_pb_button:hover {
+            background-color: #7a926e !important;
+            border-color: #617a55 !important;
+            transform: translateY(-1px);
           }
           
           .important-notice {
@@ -1261,7 +1304,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
           }
           
           .hero-section {
-            background: #fdf8e9;
+            background: #f9f1e6;
             text-align: center;
           }
           
@@ -1272,10 +1315,66 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
           .about-section {
             background: #f3f6f0;
           }
+
+          /* Sección ¿Qué encontrarás dentro? */
+          .about-intro {
+            text-align: center;
+          }
+
+          .about-image :global(img) {
+            display: block;
+            margin: 0 auto 10px auto;
+            max-width: 420px;
+            height: auto;
+          }
+
+          .about-subtitle p {
+            font-size: 18px;
+            color: #4a4a4a;
+            text-align: center;
+            margin: 0 auto;
+            max-width: 740px;
+            line-height: 1.6;
+          }
+
+          .about-cards-row {
+            margin-top: 10px;
+          }
+
+          .about-card {
+            background: #ffffff;
+            border: 2px solid #dad5cc;
+            border-radius: 14px;
+            padding: 26px 28px;
+            margin: 18px auto;
+            max-width: 980px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.02);
+          }
+
+          .about-card p {
+            margin: 0;
+            text-align: center;
+            font-size: 20px;
+            line-height: 1.7;
+            color: #1a1a1a;
+          }
+
+          @media (max-width: 767px) {
+            .about-image :global(img) {
+              max-width: 300px;
+            }
+            .about-card {
+              padding: 22px 20px;
+              border-radius: 12px;
+            }
+            .about-card p {
+              font-size: 18px;
+            }
+          }
           
           .stats-section {
-            background: #a3b18a;
-            color: white;
+            background: rgba(163, 177, 138, 0.61) !important;
+            color: #ffffff;
           }
           
           .stats-section .et_pb_heading_container h1,
@@ -1285,20 +1384,32 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
           }
           
           .stats-list {
-            margin: 30px 0;
+            margin: 30px auto;
+            max-width: 720px;
           }
           
           .stat-item {
-            margin-bottom: 20px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            border-left: 4px solid white;
+            margin-bottom: 16px;
+            padding: 18px 20px;
+            background: rgba(255, 255, 255, 0.16);
+            border-radius: 10px;
+            border-left: 4px solid #ffffff;
           }
           
           .stat-item p {
             margin: 0;
-            color: white;
+            color: #ffffff;
+            text-align: center;
+            font-size: 18px;
+            line-height: 1.6;
+          }
+
+          .stats-section .et_pb_image img {
+            width: 100%;
+            height: auto;
+            max-width: 520px;
+            display: block;
+            margin: 0 auto 10px auto;
           }
 
           .cta-section {

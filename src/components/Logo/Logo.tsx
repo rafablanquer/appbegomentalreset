@@ -29,7 +29,9 @@ export const Logo = (props: Props) => {
         maxHeight: '74px',
         marginLeft: '14px',
       }}
-      src={!isAuthenticated ? "/assets/layout/BMR-nav-logo.png" : "/assets/layout/branding-Begona-BMR-1-2.png"}
+      // Para navegación pública usar branding-Begona-BMR-1-2.png
+      // Para navegación de app (autenticado) usar BMR-nav-logo.png
+      src={!isAuthenticated ? "/assets/layout/branding-Begona-BMR-1-2.png" : "/assets/layout/BMR-nav-logo.png"}
     />
   )
 }

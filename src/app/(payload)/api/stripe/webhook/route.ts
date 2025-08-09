@@ -250,6 +250,30 @@ async function handlePaymentSucceeded(invoice: Stripe.Invoice, payload: any) {
                 })
             }
 
+            // Guardar registro de pago
+            try {
+                await payload.create({
+                    collection: 'membership-payments',
+                    data: {
+                        user: user.id,
+                        stripeInvoiceId: invoice.id,
+                        stripeSubscriptionId: invoiceData.subscription || undefined,
+                        amount: invoice.amount_paid || 0,
+                        currency: invoice.currency || 'eur',
+                        status: invoice.status || 'paid',
+                        periodStart: invoice.lines?.data?.[0]?.period?.start
+                            ? new Date(invoice.lines.data[0].period.start * 1000).toISOString()
+                            : undefined,
+                        periodEnd: invoice.lines?.data?.[0]?.period?.end
+                            ? new Date(invoice.lines.data[0].period.end * 1000).toISOString()
+                            : undefined,
+                        raw: invoice,
+                    },
+                })
+            } catch (e) {
+                console.error('No se pudo registrar membership-payment:', e)
+            }
+
             console.log('Pago exitoso para usuario:', user.id)
         }
     } catch (error) {

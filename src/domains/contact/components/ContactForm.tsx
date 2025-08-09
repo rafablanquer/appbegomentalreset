@@ -2,20 +2,17 @@
 
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Send, CheckCircle } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Card } from '@/components/ui/card'
+import { CheckCircle } from 'lucide-react'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
 import { getClientSideURL } from '@/utilities/getURL'
+
+const CONTACT_FORM_ID = process.env.NEXT_PUBLIC_CONTACT_FORM_ID
 
 interface ContactFormData {
     name: string
     email: string
     message: string
-    captcha: string
     acceptPrivacy: boolean
 }
 
@@ -45,6 +42,16 @@ const ContactForm: React.FC = () => {
             if (!data.acceptPrivacy) {
                 throw new Error('Debes aceptar la política de privacidad para continuar')
             }
+
+            // Verificar ID de formulario configurado
+            if (!CONTACT_FORM_ID) {
+                throw new Error('Falta configurar NEXT_PUBLIC_CONTACT_FORM_ID con el ID del formulario de contacto en Payload')
+            }
+            const parsedFormId = Number(CONTACT_FORM_ID)
+            if (!Number.isFinite(parsedFormId)) {
+                throw new Error('NEXT_PUBLIC_CONTACT_FORM_ID debe ser un número válido (ID del formulario en Payload)')
+            }
+
             // Preparar los datos para el formulario de Payload
             const formData = [
                 { field: 'name', value: data.name },
@@ -58,7 +65,7 @@ const ContactForm: React.FC = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    form: 'contact-form', // ID del formulario en Payload
+                    form: parsedFormId,
                     submissionData: formData,
                 }),
             })
@@ -163,8 +170,6 @@ const ContactForm: React.FC = () => {
                     )}
                 </div>
 
-
-                {/* Consentimiento de Privacidad */}
                 <div className="flex items-start space-x-3">
                     <Checkbox
                         id="acceptPrivacy"

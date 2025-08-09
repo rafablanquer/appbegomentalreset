@@ -34,6 +34,8 @@ Se ha implementado un sistema completo de registro y pago de membresías integra
 - `src/app/(payload)/api/stripe/create-checkout-session/route.ts` - Crear sesiones de pago
 - `src/app/(payload)/api/stripe/webhook/route.ts` - Manejar eventos de Stripe
 - `src/app/(payload)/api/auth/register/route.ts` - Registro de usuarios
+ - `src/collections/MembershipPayments.ts` - Colección para registrar pagos de membresía
+ - `src/app/(payload)/api/stripe/webhook/route.ts` - Registra pagos en `membership-payments`
 
 ### Frontend (Componentes)
 - `src/domains/membership/components/MembershipRegistrationForm.tsx` - Formulario de registro
@@ -46,6 +48,9 @@ Se ha implementado un sistema completo de registro y pago de membresías integra
 - `src/lib/stripe.ts` - Cliente de Stripe
 - `STRIPE_SETUP.md` - Documentación de configuración
 - `MEMBERSHIP_FLOW.md` - Este archivo
+ - `src/collections/Programs.ts` - Programas de audio
+ - `src/collections/ContentCollections.ts` - Colecciones de ítems (video, enlaces, etc.)
+ - `src/collections/Challenges.ts` - Retos día a día con audio/video/enlaces
 
 ## Flujo de Usuario
 

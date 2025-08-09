@@ -1,7 +1,7 @@
 'use client'
 import { useHeaderTheme } from '@/providers/HeaderTheme'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { Menu, X } from 'lucide-react'
 
@@ -25,6 +25,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, isAuthenticate
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
   const pathname = usePathname()
+  const router = useRouter()
 
   useEffect(() => {
     setHeaderTheme(null)
@@ -44,12 +45,19 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, isAuthenticate
     setIsSidebarOpen(false)
   }
 
-  const pageNewUnauthVersion = usePathname() === "/contact"
-  const useUnAuthVersion = isAuthenticated ? pageNewUnauthVersion : true
+  // Mostrar el botón "Únete" SOLO en la landing ('/') y en '/contacto'.
+  // En el resto de rutas, mostrar el header con menú hamburguesa.
+  const isLanding = pathname === '/'
+  const isContacto = pathname === '/contacto'
+  const useAppHeader = !(isLanding || isContacto)
+
+  const handleUnete = () => {
+    router.push('/niveles-de-membresia')
+  }
 
 
 
-  return useUnAuthVersion ? (
+  return useAppHeader ? (
     <>
       <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm fixed-header"
         style={{
@@ -58,7 +66,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, isAuthenticate
         <div className="container mx-auto px-4">
           <div className="py-4 flex justify-between items-center">
             <Link href="/">
-              <Logo loading="eager" priority="high" />
+              <Logo loading="eager" priority="high" isAuthenticated={isAuthenticated} />
             </Link>
 
             <div className="flex items-center gap-4">
@@ -93,12 +101,12 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, isAuthenticate
           </div>
         </div>
       </header>
-      <PWASidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
 
+      <PWASidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
     </>
   ) : (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 border-b border-gray-200 shadow-sm fixed-header"
+      <header className="fixed top-0 left-0 right-0 z-50 fixed-header"
         style={{
           height: "100px",
           backgroundColor: "rgb(250, 241, 230)",
@@ -106,7 +114,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, isAuthenticate
         <div className="container mx-auto px-4">
           <div className="py-8 flex justify-between items-center">
             <Link href="/">
-              <Logo loading="eager" priority="high" className="invert dark:invert-0" />
+              <Logo loading="eager" priority="high" className="invert dark:invert-0" isAuthenticated={false} />
             </Link>
 
             <div className="flex items-center gap-4">
@@ -114,7 +122,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, isAuthenticate
 
               {/* Botón de Únete */}
               <div className="et_pb_button_module_wrapper et_pb_button_alignment_right">
-                <ButtonUnete onClick={toggleSidebar} />
+                <ButtonUnete onClick={handleUnete} />
               </div>
             </div>
           </div>
