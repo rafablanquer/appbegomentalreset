@@ -1,6 +1,7 @@
 'use client'
 import React, { useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
+import Image from 'next/image';
 
 // Evita errores de TypeScript cuando aún no está cargado el script de Vimeo
 declare global {
@@ -14,14 +15,47 @@ declare global {
 const HomeAppPage = () => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const videoContainerRef = useRef<HTMLDivElement | null>(null);
+  const playerContainerRef = useRef<HTMLDivElement | null>(null);
   const playerRef = useRef<any>(null);
   const vimeoVideoId = 1101953160; // ID del vídeo
   // Deja en null para permitir bitrate adaptativo de Vimeo (recomendado para evitar tirones)
   const desiredQuality: '540p' | '720p' | null = null;
 
   const handlePlayVideo = () => {
+    console.log('handlePlayVideo');
     setIsVideoPlaying(true);
   };
+
+  // Precalienta el SDK de Vimeo cuando el contenedor entra en viewport
+  useEffect(() => {
+    if (isVideoPlaying) return;
+    const target = playerContainerRef.current;
+    if (!target) return;
+
+    const warmupScript = () => {
+      if (window.Vimeo?.Player) return;
+      const existing = document.querySelector<HTMLScriptElement>('script[src="https://player.vimeo.com/api/player.js"]');
+      if (existing) return;
+      const script = document.createElement('script');
+      script.src = 'https://player.vimeo.com/api/player.js';
+      script.async = true;
+      script.defer = true;
+      document.body.appendChild(script);
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            warmupScript();
+          }
+        });
+      },
+      { root: null, rootMargin: '200px 0px', threshold: 0.1 }
+    );
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [isVideoPlaying]);
 
   useEffect(() => {
     if (!isVideoPlaying) return;
@@ -50,6 +84,7 @@ const HomeAppPage = () => {
         responsive: true,
         // Intento de arrancar en baja latencia si el navegador lo soporta
         playsinline: true,
+        dnt: true,
       });
 
       // Fijar calidad solo si se solicita explícitamente; si no, dejar ABR adaptativo
@@ -101,19 +136,28 @@ const HomeAppPage = () => {
         <link rel="preconnect" href="https://i.vimeocdn.com" />
         <link rel="preconnect" href="https://f.vimeocdn.com" />
         <link rel="preconnect" href="https://vimeo.com" />
+        <link rel="dns-prefetch" href="https://player.vimeo.com" />
+        <link rel="dns-prefetch" href="https://i.vimeocdn.com" />
+        <link rel="dns-prefetch" href="https://f.vimeocdn.com" />
+        <link rel="dns-prefetch" href="https://vimeo.com" />
       </Head>
       <div className="app-page">
 
         {/* Player Section */}
         <section className="player-section">
-          <div className="player-container">
+          <div className="player-container" ref={playerContainerRef}>
             {!isVideoPlaying ? (
               <div onClick={handlePlayVideo}>
-                <img
-                  src="/assets/home-app/hero-player.png"
-                  alt="Reproductor BMR"
-                  className="player-image"
-                />
+                <div className="hero-image-wrapper">
+                  <Image
+                    src="/assets/home-app/hero-player.png"
+                    alt="Reproductor BMR"
+                    fill
+                    priority
+                    sizes="(max-width: 768px) 100vw, 800px"
+                    className="player-image"
+                  />
+                </div>
                 <div className="play-button-overlay">
                   <div className="play-button">
                     <svg
@@ -235,7 +279,7 @@ const HomeAppPage = () => {
           .video-container {
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.12);
             contain: layout paint; /* Aislar repintados del player */
           }
 
@@ -248,11 +292,17 @@ const HomeAppPage = () => {
             display: block;
           }
 
-          .player-image {
+          .hero-image-wrapper {
+            position: relative;
             width: 100%;
-            height: auto;
+            aspect-ratio: 16/9;
             border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+          }
+
+          .player-image {
+            object-fit: cover;
           }
 
           .play-button-overlay {
