@@ -11,7 +11,7 @@ export default function PersistentAudioPlayer() {
     const pathname = usePathname()
 
     // Array de rutas donde se debe mostrar el reproductor
-    const allowedPaths = ['/reto-21-dias']
+    const allowedPaths = ['/reto-21-dias', '/challenge']
 
     // Verificar si la ruta actual está permitida
     const isAllowedPath = allowedPaths.some(path => pathname.includes(path))

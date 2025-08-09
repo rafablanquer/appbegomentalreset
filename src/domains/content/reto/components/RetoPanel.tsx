@@ -42,9 +42,18 @@ export default function RetoPanel({ sessions, pathInstructions, title, descripti
     const [selectedWeek, setSelectedWeek] = useState(1)
     const [sideMenuOpen, setSideMenuOpen] = useState(false)
 
+    const computeWeekFromDay = (day: number) => {
+        if (day <= 7) return 1
+        if (day <= 14) return 2
+        return 3
+    }
+
     const audioSessions = sessions.map((session) => ({
         ...session,
-        audioUrl: `/audio/${session.audioUrl}`
+        // Mantener la URL tal cual llega del CMS para evitar duplicar prefijos
+        audioUrl: session.audioUrl,
+        // Asegurar que exista week para el filtrado por semanas
+        week: (session as any).week ?? computeWeekFromDay(session.day),
     }))
     const weekSessions: Record<number, Session[]> = {
         1: [
@@ -297,50 +306,6 @@ export default function RetoPanel({ sessions, pathInstructions, title, descripti
                     </section>
                 </section>
 
-                <div className="w-full px-4 space-y-4 mb-6">
-                    {currentWeekSessions.map((session, index) => (
-                        <Card
-                            key={session.id}
-                            className={`w-full p-5 cursor-pointer transition-all duration-200 rounded-xl shadow-sm hover:shadow-md ${!session.unlocked
-                                ? "bg-gray-100/90 border-gray-300"
-                                : session.completed
-                                    ? "bg-green-50/90 border-green-300 ring-1 ring-green-200"
-                                    : "bg-white/90 border-gray-200 hover:border-purple-300"
-                                }`}
-                            onClick={() => session.unlocked && selectSession(index)}
-                        >
-                            <div className="flex items-start gap-4">
-                                <div className="flex-shrink-0 mt-1">
-                                    {!session.unlocked ? (
-                                        <Lock className="w-6 h-6 text-gray-400" />
-                                    ) : session.completed ? (
-                                        <CheckCircle className="w-6 h-6 text-green-600" />
-                                    ) : (
-                                        <Calendar className="w-6 h-6 text-purple-600" />
-                                    )}
-                                </div>
-
-                                {/* Session Info */}
-                                <div className="flex-1 min-w-0 mb-2">
-                                    <div className="flex items-center justify-between mb-2">
-                                        <div className="flex items-center gap-3">
-                                            <Badge variant="outline" className="text-xs font-medium px-2 py-1">
-                                                Día {session.day}
-                                            </Badge>
-                                            <span className="text-xs text-gray-500 font-medium">{session.duration}</span>
-                                        </div>
-                                    </div>
-                                    <h4 className={`font-semibold text-base mb-2 ${!session.unlocked ? "text-gray-500" : "text-gray-800"}`}>
-                                        {session.title}
-                                    </h4>
-                                    <p className={`text-sm leading-relaxed ${!session.unlocked ? "text-gray-400" : "text-gray-600"}`}>
-                                        {session.description}
-                                    </p>
-                                </div>
-                            </div>
-                        </Card>
-                    ))}
-                </div>
             </div>
         </div>
     )

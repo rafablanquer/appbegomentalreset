@@ -11,11 +11,12 @@ function ConditionalAudioPlayer() {
         '/reto-21-dias',
         '/rutina-de-enfoque-diario',
         '/transformacion-nocturna',
-        '/respiraciones-conscientes'
+        '/respiraciones-conscientes',
+        '/challenge'
     ]
 
     // Verificar si la ruta actual está en la lista de rutas permitidas
-    const shouldShowPlayer = audioPlayerRoutes.some(route => pathname === route)
+    const shouldShowPlayer = audioPlayerRoutes.some(route => pathname.startsWith(route))
 
     if (!shouldShowPlayer) {
         return null
