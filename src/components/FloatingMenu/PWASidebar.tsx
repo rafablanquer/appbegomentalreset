@@ -113,7 +113,7 @@ export const PWASidebar: React.FC<PWASidebarProps> = ({ isOpen, onClose }) => {
 
                 const toItem = (title: string, kind: 'program' | 'collection' | 'challenge' | 'page', slug?: string | null): MenuItem => {
                     const s = (slug || '').toLowerCase()
-                    const href = ROUTE_BY_SLUG[s] || (s ? `/${s}` : '#')
+                    const href = (s ? `/${kind}/${s}` : '#')
                     const Icon = ICON_BY_SLUG[s] || DEFAULT_ICON[kind]
                     return { label: title || '—', href, icon: Icon }
                 }

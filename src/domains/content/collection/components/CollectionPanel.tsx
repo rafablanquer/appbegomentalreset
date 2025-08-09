@@ -1,211 +1,92 @@
 'use client'
-import Image from "next/image"
+import Image from 'next/image'
+import type React from 'react'
 
-const CollectionPanel = ({ title, description, heroPath, programs }: { title: string, description: string, keywords: string[], programs: any, heroPath: string, collection?: any }) => {
+type CollectionPanelProps = {
+    title: string
+    description?: React.ReactNode | string
+    keywords: string[]
+    programs: Array<{ id: number | string; title: string }>
+    heroPath?: string
+    collection?: any
+}
+
+const CollectionPanel = ({ title, description, heroPath, programs }: CollectionPanelProps) => {
     return (
-        <>
-            <div className="app-page">
-                <section className="hero-section">
-                    <Image
-                        src={heroPath}
-                        alt="APP BMR Preview"
-                        width={700}
-                        height={400}
-                        className="hero-image"
-                    />
-                </section>
+        <div className="bg-[rgb(255,250,239)] min-h-screen">
+            {/* Header tipo hero como ProgramPanel */}
+            <section aria-label="Portada" className="relative">
+                <div
+                    className="relative w-full"
+                    style={{ height: '46vh', minHeight: '340px', maxHeight: '520px' }}
+                >
+                    {heroPath ? (
+                        <Image src={heroPath} alt="Portada de la colección" fill priority className="object-cover" />
+                    ) : (
+                        <div className="absolute inset-0 bg-gradient-to-b from-neutral-300 to-neutral-500" />
+                    )}
 
-                {/* Content Section */}
-                <section className="content-section">
-                    <div className="content-container">
-                        <div className="text-background">
-                            <h1 className="main-title">{title}</h1>
-                            <p className="description">{description}</p>
+                    {/* Degradado para legibilidad del texto */}
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/10 via-black/35 to-black/70" />
+
+                    {/* Difuminado inferior para fundir con el fondo */}
+                    <div
+                        className="pointer-events-none absolute inset-x-0 bottom-0 h-28"
+                        style={{
+                            WebkitMaskImage:
+                                'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 35%, rgba(0,0,0,0) 100%)',
+                            maskImage:
+                                'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 35%, rgba(0,0,0,0) 100%)',
+                            background: 'linear-gradient(to bottom, rgba(0,0,0,0) 0%, var(--background) 100%)',
+                        }}
+                    />
+
+                    {/* Textos superpuestos */}
+                    <div className="absolute inset-0 flex items-end">
+                        <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-6">
+                            <h1 className="text-white text-2xl sm:text-3xl md:text-4xl font-semibold drop-shadow-md">
+                                {title}
+                            </h1>
+                            {description ? (
+                                typeof description === 'string' ? (
+                                    <p className="mt-2 text-white/90 text-sm sm:text-base md:text-lg max-w-3xl">
+                                        {description}
+                                    </p>
+                                ) : (
+                                    <div className="mt-2 text-white/90 text-sm sm:text-base md:text-lg max-w-3xl">
+                                        {description}
+                                    </div>
+                                )
+                            ) : null}
                         </div>
                     </div>
-                </section>
+                </div>
+            </section>
 
-                {/* Programs Grid Section */}
-                <section className="programs-section">
-                    <div className="programs-grid">
-                        {programs.map((program: any) => (
-                            <div key={program.id} className="program-card">
-                                <div className="program-content">
-                                    <h2 className="program-title">{program.title}</h2>
-                                </div>
+            {/* Contenido principal */}
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-6 pb-12">
+                <section aria-label="Programas" className="mt-2">
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-6 max-w-4xl mx-auto">
+                        {programs.map((program) => (
+                            <div
+                                key={program.id}
+                                className="relative bg-[rgba(174,188,162,0.9)] border border-[#7C8F74] rounded-3xl p-5 sm:p-6 md:p-7 shadow-lg transition-transform duration-300 cursor-pointer min-h-[120px] sm:min-h-[130px] flex items-center justify-center hover:-translate-y-0.5 hover:shadow-xl"
+                            >
+                                <h2
+                                    className="text-center text-base sm:text-lg font-semibold text-neutral-800 leading-snug mx-auto [max-width:16ch] sm:[max-width:18ch] md:[max-width:20ch]"
+                                    style={{
+                                        display: '-webkit-box', WebkitBoxOrient: 'vertical', overflow: 'hidden',
+                                        maxWidth: '25vw'
+                                    }}
+                                >
+                                    {program.title}
+                                </h2>
                             </div>
                         ))}
                     </div>
                 </section>
             </div>
-
-            <style jsx>{`
-                .app-page {
-                    background-color: rgb(255, 250, 239);
-                    min-height: 100vh;
-                    padding: 20px 0 60px 0;
-                    font-family: 'Arial', sans-serif;
-                    position: relative;
-                }
-
-                /* Hero Section */
-                .hero-section {
-                    padding: 0 15px 20px 15px;
-                    text-align: center;
-                }
-
-                .hero-image {
-                    width: 100%;
-                    height: auto;
-                    border-radius: 15px;
-                    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-                }
-
-                /* Content Section */
-                .content-section {
-                    padding: 20px;
-                    text-align: center;
-                }
-
-                .content-container {
-                    max-width: 400px;
-                    margin: 0 auto;
-                }
-
-                .main-title {
-                    font-size: 24px;
-                    font-weight: bold;
-                    color: #333;
-                    margin-bottom: 15px;
-                    text-align: center;
-                }
-
-                .description {
-                    font-size: 16px;
-                    color: #666;
-                    line-height: 1.5;
-                    text-align: center;
-                    margin-bottom: 0;
-                }
-
-                /* Programs Section */
-                .programs-section {
-                    padding: 20px 20px 40px 20px;
-                    flex: 1;
-                }
-
-                .programs-grid {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 15px;
-                    max-width: 400px;
-                    margin: 0 auto;
-                    padding: 0 10px;
-                }
-
-                .program-card {
-                    background: rgba(174, 188, 162, 0.9);
-                    border-radius: 20px;
-                    padding: 30px 20px;
-                    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-                    transition: all 0.3s ease;
-                    cursor: pointer;
-                    text-align: center;
-                    min-height: 120px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                }
-
-                .program-card:hover {
-                    transform: translateY(-2px);
-                    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-                }
-
-                .program-content {
-                    width: 100%;
-                }
-
-                .program-title {
-                    font-size: 16px;
-                    font-weight: 600;
-                    color: #333;
-                    margin: 0;
-                    text-align: center;
-                    line-height: 1.4;
-                }
-
-                /* Mobile Responsive */
-                @media (max-width: 480px) {
-                    .app-page {
-                        padding: 15px 0 30px 0;
-                    }
-
-                    .hero-section {
-                        padding: 0 10px 15px 10px;
-                    }
-
-                    .content-section {
-                        padding: 10px 15px 25px 15px;
-                    }
-
-                    .content-container {
-                        max-width: 100%;
-                    }
-
-                    .text-background {
-                        padding: 20px 15px;
-                        border-radius: 15px;
-                        margin: 0 5px;
-                    }
-
-                    .main-title {
-                        font-size: 24px;
-                        margin-bottom: 15px;
-                    }
-
-                    .description {
-                        font-size: 15px;
-                        line-height: 1.5;
-                    }
-
-                    .programs-grid {
-                        gap: 12px;
-                        padding: 0 5px;
-                        max-width: 100%;
-                    }
-
-                    .program-card {
-                        border-radius: 15px;
-                        padding: 25px 15px;
-                        min-height: 100px;
-                    }
-
-                    .program-title {
-                        font-size: 14px;
-                    }
-                }
-
-                /* Small screens */
-                @media (max-width: 360px) {
-                    .programs-grid {
-                        gap: 10px;
-                    }
-
-                    .program-card {
-                        min-height: 80px;
-                        padding: 20px 15px;
-                    }
-                }
-
-                /* Landscape Mobile */
-                @media (max-width: 768px) and (orientation: landscape) {
-                    .app-page {
-                        padding-bottom: 40px;
-                    }
-                }
-            `}</style>
-        </>
+        </div>
     )
 }
 
