@@ -64,13 +64,13 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, isAuthenticate
           backgroundColor: "rgb(250, 241, 230)",
         }}>
         <div className="container mx-auto px-4">
-          <div className="py-4 flex justify-between items-center">
+          <div className="py-2 flex justify-between items-center">
             <Link href="/">
               <Logo loading="eager" priority="high" isAuthenticated={isAuthenticated} />
             </Link>
 
             <div className="flex items-center gap-4">
-              <HeaderNav data={data} />
+              {/* <HeaderNav data={data} /> */}
 
               {/* Botón del menú integrado */}
               <button
@@ -108,19 +108,16 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, isAuthenticate
     <>
       <header className="fixed top-0 left-0 right-0 z-50 fixed-header"
         style={{
-          height: "100px",
+          height: "72px",
           backgroundColor: "rgb(250, 241, 230)",
         }}>
         <div className="container mx-auto px-4">
-          <div className="py-8 flex justify-between items-center">
+          <div className="py-3 flex justify-between items-center">
             <Link href="/">
               <Logo loading="eager" priority="high" className="invert dark:invert-0" isAuthenticated={false} />
             </Link>
 
             <div className="flex items-center gap-4">
-              {/* <HeaderNav data={data} /> */}
-
-              {/* Botón de Únete */}
               <div className="et_pb_button_module_wrapper et_pb_button_alignment_right">
                 <ButtonUnete onClick={handleUnete} />
               </div>

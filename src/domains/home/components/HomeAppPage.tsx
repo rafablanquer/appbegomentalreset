@@ -43,7 +43,7 @@ const HomeAppPage = () => {
             ) : (
               <div className="video-container">
                 <iframe
-                  src="https://player.vimeo.com/video/1101953160?autoplay=1&title=0&byline=0&portrait=0"
+                  src="https://player.vimeo.com/video/1101953160?autoplay=1&title=0&byline=0&portrait=0&quality=540p"
                   width="100%"
                   frameBorder="0"
                   allow="autoplay; fullscreen; picture-in-picture"

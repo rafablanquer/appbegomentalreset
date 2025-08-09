@@ -9,7 +9,7 @@ interface Props {
 }
 
 export const Logo = (props: Props) => {
-  const { loading: loadingFromProps, priority: priorityFromProps, className, isAuthenticated = false } = props
+  const { loading: loadingFromProps, priority: priorityFromProps, className, } = props
 
   const loading = loadingFromProps || 'lazy'
   const priority = priorityFromProps || 'low'
@@ -17,6 +17,7 @@ export const Logo = (props: Props) => {
   return (
     /* eslint-disable @next/next/no-img-element */
     <img
+      className={clsx(className)}
       alt="BMR - Begoña Mental Reset"
       width={393}
       height={124}
@@ -24,14 +25,16 @@ export const Logo = (props: Props) => {
       fetchPriority={priority}
       decoding="async"
       style={{
-        width: '100%',
-        height: '5vh',
-        maxHeight: '74px',
-        marginLeft: '14px',
+        height: 'auto',
+        width: 'auto',
+        maxHeight: '48px',
+        maxWidth: '100%',
+        objectFit: 'contain',
+        marginLeft: '8px',
       }}
       // Para navegación pública usar branding-Begona-BMR-1-2.png
       // Para navegación de app (autenticado) usar BMR-nav-logo.png
-      src={!isAuthenticated ? "/assets/layout/branding-Begona-BMR-1-2.png" : "/assets/layout/BMR-nav-logo.png"}
+      src={"/assets/layout/BMR-nav-logo.png"}
     />
   )
 }
